@@ -1,9 +1,9 @@
 package com.paljjak.thirtydoc.activities.splash
 
-import com.paljjak.thirtydoc.data.source.remote.NetworkService
+import com.paljjak.thirtydoc.data.network.NetworkService
 import com.paljjak.thirtydoc.di.PerActivity
 import com.paljjak.thirtydoc.util.IdGenerator
-import com.paljjak.thirtydoc.util.ServiceStatus
+import com.paljjak.thirtydoc.data.network.ServiceStatus
 import javax.inject.Inject
 
 /**

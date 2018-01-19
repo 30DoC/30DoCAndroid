@@ -1,6 +1,4 @@
-package com.paljjak.thirtydoc.data.source.remote
-
-import com.paljjak.thirtydoc.util.ServiceStatus
+package com.paljjak.thirtydoc.data.network
 
 /**
  * Created by jaeyoonyoo on 2018. 1. 12..

@@ -1,6 +1,6 @@
 package com.paljjak.thirtydoc.activities.quiz
 
-import com.paljjak.thirtydoc.data.source.remote.NetworkService
+import com.paljjak.thirtydoc.data.network.NetworkService
 import com.paljjak.thirtydoc.di.PerActivity
 import javax.inject.Inject
 

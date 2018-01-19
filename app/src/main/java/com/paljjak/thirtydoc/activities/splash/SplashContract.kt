@@ -2,7 +2,7 @@ package com.paljjak.thirtydoc.activities.splash
 
 import com.paljjak.thirtydoc.BasePresenter
 import com.paljjak.thirtydoc.BaseView
-import com.paljjak.thirtydoc.util.ServiceStatus
+import com.paljjak.thirtydoc.data.network.ServiceStatus
 
 /**
  * Created by yooas on 2018-01-11.

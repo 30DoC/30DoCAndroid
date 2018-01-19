@@ -5,7 +5,7 @@ package com.paljjak.thirtydoc.util
  */
 class Constants {
     companion object {
-        val SHARD_PREF_COMMON_KEY = "PREF_COMMON"
-        val PREF_MOBILE_ID_KEY = "PREF_KEY_MOBILE_ID"
+        const val SHARD_PREF_COMMON_KEY = "PREF_COMMON"
+        const val PREF_MOBILE_ID_KEY = "PREF_KEY_MOBILE_ID"
     }
 }

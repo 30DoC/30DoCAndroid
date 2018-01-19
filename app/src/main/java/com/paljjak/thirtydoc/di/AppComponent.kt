@@ -2,6 +2,7 @@ package com.paljjak.thirtydoc.di
 
 import android.app.Application
 import com.paljjak.thirtydoc.MainApplication
+import com.paljjak.thirtydoc.data.source.MessagesRepositoryModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -13,9 +14,10 @@ import javax.inject.Singleton
  */
 @Singleton
 @Component(modules = [
-AppModule::class,
-ActivityBindingModule::class,
-AndroidSupportInjectionModule::class
+    MessagesRepositoryModule::class,
+    AppModule::class,
+    ActivityBindingModule::class,
+    AndroidSupportInjectionModule::class
 ])
 interface AppComponent: AndroidInjector<MainApplication> {
     override fun inject(instance: MainApplication?)

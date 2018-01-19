@@ -1,4 +1,4 @@
-package com.paljjak.thirtydoc.util
+package com.paljjak.thirtydoc.data.network
 
 /**
  * Created by yooas on 2018-01-16.
