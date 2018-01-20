@@ -15,13 +15,5 @@ abstract class QuizModule {
     @PerActivity
     @Binds
     abstract fun presenter(quizPresenter: QuizPresenter): QuizContract.Presenter
-
-    @Module
-    companion object {
-        @JvmStatic
-        @PerActivity
-        @Provides
-        fun provideQuizFragment(): QuizFragment = QuizFragment()
-    }
 }
 
