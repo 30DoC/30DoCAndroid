@@ -16,7 +16,8 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
     lateinit var mNetworkService: NetworkService
 
     override fun printInitialText() {
-        val numberOfQuestions = mNetworkService.getNumberOfQuestions()
+        var numberOfQuestions = 10
+        //numberOfQuestions = mNetworkService.getSetOfQuestions().getInt("questionskey")
         mQuizView.printDescriptionWithNumber(numberOfQuestions)
     }
 }
