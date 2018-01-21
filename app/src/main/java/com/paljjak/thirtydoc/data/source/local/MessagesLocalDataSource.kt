@@ -16,26 +16,40 @@ class MessagesLocalDataSource: MessagesDataSource {
     lateinit var mMessageDao: MessageDao
 
     override fun getMessages(callback: MessagesDataSource.LoadMessagesCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mAppExecutor.diskIO().execute{
+            val messages = mMessageDao.getMessages()
+            mAppExecutor.mainThread().execute{
+                callback.onMessagesLoaded(messages)
+            }
+        }
     }
 
     override fun getMessage(id: String, callback: MessagesDataSource.GetMessageCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mAppExecutor.diskIO().execute{
+            val message = mMessageDao.getMessageById(id)
+            mAppExecutor.mainThread().execute{
+                callback.onMessageLoaded(message)
+            }
+        }
     }
 
     override fun saveMessage(message: Message) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mAppExecutor.diskIO().execute{
+            mMessageDao.insertMessage(message)
+        }
     }
 
-    override fun refreshTasks() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun deleteAllMessages() {
+        mAppExecutor.diskIO().execute {
+            mMessageDao.deleteMessages()
+            TODO("not implemented") // And also delete the audio files delivered
+        }
     }
 
-    override fun deleteAllTasks() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun deleteTask(Id: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun deleteMessage(id: String) {
+        mAppExecutor.diskIO().execute {
+            mMessageDao.deleteMessageById(id)
+            TODO("not implemented") // And also delete the audio file delivered
+        }
     }
 }

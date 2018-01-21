@@ -38,8 +38,9 @@ abstract class MessagesRepositoryModule {
         @Singleton
         @Provides
         internal fun provideAppExecutors(): AppExecutors {
-            return AppExecutors (AppExecutors.DiskIOThreadExecutor(),
-                    Executors.newFixedThreadPool(AppExecutors.THREAD_COUNT))
+            return AppExecutors(AppExecutors.DiskIOThreadExecutor(),
+                    Executors.newFixedThreadPool(AppExecutors.THREAD_COUNT),
+                    AppExecutors.MainThreadExecutor())
         }
     }
 }

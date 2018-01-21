@@ -32,15 +32,26 @@ import javax.inject.Singleton
  * webservice requests).
  */
 @Singleton
-class AppExecutors(private val diskIO: Executor, private val networkIO: Executor) {
+class AppExecutors(private val diskIO: Executor, private val networkIO: Executor, private val mainThread: Executor) {
 
     fun diskIO() = diskIO
 
     fun networkIO() = networkIO
 
+    fun mainThread() = mainThread
+
     companion object {
         const val THREAD_COUNT = 3
     }
+
+    class MainThreadExecutor : Executor {
+        private val mainThreadHandler = Handler(Looper.getMainLooper())
+
+        override fun execute(command: Runnable) {
+            mainThreadHandler.post(command)
+        }
+    }
+
     class DiskIOThreadExecutor : Executor {
         private val mDiskIO = Executors.newSingleThreadExecutor()
 

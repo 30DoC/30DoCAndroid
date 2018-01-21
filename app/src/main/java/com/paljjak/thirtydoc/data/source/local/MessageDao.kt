@@ -13,7 +13,7 @@ interface MessageDao {
     fun getMessages(): List<Message>
 
     @Query("SELECT * FROM Messages WHERE entryid = :id")
-    fun getMessageById(id: String): Message
+    fun getMessageById(id: String): Message?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMessage(message: Message)

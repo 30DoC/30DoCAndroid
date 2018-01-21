@@ -7,13 +7,11 @@ import com.paljjak.thirtydoc.data.Message
  */
 interface MessagesDataSource {
     interface LoadMessagesCallback {
-        fun onMessagesLoaded(messages: List<Message>)
-        fun onDataNotAvailable()
+        fun onMessagesLoaded(messages: List<Message>?)
     }
 
     interface GetMessageCallback {
-        fun onMessageLoaded(message: Message)
-        fun onDataNotAvailable()
+        fun onMessageLoaded(message: Message?)
     }
 
     fun getMessages(callback: LoadMessagesCallback)
@@ -22,9 +20,7 @@ interface MessagesDataSource {
 
     fun saveMessage(message: Message)
 
-    fun refreshTasks()
+    fun deleteAllMessages()
 
-    fun deleteAllTasks()
-
-    fun deleteTask(Id: String)
+    fun deleteMessage(id: String)
 }
