@@ -3,6 +3,7 @@ package com.paljjak.thirtydoc.activities.splash
 import com.paljjak.thirtydoc.BasePresenter
 import com.paljjak.thirtydoc.BaseView
 import com.paljjak.thirtydoc.data.network.ServiceStatus
+import kotlin.reflect.KClass
 
 /**
  * Created by yooas on 2018-01-11.
@@ -10,8 +11,7 @@ import com.paljjak.thirtydoc.data.network.ServiceStatus
 interface SplashContract {
     interface View: BaseView<Presenter> {
         fun printText(text: String)
-        fun goToQuizActivity()
-        fun goToChatActivity()
+        fun<T: Any> goToNextActivity(activity: KClass<T>)
         fun somethingIsWrong()
     }
 

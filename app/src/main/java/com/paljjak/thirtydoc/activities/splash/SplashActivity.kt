@@ -7,8 +7,9 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 import android.content.Intent
 import android.content.SharedPreferences
-import com.paljjak.thirtydoc.activities.intro.IntroActivity
 import com.paljjak.thirtydoc.util.Constants
+import java.util.*
+import kotlin.reflect.KClass
 
 
 /**
@@ -33,14 +34,14 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
         id_textview.text = text
     }
 
-    override fun goToQuizActivity() {
-        val intent = Intent(this@SplashActivity, IntroActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    override fun goToChatActivity() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun <T : Any> goToNextActivity(activity: KClass<T>) {
+        Timer().schedule(object: TimerTask() {
+            override fun run() {
+                val intent = Intent(this@SplashActivity, activity.java)
+                startActivity(intent)
+                finish()
+            }
+        }, 3000)
     }
 
     override fun somethingIsWrong() {

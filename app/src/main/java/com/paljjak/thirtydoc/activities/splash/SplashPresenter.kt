@@ -1,5 +1,6 @@
 package com.paljjak.thirtydoc.activities.splash
 
+import com.paljjak.thirtydoc.activities.quiz.QuizActivity
 import com.paljjak.thirtydoc.data.network.NetworkService
 import com.paljjak.thirtydoc.di.PerActivity
 import com.paljjak.thirtydoc.util.IdGenerator
@@ -33,8 +34,8 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
 
         when (status) {
             ServiceStatus.ID_INVALID -> mSplashView.somethingIsWrong()
-            ServiceStatus.WAITING -> mSplashView.goToQuizActivity()
-            ServiceStatus.CHATTING -> mSplashView.goToChatActivity()
+            ServiceStatus.WAITING -> mSplashView.goToNextActivity(QuizActivity::class)
+            // ServiceStatus.CHATTING -> mSplashView.goToNextActivity(ChatActivity::class.java)
         }
     }
 
