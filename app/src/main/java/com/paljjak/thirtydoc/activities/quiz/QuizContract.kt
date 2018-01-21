@@ -8,7 +8,7 @@ import com.paljjak.thirtydoc.BaseView
  */
 interface QuizContract {
     interface View: BaseView<Presenter> {
-        fun printDescriptionWithNumber(numberOfQuestions: Int)
+        fun printDescAndTransit(numberOfQuestions: Int)
     }
 
     interface Presenter: BasePresenter<View> {

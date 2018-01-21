@@ -42,14 +42,14 @@ class MessagesLocalDataSource: MessagesDataSource {
     override fun deleteAllMessages() {
         mAppExecutor.diskIO().execute {
             mMessageDao.deleteMessages()
-            TODO("not implemented") // And also delete the audio files delivered
+            TODO("Delete audio files")
         }
     }
 
     override fun deleteMessage(id: String) {
         mAppExecutor.diskIO().execute {
             mMessageDao.deleteMessageById(id)
-            TODO("not implemented") // And also delete the audio file delivered
+            TODO("Delete audio file")
         }
     }
 }
