@@ -32,6 +32,8 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
             status = mNetworkService.logIn(id)
         }
 
+        mSplashView.showToast("Logged in by ID : $id")
+
         when (status) {
             ServiceStatus.ID_INVALID -> mSplashView.somethingIsWrong()
             ServiceStatus.WAITING -> mSplashView.goToNextActivity(QuizActivity::class)
@@ -45,7 +47,7 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
             var id = IdGenerator.createRandomId()
             response = mNetworkService.logIn(id)
             if (response != ServiceStatus.ID_INVALID) {
-                mSplashView.printText("Logged in by ID : $id")
+                mSplashView.saveIdPreference(id)
                 break
             }
         }

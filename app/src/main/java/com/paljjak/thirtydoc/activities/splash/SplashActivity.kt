@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 import android.content.Intent
 import android.content.SharedPreferences
+import android.widget.Toast
 import com.paljjak.thirtydoc.util.Constants
 import java.util.*
 import kotlin.reflect.KClass
@@ -34,6 +35,10 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
         id_textview.text = text
     }
 
+    override fun showToast(s: String) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
+    }
+
     override fun <T : Any> goToNextActivity(activity: KClass<T>) {
         Timer().schedule(object: TimerTask() {
             override fun run() {
@@ -46,5 +51,9 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
 
     override fun somethingIsWrong() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun saveIdPreference(id: String) {
+        mSharePref.edit().putString(Constants.PREF_MOBILE_ID_KEY, id).apply()
     }
 }

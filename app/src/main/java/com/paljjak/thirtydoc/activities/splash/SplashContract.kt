@@ -13,6 +13,8 @@ interface SplashContract {
         fun printText(text: String)
         fun<T: Any> goToNextActivity(activity: KClass<T>)
         fun somethingIsWrong()
+        fun saveIdPreference(id: String)
+        fun showToast(s: String)
     }
 
     interface Presenter: BasePresenter<View> {
