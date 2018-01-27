@@ -2,7 +2,9 @@ package com.palzzak.blur.data.source.local
 
 import com.palzzak.blur.data.Message
 import com.palzzak.blur.data.source.MessagesDataSource
-import com.palzzak.blur.util.AppExecutors
+import com.palzzak.blur.util.CoroutineContexts
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 /**
@@ -10,44 +12,44 @@ import javax.inject.Inject
  */
 class MessagesLocalDataSource: MessagesDataSource {
     @Inject
-    lateinit var mAppExecutor: AppExecutors
+    lateinit var mCoroutineContexts: CoroutineContexts
 
     @Inject
     lateinit var mMessageDao: MessageDao
 
     override fun getMessages(callback: MessagesDataSource.LoadMessagesCallback) {
-        mAppExecutor.diskIO().execute{
+        launch(mCoroutineContexts.diskIO()) {
             val messages = mMessageDao.getMessages()
-            mAppExecutor.mainThread().execute{
+            launch(UI) {
                 callback.onMessagesLoaded(messages)
             }
         }
     }
 
     override fun getMessage(id: String, callback: MessagesDataSource.GetMessageCallback) {
-        mAppExecutor.diskIO().execute{
+        launch(mCoroutineContexts.diskIO()){
             val message = mMessageDao.getMessageById(id)
-            mAppExecutor.mainThread().execute{
+            launch(UI) {
                 callback.onMessageLoaded(message)
             }
         }
     }
 
     override fun saveMessage(message: Message) {
-        mAppExecutor.diskIO().execute{
+        launch(mCoroutineContexts.diskIO()) {
             mMessageDao.insertMessage(message)
         }
     }
 
     override fun deleteAllMessages() {
-        mAppExecutor.diskIO().execute {
+        launch(mCoroutineContexts.diskIO()) {
             mMessageDao.deleteMessages()
             TODO("Delete audio files")
         }
     }
 
     override fun deleteMessage(id: String) {
-        mAppExecutor.diskIO().execute {
+        launch(mCoroutineContexts.diskIO()) {
             mMessageDao.deleteMessageById(id)
             TODO("Delete audio file")
         }

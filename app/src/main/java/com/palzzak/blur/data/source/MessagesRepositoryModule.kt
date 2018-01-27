@@ -4,11 +4,10 @@ import android.app.Application
 import android.arch.persistence.room.Room
 import com.palzzak.blur.data.source.local.MessagesDatabase
 import com.palzzak.blur.data.source.local.MessagesLocalDataSource
-import com.palzzak.blur.util.AppExecutors
+import com.palzzak.blur.util.CoroutineContexts
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 /**
@@ -34,13 +33,12 @@ abstract class MessagesRepositoryModule {
         @Provides
         fun provideTasksDao(db: MessagesDatabase) = db.messageDao()
 
+
         @JvmStatic
         @Singleton
         @Provides
-        internal fun provideAppExecutors(): AppExecutors {
-            return AppExecutors(AppExecutors.DiskIOThreadExecutor(),
-                    Executors.newFixedThreadPool(AppExecutors.THREAD_COUNT),
-                    AppExecutors.MainThreadExecutor())
-        }
+        fun provideCoroutineContexts(): CoroutineContexts = CoroutineContexts(
+                CoroutineContexts.getNewSingleThreadContext("disk"),
+                CoroutineContexts.getNewFixedThreadPoolContext(CoroutineContexts.THREAD_COUNT, "network"))
     }
 }
