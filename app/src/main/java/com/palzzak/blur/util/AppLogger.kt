@@ -7,7 +7,7 @@ import android.util.Log
  */
 class AppLogger {
     companion object {
-        private val APP_TAG = "ThirtyDoC"
+        private val APP_TAG = "BLUR"
         private val FORMAT = "[%s]: %s"
 
         fun v(text: String) {
