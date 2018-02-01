@@ -1,4 +1,4 @@
-package com.palzzak.blur.data.network
+package com.palzzak.blur.network
 
 /**
  * Created by yooas on 2018-01-16.

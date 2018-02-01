@@ -3,7 +3,7 @@ package com.palzzak.blur.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.palzzak.blur.data.network.NetworkService
+import com.palzzak.blur.network.NetworkService
 import com.palzzak.blur.util.Constants
 import dagger.Binds
 import dagger.Module

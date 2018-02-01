@@ -1,10 +1,11 @@
 package com.palzzak.blur.activities.splash
 
+import com.palzzak.blur.activities.intro.IntroActivity
 import com.palzzak.blur.activities.quiz.QuizActivity
-import com.palzzak.blur.data.network.NetworkService
+import com.palzzak.blur.network.NetworkService
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.util.IdGenerator
-import com.palzzak.blur.data.network.ServiceStatus
+import com.palzzak.blur.network.ServiceStatus
 import javax.inject.Inject
 
 /**
@@ -23,30 +24,32 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
         mSplashView.printText("SPLASH")
     }
 
-    override fun logIn(id: String) {
+    override fun logIn(mobileId: String) {
         // Request log in to network module
-        var status: ServiceStatus
-        if (id.isEmpty()) {
-            status = requestRegisteringWithGeneratedId()
-        } else {
-            status = mNetworkService.logIn(id)
+        val resId: String
+
+        when (mobileId.isEmpty()) {
+            true -> resId = requestRegisteringWithGeneratedId()
+            false -> resId = mNetworkService.logIn(mobileId)
         }
 
-        mSplashView.showToast("Logged in by ID : $id")
+        mSplashView.showToast("Logged in by ID : $resId")
+
+        val status = mNetworkService.observeStatus(mobileId)
 
         when (status) {
             ServiceStatus.ID_INVALID -> mSplashView.somethingIsWrong()
-            ServiceStatus.WAITING -> mSplashView.goToNextActivity(QuizActivity::class)
-            // ServiceStatus.CHATTING -> mSplashView.goToNextActivity(ChatActivity::class.java)
+            ServiceStatus.WAITING -> mSplashView.goToNextActivity(IntroActivity::class)
+            // ServiceStatus.CHATTING -> mSplashView.goToNextActivity(ChatActivity::class)
         }
     }
 
-    override fun requestRegisteringWithGeneratedId(): ServiceStatus {
-        var response: ServiceStatus
+    override fun requestRegisteringWithGeneratedId(): String {
+        var response: String
         while (true) {
             var id = IdGenerator.createRandomId()
             response = mNetworkService.logIn(id)
-            if (response != ServiceStatus.ID_INVALID) {
+            if (!response.isEmpty()) {
                 mSplashView.saveIdPreference(id)
                 break
             }

@@ -1,6 +1,6 @@
 package com.palzzak.blur.activities.quiz
 
-import com.palzzak.blur.data.network.NetworkService
+import com.palzzak.blur.network.NetworkService
 import com.palzzak.blur.di.PerActivity
 import javax.inject.Inject
 
