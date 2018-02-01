@@ -8,7 +8,7 @@ import com.palzzak.blur.BaseView
  */
 interface QuizContract {
     interface View: BaseView<Presenter> {
-        fun printDescAndTransit(numberOfQuestions: Int)
+        fun printTextWithNumber(num: Int)
     }
 
     interface Presenter: BasePresenter<View> {

@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
 interface SplashContract {
     interface View: BaseView<Presenter> {
         fun printText(text: String)
-        fun<T: Any> goToNextActivity(activity: KClass<T>)
+        fun goToNextActivity(status: ServiceStatus)
         fun somethingIsWrong()
         fun saveIdPreference(id: String)
         fun showToast(s: String)

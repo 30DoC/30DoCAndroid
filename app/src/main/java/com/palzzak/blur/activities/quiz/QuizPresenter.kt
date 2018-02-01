@@ -18,6 +18,6 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
     override fun printInitialText() {
         var numberOfQuestions = 10
         //numberOfQuestions = mNetworkService.getSetOfQuestions().getInt("questionskey")
-        mQuizView.printDescAndTransit(numberOfQuestions)
+        mQuizView.printTextWithNumber(numberOfQuestions)
     }
 }

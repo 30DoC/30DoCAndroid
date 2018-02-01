@@ -1,11 +1,8 @@
 package com.palzzak.blur.activities.splash
 
-import com.palzzak.blur.activities.intro.IntroActivity
-import com.palzzak.blur.activities.quiz.QuizActivity
 import com.palzzak.blur.network.NetworkService
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.util.IdGenerator
-import com.palzzak.blur.network.ServiceStatus
 import javax.inject.Inject
 
 /**
@@ -34,14 +31,7 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
         }
 
         mSplashView.showToast("Logged in by ID : $resId")
-
-        val status = mNetworkService.observeStatus(mobileId)
-
-        when (status) {
-            ServiceStatus.ID_INVALID -> mSplashView.somethingIsWrong()
-            ServiceStatus.WAITING -> mSplashView.goToNextActivity(IntroActivity::class)
-            // ServiceStatus.CHATTING -> mSplashView.goToNextActivity(ChatActivity::class)
-        }
+        mSplashView.goToNextActivity(mNetworkService.observeStatus(mobileId))
     }
 
     override fun requestRegisteringWithGeneratedId(): String {

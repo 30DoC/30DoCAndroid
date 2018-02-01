@@ -1,5 +1,6 @@
 package com.palzzak.blur.activities.splash
 
+import android.app.Activity
 import android.os.Bundle
 import com.palzzak.blur.R
 import dagger.android.support.DaggerAppCompatActivity
@@ -8,6 +9,8 @@ import javax.inject.Inject
 import android.content.Intent
 import android.content.SharedPreferences
 import android.widget.Toast
+import com.palzzak.blur.activities.intro.IntroActivity
+import com.palzzak.blur.network.ServiceStatus
 import com.palzzak.blur.util.Constants
 import java.util.*
 import kotlin.reflect.KClass
@@ -39,10 +42,16 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
     }
 
-    override fun <T : Any> goToNextActivity(activity: KClass<T>) {
+    override fun goToNextActivity(status: ServiceStatus) {
+        var activity = IntroActivity::class.java
+
+//        if (status == ServiceStatus.CHATTING) {
+//            activity = ChatActivity::class.java
+//        }
+
         Timer().schedule(object: TimerTask() {
             override fun run() {
-                val intent = Intent(this@SplashActivity, activity.java)
+                val intent = Intent(this@SplashActivity, activity)
                 startActivity(intent)
                 finish()
             }

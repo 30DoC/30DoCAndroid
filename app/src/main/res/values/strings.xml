@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BLUR</string>
     <string name="intro_message">지친 하루를 달래줄\n당신의 소울메이트,\n지금 바로 찾아줄게요.</string>
-    <string name="intro_start">시작하기</string>
-    <string name="intro_create_mine">내 질문 먼저 작성하기 ></string>
-    <string name="quiz_description">총 %d문제입니다.\nO,X로 답해주세요.</string>
+    <string name="intro_start">대화 시작하기</string>
+    <string name="intro_create_mine">내 질문 먼저 작성하기</string>
+    <string name="quiz_description">총 %d개의 질문을 드릴게요.\nO,X로 답해주세요.</string>
 </resources>

@@ -22,7 +22,7 @@ class IntroActivity: DaggerAppCompatActivity(), IntroContract.View, View.OnClick
         setContentView(R.layout.activity_intro)
 
         id_start_button.setOnClickListener(this)
-        id_create_mine_text.setOnClickListener(this)
+        id_create_mine_button.setOnClickListener(this)
     }
 
     override fun onClick(p0: View) {
@@ -31,7 +31,7 @@ class IntroActivity: DaggerAppCompatActivity(), IntroContract.View, View.OnClick
                 val intent = Intent(this@IntroActivity, QuizActivity::class.java)
                 startActivity(intent)
             }
-            R.id.id_create_mine_text -> {
+            R.id.id_create_mine_button -> {
                 // go to create my question
             }
         }
