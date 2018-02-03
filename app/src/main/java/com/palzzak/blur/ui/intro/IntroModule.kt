@@ -1,4 +1,4 @@
-package com.palzzak.blur.activities.intro
+package com.palzzak.blur.ui.intro
 
 import com.palzzak.blur.di.PerActivity
 import dagger.Binds

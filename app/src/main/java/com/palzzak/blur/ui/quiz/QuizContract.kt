@@ -1,4 +1,4 @@
-package com.palzzak.blur.activities.quiz
+package com.palzzak.blur.ui.quiz
 
 import com.palzzak.blur.BasePresenter
 import com.palzzak.blur.BaseView

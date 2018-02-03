@@ -1,10 +1,10 @@
-package com.palzzak.blur.activities.intro
+package com.palzzak.blur.ui.intro
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.palzzak.blur.R
-import com.palzzak.blur.activities.quiz.QuizActivity
+import com.palzzak.blur.ui.quiz.QuizActivity
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_intro.*
 import javax.inject.Inject

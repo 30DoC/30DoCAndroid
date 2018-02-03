@@ -1,11 +1,11 @@
 package com.palzzak.blur.di
 
-import com.palzzak.blur.activities.intro.IntroActivity
-import com.palzzak.blur.activities.intro.IntroModule
-import com.palzzak.blur.activities.quiz.QuizActivity
-import com.palzzak.blur.activities.quiz.QuizModule
-import com.palzzak.blur.activities.splash.SplashActivity
-import com.palzzak.blur.activities.splash.SplashModule
+import com.palzzak.blur.ui.intro.IntroActivity
+import com.palzzak.blur.ui.intro.IntroModule
+import com.palzzak.blur.ui.quiz.QuizActivity
+import com.palzzak.blur.ui.quiz.QuizModule
+import com.palzzak.blur.ui.splash.SplashActivity
+import com.palzzak.blur.ui.splash.SplashModule
 import dagger.Module
 import dagger.android.AndroidInjectionModule
 import dagger.android.ContributesAndroidInjector

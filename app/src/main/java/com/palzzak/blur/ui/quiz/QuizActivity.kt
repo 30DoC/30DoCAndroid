@@ -1,4 +1,4 @@
-package com.palzzak.blur.activities.quiz
+package com.palzzak.blur.ui.quiz
 
 import android.os.Bundle
 import com.palzzak.blur.R

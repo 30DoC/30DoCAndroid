@@ -33,6 +33,29 @@
         app:layout_constraintTop_toBottomOf="@id/id_quiz_number_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.18"
+        app:layout_constraintVertical_bias="0.05"
         tools:text="Quiz\nQuiz"/>
+
+    <Button
+        android:id="@+id/id_answer_false_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/id_quiz_desc_text"
+        app:layout_constraintEnd_toStartOf="@id/id_answer_false_button"
+        app:layout_constraintVertical_bias="0.3"
+        android:background="@drawable/button_quiz_answer_false"/>
+
+    <Button
+        android:id="@+id/id_answer_true_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/id_answer_true_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/id_quiz_desc_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        android:background="@drawable/button_quiz_answer_true"/>
 
 </android.support.constraint.ConstraintLayout>

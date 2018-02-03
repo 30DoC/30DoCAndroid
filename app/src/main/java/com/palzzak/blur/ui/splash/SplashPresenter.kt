@@ -1,4 +1,4 @@
-package com.palzzak.blur.activities.splash
+package com.palzzak.blur.ui.splash
 
 import com.palzzak.blur.network.NetworkService
 import com.palzzak.blur.di.PerActivity

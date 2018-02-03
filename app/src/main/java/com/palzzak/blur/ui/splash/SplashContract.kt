@@ -1,9 +1,8 @@
-package com.palzzak.blur.activities.splash
+package com.palzzak.blur.ui.splash
 
 import com.palzzak.blur.BasePresenter
 import com.palzzak.blur.BaseView
 import com.palzzak.blur.network.ServiceStatus
-import kotlin.reflect.KClass
 
 /**
  * Created by yooas on 2018-01-11.
