@@ -8,8 +8,8 @@ import javax.inject.Inject
 import android.content.Intent
 import android.content.SharedPreferences
 import android.widget.Toast
+import com.palzzak.blur.network.pojo.ServiceStatus
 import com.palzzak.blur.ui.intro.IntroActivity
-import com.palzzak.blur.network.ServiceStatus
 import com.palzzak.blur.util.Constants
 import java.util.*
 
@@ -42,7 +42,7 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
     }
 
-    override fun goToNextActivity(status: ServiceStatus) {
+    override fun goToNextActivity(status: String) {
         var activity = IntroActivity::class.java
 
 //        if (status == ServiceStatus.CHATTING) {

@@ -27,7 +27,9 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
         //val questions = mAPIService.getQuestions(memberId)
         val questions = arrayListOf(
                 Quiz(true, "너는 사람입니까?", 0, Date(), Date()),
-                Quiz(true, "여자입니까?", 0, Date(), Date())
+                Quiz(true, "여자입니까?", 0, Date(), Date()),
+                Quiz(true, "뭘봐요?", 0, Date(), Date()),
+                Quiz(true, "키득키득?", 0, Date(), Date())
         )
         mQuizView.setQuestions(questions)
     }

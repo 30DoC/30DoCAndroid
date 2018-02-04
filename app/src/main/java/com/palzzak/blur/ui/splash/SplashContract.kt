@@ -2,7 +2,6 @@ package com.palzzak.blur.ui.splash
 
 import com.palzzak.blur.BasePresenter
 import com.palzzak.blur.BaseView
-import com.palzzak.blur.network.ServiceStatus
 
 /**
  * Created by yooas on 2018-01-11.
@@ -10,7 +9,7 @@ import com.palzzak.blur.network.ServiceStatus
 interface SplashContract {
     interface View: BaseView<Presenter> {
         fun printText(text: String)
-        fun goToNextActivity(status: ServiceStatus)
+        fun goToNextActivity(status: String)
         fun somethingIsWrong()
         fun saveIdPreference(mobileId: String, memberId: Long)
         fun showToast(s: String)

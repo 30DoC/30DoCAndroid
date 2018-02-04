@@ -3,6 +3,8 @@ package com.palzzak.blur.ui.quiz
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.PagerSnapHelper
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.palzzak.blur.R
 import com.palzzak.blur.network.pojo.Quiz
@@ -51,11 +53,14 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
 
     private fun transitToQuizScreen() {
         setContentView(R.layout.activity_quiz)
+
         id_quiz_recycler.adapter = mAdapter
         id_quiz_recycler.layoutManager = object: LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false) {
             override fun canScrollHorizontally() = false
             override fun canScrollVertically() = false
         }
+        val pagerSnapHelper = PagerSnapHelper()
+        pagerSnapHelper.attachToRecyclerView(id_quiz_recycler)
 
         id_answer_false_button.setOnClickListener(this)
         id_answer_true_button.setOnClickListener(this)
@@ -70,7 +75,8 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
             R.id.id_answer_false_button -> answer = false
             R.id.id_answer_true_button -> answer = true
         }
-        id_quiz_recycler.layoutManager.scrollToPosition(1)
+        mAdapter.setNextPosition()
+        id_quiz_recycler.layoutManager.scrollToPosition(mAdapter.getCurrentPosition())
     }
 
     override fun setQuestions(questions: ArrayList<Quiz>) {

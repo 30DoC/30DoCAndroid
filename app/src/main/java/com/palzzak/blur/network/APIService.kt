@@ -1,9 +1,11 @@
 package com.palzzak.blur.network
 
 import com.palzzak.blur.network.pojo.Quiz
+import com.palzzak.blur.network.pojo.ServiceStatus
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Body
 import retrofit2.http.POST
 
 /**
@@ -11,13 +13,17 @@ import retrofit2.http.POST
  */
 
 interface APIService {
-    @FormUrlEncoded
-    @POST("/api/v1/member/login")
-    fun signIn(@Field("uniqueKey") mobileId: String): Call<Long>
+    companion object {
+        const val MIME_TYPE_JSON = "application/json; charset=utf-8"
 
-    @FormUrlEncoded
+        fun createSimpleRequestBody(body: String) = RequestBody.create(MediaType.parse(MIME_TYPE_JSON), body)
+    }
+
+    @POST("/api/v1/member/login")
+    fun signIn(@Body mobileId: RequestBody): Call<String>
+
     @POST("/api/v1/member/observeStatus")
-    fun observeStatus(@Field("memberId") memberId: Long): Call<String>
+    fun observeStatus(@Body memberId: RequestBody): Call<ServiceStatus>
 
     fun getQuestions(memberId: Long): Call<List<Quiz>>
     fun observeChat(memberId: Long, chatId: Long, offset: Long) = 1
