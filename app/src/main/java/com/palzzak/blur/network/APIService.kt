@@ -1,7 +1,7 @@
 package com.palzzak.blur.network
 
-import com.palzzak.blur.network.pojo.Quiz
-import com.palzzak.blur.network.pojo.ServiceStatus
+import com.palzzak.blur.network.response.Quiz
+import com.palzzak.blur.network.response.ServiceStatus
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
