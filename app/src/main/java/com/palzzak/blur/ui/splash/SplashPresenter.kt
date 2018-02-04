@@ -25,32 +25,30 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
         mSplashView.printText("SPLASH")
     }
 
-    override fun logIn(mobileId: String, memberId: String) {
+    override fun logIn(mobileId: String, memberId: Long) {
         // Request log in to network module
 
-        if (mobileId.isEmpty() || memberId == "-1") {
+        if (mobileId.isEmpty() || memberId == -1L) {
             val generatedMobileId = IdGenerator.createRandomId()
-            mAPIService.signIn(generatedMobileId).enqueue(object : Callback<String> {
-                override fun onFailure(call: Call<String>, t: Throwable) {
+            mAPIService.signIn(generatedMobileId).enqueue(object : Callback<Long> {
+                override fun onFailure(call: Call<Long>, t: Throwable) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+                override fun onResponse(call: Call<Long>?, response: Response<Long>) {
                     val resMemberId = response.body()
 
-                    if (resMemberId == "-1") {
+                    if (resMemberId == -1L) {
                         logIn(IdGenerator.createRandomId(), resMemberId)
                     } else {
                         mSplashView.saveIdPreference(generatedMobileId, resMemberId!!)
                         mSplashView.showToast("Logged in by ID : $resMemberId")
                         mSplashView.goToNextActivity(ServiceStatus.WAITING)
                     }
-
                 }
-
             })
         } else {
-            val memberIdLong = memberId.toLong()
-            mAPIService.observeStatus(memberIdLong).enqueue(object: Callback<String> {
+            mAPIService.observeStatus(memberId).enqueue(object: Callback<String> {
                 override fun onFailure(call: Call<String>, t: Throwable) {
                 }
 

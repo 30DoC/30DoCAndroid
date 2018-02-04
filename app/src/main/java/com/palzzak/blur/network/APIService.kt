@@ -12,7 +12,7 @@ import retrofit2.http.POST
 interface APIService {
     @FormUrlEncoded
     @POST("/api/v1/member/login")
-    fun signIn(@Field("uniqueKey") mobileId: String): Call<String>
+    fun signIn(@Field("uniqueKey") mobileId: String): Call<Long>
 
     @FormUrlEncoded
     @POST("/api/v1/member/observeStatus")

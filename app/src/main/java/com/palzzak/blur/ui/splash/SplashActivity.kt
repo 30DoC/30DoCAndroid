@@ -30,7 +30,7 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
 
         mSplashPresenter.printInitialText()
         val mobileId = mSharePref.getString(Constants.PREF_MOBILE_ID_KEY, "")
-        val memberId = mSharePref.getString(Constants.PREF_MEMBER_ID_KEY, "")
+        val memberId = mSharePref.getLong(Constants.PREF_MEMBER_ID_KEY, -1L)
         mSplashPresenter.logIn(mobileId, memberId)
     }
 
@@ -62,8 +62,8 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun saveIdPreference(mobileId: String, sessionId: String) {
+    override fun saveIdPreference(mobileId: String, memberId: Long) {
         mSharePref.edit().putString(Constants.PREF_MOBILE_ID_KEY, mobileId).apply()
-        mSharePref.edit().putString(Constants.PREF_MEMBER_ID_KEY, sessionId).apply()
+        mSharePref.edit().putLong(Constants.PREF_MEMBER_ID_KEY, memberId).apply()
     }
 }
