@@ -12,7 +12,7 @@ kotlin {
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.paljjak.thirtydoc"
+        applicationId "com.palzzak.blur"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
@@ -62,4 +62,6 @@ dependencies {
 
     // Retrofit 2
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit2_version"
 }

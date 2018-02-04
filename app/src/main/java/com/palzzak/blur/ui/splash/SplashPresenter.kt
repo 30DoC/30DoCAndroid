@@ -1,8 +1,12 @@
 package com.palzzak.blur.ui.splash
 
-import com.palzzak.blur.network.NetworkService
+import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
+import com.palzzak.blur.network.ServiceStatus
 import com.palzzak.blur.util.IdGenerator
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 /**
@@ -15,35 +19,50 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
     lateinit var mSplashView: SplashContract.View
 
     @Inject
-    lateinit var mNetworkService: NetworkService
+    lateinit var mAPIService: APIService
 
     override fun printInitialText() {
         mSplashView.printText("SPLASH")
     }
 
-    override fun logIn(mobileId: String) {
+    override fun logIn(mobileId: String, memberId: String) {
         // Request log in to network module
-        val resId: String
 
-        when (mobileId.isEmpty()) {
-            true -> resId = requestRegisteringWithGeneratedId()
-            false -> resId = mNetworkService.logIn(mobileId)
+        if (mobileId.isEmpty() || memberId == "-1") {
+            val generatedMobileId = IdGenerator.createRandomId()
+            mAPIService.signIn(generatedMobileId).enqueue(object : Callback<String> {
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                }
+
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    val resMemberId = response.body()
+
+                    if (resMemberId == "-1") {
+                        logIn(IdGenerator.createRandomId(), resMemberId)
+                    } else {
+                        mSplashView.saveIdPreference(generatedMobileId, resMemberId!!)
+                        mSplashView.showToast("Logged in by ID : $resMemberId")
+                        mSplashView.goToNextActivity(ServiceStatus.WAITING)
+                    }
+
+                }
+
+            })
+        } else {
+            val memberIdLong = memberId.toLong()
+            mAPIService.observeStatus(memberIdLong).enqueue(object: Callback<String> {
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                }
+
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    val resStatus = response.body()
+
+                    when (resStatus) {
+                        "WAITING" -> mSplashView.goToNextActivity(ServiceStatus.WAITING)
+                    }
+                }
+
+            })
         }
-
-        mSplashView.showToast("Logged in by ID : $resId")
-        mSplashView.goToNextActivity(mNetworkService.observeStatus(mobileId))
-    }
-
-    override fun requestRegisteringWithGeneratedId(): String {
-        var response: String
-        while (true) {
-            var id = IdGenerator.createRandomId()
-            response = mNetworkService.logIn(id)
-            if (!response.isEmpty()) {
-                mSplashView.saveIdPreference(id)
-                break
-            }
-        }
-        return response
     }
 }

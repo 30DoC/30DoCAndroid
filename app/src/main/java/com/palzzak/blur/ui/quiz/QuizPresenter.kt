@@ -1,6 +1,6 @@
 package com.palzzak.blur.ui.quiz
 
-import com.palzzak.blur.network.NetworkService
+import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
 import javax.inject.Inject
 
@@ -13,11 +13,11 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
     lateinit var mQuizView: QuizContract.View
 
     @Inject
-    lateinit var mNetworkService: NetworkService
+    lateinit var mAPIService: APIService
 
     override fun printInitialText() {
         var numberOfQuestions = 10
-        //numberOfQuestions = mNetworkService.getSetOfQuestions().getInt("questionskey")
+        //numberOfQuestions = mAPIService.getSetOfQuestions().getInt("questionskey")
         mQuizView.printTextWithNumber(numberOfQuestions)
     }
 }

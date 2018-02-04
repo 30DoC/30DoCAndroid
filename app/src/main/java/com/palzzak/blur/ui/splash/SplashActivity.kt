@@ -29,7 +29,9 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
         setContentView(R.layout.activity_splash)
 
         mSplashPresenter.printInitialText()
-        mSplashPresenter.logIn(mSharePref.getString(Constants.PREF_MOBILE_ID_KEY, ""))
+        val mobileId = mSharePref.getString(Constants.PREF_MOBILE_ID_KEY, "")
+        val memberId = mSharePref.getString(Constants.PREF_MEMBER_ID_KEY, "")
+        mSplashPresenter.logIn(mobileId, memberId)
     }
 
     override fun printText(text: String) {
@@ -60,7 +62,8 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun saveIdPreference(id: String) {
-        mSharePref.edit().putString(Constants.PREF_MOBILE_ID_KEY, id).apply()
+    override fun saveIdPreference(mobileId: String, sessionId: String) {
+        mSharePref.edit().putString(Constants.PREF_MOBILE_ID_KEY, mobileId).apply()
+        mSharePref.edit().putString(Constants.PREF_MEMBER_ID_KEY, sessionId).apply()
     }
 }

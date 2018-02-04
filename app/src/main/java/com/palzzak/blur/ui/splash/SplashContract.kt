@@ -12,13 +12,12 @@ interface SplashContract {
         fun printText(text: String)
         fun goToNextActivity(status: ServiceStatus)
         fun somethingIsWrong()
-        fun saveIdPreference(id: String)
+        fun saveIdPreference(mobileId: String, memberId: String)
         fun showToast(s: String)
     }
 
     interface Presenter: BasePresenter<View> {
         fun printInitialText()
-        fun logIn(id: String)
-        fun requestRegisteringWithGeneratedId(): String
+        fun logIn(mobileId: String, memberId: String)
     }
 }
