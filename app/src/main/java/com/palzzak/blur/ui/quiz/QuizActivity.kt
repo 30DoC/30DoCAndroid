@@ -4,10 +4,9 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PagerSnapHelper
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.palzzak.blur.R
-import com.palzzak.blur.network.pojo.Quiz
+import com.palzzak.blur.network.response.Quiz
 import com.palzzak.blur.util.Constants
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_quiz.*

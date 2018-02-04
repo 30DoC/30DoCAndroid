@@ -2,7 +2,7 @@ package com.palzzak.blur.ui.quiz
 
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
-import com.palzzak.blur.network.pojo.Quiz
+import com.palzzak.blur.network.response.Quiz
 import java.util.*
 import javax.inject.Inject
 

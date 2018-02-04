@@ -8,7 +8,6 @@ import javax.inject.Inject
 import android.content.Intent
 import android.content.SharedPreferences
 import android.widget.Toast
-import com.palzzak.blur.network.pojo.ServiceStatus
 import com.palzzak.blur.ui.intro.IntroActivity
 import com.palzzak.blur.util.Constants
 import java.util.*

@@ -2,7 +2,7 @@ package com.palzzak.blur.ui.quiz
 
 import com.palzzak.blur.BasePresenter
 import com.palzzak.blur.BaseView
-import com.palzzak.blur.network.pojo.Quiz
+import com.palzzak.blur.network.response.Quiz
 
 /**
  * Created by yooas on 2018-01-07.

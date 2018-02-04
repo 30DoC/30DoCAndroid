@@ -1,4 +1,4 @@
-package com.palzzak.blur.network.pojo
+package com.palzzak.blur.network.response
 
 import java.util.*
 

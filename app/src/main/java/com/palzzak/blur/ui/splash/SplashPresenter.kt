@@ -2,7 +2,7 @@ package com.palzzak.blur.ui.splash
 
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
-import com.palzzak.blur.network.pojo.ServiceStatus
+import com.palzzak.blur.network.response.ServiceStatus
 import com.palzzak.blur.util.AppLogger
 import com.palzzak.blur.util.IdGenerator
 import retrofit2.Call

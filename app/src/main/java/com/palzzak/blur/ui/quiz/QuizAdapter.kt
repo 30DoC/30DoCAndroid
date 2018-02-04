@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.palzzak.blur.R
-import com.palzzak.blur.network.pojo.Quiz
+import com.palzzak.blur.network.response.Quiz
 
 /**
  * Created by yooas on 2018-02-04.

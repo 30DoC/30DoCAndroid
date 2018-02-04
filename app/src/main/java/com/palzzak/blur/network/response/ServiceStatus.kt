@@ -1,4 +1,4 @@
-package com.palzzak.blur.network.pojo
+package com.palzzak.blur.network.response
 
 /**
  * Created by jaeyoonyoo on 2018. 2. 4..
