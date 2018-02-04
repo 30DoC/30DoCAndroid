@@ -22,15 +22,15 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
     lateinit var mSplashPresenter: SplashPresenter
 
     @Inject
-    lateinit var mSharePref: SharedPreferences
+    lateinit var mSharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
         mSplashPresenter.printInitialText()
-        val mobileId = mSharePref.getString(Constants.PREF_MOBILE_ID_KEY, "")
-        val memberId = mSharePref.getLong(Constants.PREF_MEMBER_ID_KEY, -1L)
+        val mobileId = mSharedPref.getString(Constants.PREF_MOBILE_ID_KEY, "")
+        val memberId = mSharedPref.getLong(Constants.PREF_MEMBER_ID_KEY, -1L)
         mSplashPresenter.logIn(mobileId, memberId)
     }
 
@@ -63,7 +63,7 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
     }
 
     override fun saveIdPreference(mobileId: String, memberId: Long) {
-        mSharePref.edit().putString(Constants.PREF_MOBILE_ID_KEY, mobileId).apply()
-        mSharePref.edit().putLong(Constants.PREF_MEMBER_ID_KEY, memberId).apply()
+        mSharedPref.edit().putString(Constants.PREF_MOBILE_ID_KEY, mobileId).apply()
+        mSharedPref.edit().putLong(Constants.PREF_MEMBER_ID_KEY, memberId).apply()
     }
 }

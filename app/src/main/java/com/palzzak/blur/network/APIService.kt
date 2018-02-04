@@ -1,5 +1,6 @@
 package com.palzzak.blur.network
 
+import com.palzzak.blur.network.pojo.Quiz
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -18,11 +19,11 @@ interface APIService {
     @POST("/api/v1/member/observeStatus")
     fun observeStatus(@Field("memberId") memberId: Long): Call<String>
 
-    fun observeChat(mobileId: String, chatId: String, offset: Int) = 1
-    fun sendAudioRecord(mobileId: String, chatId: String, timestamp: Int) = 1
-    fun quit(mobileId: String, charId: String) {}
-    fun getQuestions(mobileId: String) = arrayListOf("Q1", "Q2")
-    fun postAnswers(mobileId: String, questionId: String) = 100
-    fun chatJoinResponse(mobileId: String, chatId: String, response: Boolean) {}
-    fun updateMyQuestions(mobileId: String, questions: List<String>) {}
+    fun getQuestions(memberId: Long): Call<List<Quiz>>
+    fun observeChat(memberId: Long, chatId: Long, offset: Long) = 1
+    fun sendAudioRecord(memberId: Long, chatId: Long, timestamp: Long) = 1
+    fun quit(memberId: Long, chatId: Long) {}
+    fun postAnswers(memberId: Long, questionId: Long) = 100
+    fun chatJoinResponse(memberId: Long, chatId: Long, response: Boolean) {}
+    fun updateMyQuestions(memberId: Long, questions: List<Quiz>) {}
 }

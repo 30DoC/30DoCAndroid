@@ -36,12 +36,12 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
                 }
 
                 override fun onResponse(call: Call<Long>?, response: Response<Long>) {
-                    val resMemberId = response.body()
+                    val resMemberId = response.body()!!.toLong()
 
                     if (resMemberId == -1L) {
                         logIn(IdGenerator.createRandomId(), resMemberId)
                     } else {
-                        mSplashView.saveIdPreference(generatedMobileId, resMemberId!!)
+                        mSplashView.saveIdPreference(generatedMobileId, resMemberId)
                         mSplashView.showToast("Logged in by ID : $resMemberId")
                         mSplashView.goToNextActivity(ServiceStatus.WAITING)
                     }
@@ -55,9 +55,11 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
                 override fun onResponse(call: Call<String>, response: Response<String>) {
                     val resStatus = response.body()
 
-                    when (resStatus) {
+                    mSplashView.goToNextActivity(ServiceStatus.WAITING)
+
+                    /*when (resStatus) {
                         "WAITING" -> mSplashView.goToNextActivity(ServiceStatus.WAITING)
-                    }
+                    }*/
                 }
 
             })

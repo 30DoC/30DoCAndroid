@@ -6,6 +6,6 @@
 
     <item android:state_focused="false" android:state_pressed="true">
         <bitmap android:src="@drawable/button_answer_true"
-            android:alpha="0.6"/>
+            android:alpha="0.5"/>
     </item>
 </selector>
