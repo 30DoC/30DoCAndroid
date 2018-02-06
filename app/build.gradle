@@ -59,4 +59,9 @@ dependencies {
 
     // String generator for mobile ID
     compile 'com.github.mifmif:generex:1.0.2'
+
+    // Retrofit 2
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit2_version"
 }

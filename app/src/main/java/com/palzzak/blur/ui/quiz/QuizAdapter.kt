@@ -1,41 +1,24 @@
 package com.palzzak.blur.ui.quiz
 
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewParent
 import android.widget.TextView
 import com.palzzak.blur.R
+import com.palzzak.blur.network.response.Quiz
 
 /**
- * Created by yooas on 2018-01-21.
+ * Created by yooas on 2018-02-04.
  */
-class QuizAdapter: RecyclerView.Adapter<QuizAdapter.ViewHolder>() {
-    private val mQuizzes: ArrayList<String> = ArrayList()
-
-    init {
-        for (i in 1..10) {
-            mQuizzes.add("Q$i")
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_quiz, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun getItemCount(): Int = mQuizzes.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setText(mQuizzes[position])
-    }
-
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        private val mTextView = view.findViewById<TextView>(R.id.id_card_text)
-
-        fun setText(s: String) {
-            mTextView.text = s
-        }
-
-    }
+class QuizAdapter(fragmentManager: FragmentManager): FragmentPagerAdapter(fragmentManager) {
+    var mQuizzes: List<Quiz> = arrayListOf()
+    override fun getItem(position: Int): Fragment = QuizFragment.create(mQuizzes[position])
+    override fun getCount(): Int = mQuizzes.size
 }
