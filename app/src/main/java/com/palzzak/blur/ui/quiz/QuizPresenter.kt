@@ -1,7 +1,9 @@
 package com.palzzak.blur.ui.quiz
 
-import com.palzzak.blur.network.NetworkService
+import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
+import com.palzzak.blur.network.response.Quiz
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -13,11 +15,22 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
     lateinit var mQuizView: QuizContract.View
 
     @Inject
-    lateinit var mNetworkService: NetworkService
+    lateinit var mAPIService: APIService
 
     override fun printInitialText() {
         var numberOfQuestions = 10
-        //numberOfQuestions = mNetworkService.getSetOfQuestions().getInt("questionskey")
-        mQuizView.printDescAndTransit(numberOfQuestions)
+        //numberOfQuestions = mAPIService.getSetOfQuestions().getInt("questionskey")
+        mQuizView.printTextWithNumber(numberOfQuestions)
+    }
+
+    override fun loadRandomQuizSet(memberId: Long) {
+        //val questions = mAPIService.getQuestions(memberId)
+        val questions = arrayListOf(
+                Quiz(true, "너는 사람입니까?", 0, Date(), Date()),
+                Quiz(true, "여자입니까?", 0, Date(), Date()),
+                Quiz(true, "뭘봐요?", 0, Date(), Date()),
+                Quiz(true, "키득키득?", 0, Date(), Date())
+        )
+        mQuizView.setQuestions(questions)
     }
 }

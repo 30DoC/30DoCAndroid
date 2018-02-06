@@ -9,8 +9,9 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 /**
- * Created by stevehan on 2018. 2. 6..
+ * Created by jaeyoonyoo on 2018. 1. 12..
  */
+
 interface APIService {
     companion object {
         const val MIME_TYPE_JSON = "application/json; charset=utf-8"

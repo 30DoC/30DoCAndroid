@@ -8,9 +8,9 @@ import javax.inject.Inject
 import android.content.Intent
 import android.content.SharedPreferences
 import android.widget.Toast
+import com.palzzak.blur.ui.intro.IntroActivity
 import com.palzzak.blur.util.Constants
 import java.util.*
-import kotlin.reflect.KClass
 
 
 /**
@@ -21,14 +21,16 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
     lateinit var mSplashPresenter: SplashPresenter
 
     @Inject
-    lateinit var mSharePref: SharedPreferences
+    lateinit var mSharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
         mSplashPresenter.printInitialText()
-        mSplashPresenter.logIn(mSharePref.getString(Constants.PREF_MOBILE_ID_KEY, ""))
+        val mobileId = mSharedPref.getString(Constants.PREF_MOBILE_ID_KEY, "")
+        val memberId = mSharedPref.getLong(Constants.PREF_MEMBER_ID_KEY, -1L)
+        mSplashPresenter.logIn(mobileId, memberId)
     }
 
     override fun printText(text: String) {
@@ -39,10 +41,16 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
     }
 
-    override fun <T : Any> goToNextActivity(activity: KClass<T>) {
+    override fun goToNextActivity(status: String) {
+        var activity = IntroActivity::class.java
+
+//        if (status == ServiceStatus.CHATTING) {
+//            activity = ChatActivity::class.java
+//        }
+
         Timer().schedule(object: TimerTask() {
             override fun run() {
-                val intent = Intent(this@SplashActivity, activity.java)
+                val intent = Intent(this@SplashActivity, activity)
                 startActivity(intent)
                 finish()
             }
@@ -53,7 +61,8 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun saveIdPreference(id: String) {
-        mSharePref.edit().putString(Constants.PREF_MOBILE_ID_KEY, id).apply()
+    override fun saveIdPreference(mobileId: String, memberId: Long) {
+        mSharedPref.edit().putString(Constants.PREF_MOBILE_ID_KEY, mobileId).apply()
+        mSharedPref.edit().putLong(Constants.PREF_MEMBER_ID_KEY, memberId).apply()
     }
 }

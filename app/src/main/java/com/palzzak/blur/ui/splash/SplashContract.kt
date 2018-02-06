@@ -2,7 +2,6 @@ package com.palzzak.blur.ui.splash
 
 import com.palzzak.blur.BasePresenter
 import com.palzzak.blur.BaseView
-import kotlin.reflect.KClass
 
 /**
  * Created by yooas on 2018-01-11.
@@ -10,15 +9,14 @@ import kotlin.reflect.KClass
 interface SplashContract {
     interface View: BaseView<Presenter> {
         fun printText(text: String)
-        fun<T: Any> goToNextActivity(activity: KClass<T>)
+        fun goToNextActivity(status: String)
         fun somethingIsWrong()
-        fun saveIdPreference(id: String)
+        fun saveIdPreference(mobileId: String, memberId: Long)
         fun showToast(s: String)
     }
 
     interface Presenter: BasePresenter<View> {
         fun printInitialText()
-        fun logIn(id: String)
-        fun requestRegisteringWithGeneratedId(): String
+        fun logIn(mobileId: String, memberId: Long)
     }
 }
