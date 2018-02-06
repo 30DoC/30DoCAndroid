@@ -2,6 +2,8 @@ package com.palzzak.blur.di
 
 import com.palzzak.blur.ui.intro.IntroActivity
 import com.palzzak.blur.ui.intro.IntroModule
+import com.palzzak.blur.ui.question.QuestionActivity
+import com.palzzak.blur.ui.question.QuestionModule
 import com.palzzak.blur.ui.quiz.QuizActivity
 import com.palzzak.blur.ui.quiz.QuizModule
 import com.palzzak.blur.ui.splash.SplashActivity
@@ -18,6 +20,10 @@ abstract class ActivityBindingModule {
     @PerActivity
     @ContributesAndroidInjector(modules = [QuizModule::class])
     abstract fun quizActivity(): QuizActivity
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = [QuestionModule::class])
+    abstract fun questionActivity(): QuestionActivity
 
     @PerActivity
     @ContributesAndroidInjector(modules = [SplashModule::class])
