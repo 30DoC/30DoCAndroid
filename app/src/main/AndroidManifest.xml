@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.palzzak.blur.ui.quiz.QuizActivity" />
+        <activity android:name="com.palzzak.blur.ui.question.QuestionActivity" />
         <activity android:name="com.palzzak.blur.ui.intro.IntroActivity" />
     </application>
 
