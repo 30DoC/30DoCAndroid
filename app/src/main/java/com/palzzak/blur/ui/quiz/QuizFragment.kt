@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.palzzak.blur.R
 import com.palzzak.blur.network.response.Quiz
-import kotlinx.android.synthetic.main.item_quiz.*
 
 /**
  * Created by jaeyoonyoo on 2018. 2. 6..
@@ -35,6 +34,14 @@ class QuizFragment: Fragment() {
             args.putParcelable("quiz", quiz)
             fragment.arguments = args
             return fragment
+        }
+
+        fun createFragments(quizzes: List<Quiz>): List<QuizFragment> {
+            val list = ArrayList<QuizFragment>()
+            quizzes.map {
+                list.add(create(it))
+            }
+            return list
         }
     }
 }
