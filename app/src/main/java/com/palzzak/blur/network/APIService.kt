@@ -16,7 +16,7 @@ interface APIService {
     companion object {
         const val MIME_TYPE_JSON = "application/json; charset=utf-8"
 
-        fun createSimpleRequestBody(body: String) = RequestBody.create(MediaType.parse(MIME_TYPE_JSON), body)
+        fun createSimpleRequestBody(body: String): RequestBody = RequestBody.create(MediaType.parse(MIME_TYPE_JSON), body)
     }
 
     @POST("/api/v1/member/login")

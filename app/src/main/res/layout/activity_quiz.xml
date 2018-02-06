@@ -8,17 +8,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/quiz_background">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/id_quiz_recycler"
+    <com.palzzak.blur.ui.quiz.QuizPager
+        android:id="@+id/id_quiz_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/id_quiz_answer_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_quiz" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/id_quiz_answer_layout" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/id_quiz_answer_layout"
@@ -27,7 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_quiz_recycler">
+        app:layout_constraintTop_toBottomOf="@+id/id_quiz_pager">
 
         <Button
             android:id="@+id/id_answer_false_button"

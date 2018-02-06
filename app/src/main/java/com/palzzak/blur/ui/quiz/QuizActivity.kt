@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PagerSnapHelper
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.palzzak.blur.R
 import com.palzzak.blur.network.response.Quiz
@@ -25,7 +26,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
     @Inject
     lateinit var mSharedPrefs: SharedPreferences
 
-    private val mAdapter: QuizAdapter = QuizAdapter()
+    private val mAdapter: QuizAdapter = QuizAdapter(supportFragmentManager)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,14 +54,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
     private fun transitToQuizScreen() {
         setContentView(R.layout.activity_quiz)
 
-        id_quiz_recycler.adapter = mAdapter
-        id_quiz_recycler.layoutManager = object: LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false) {
-            override fun canScrollHorizontally() = false
-            override fun canScrollVertically() = false
-        }
-        val pagerSnapHelper = PagerSnapHelper()
-        pagerSnapHelper.attachToRecyclerView(id_quiz_recycler)
-
+        id_quiz_pager.adapter = mAdapter
         id_answer_false_button.setOnClickListener(this)
         id_answer_true_button.setOnClickListener(this)
 
@@ -74,12 +68,12 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
             R.id.id_answer_false_button -> answer = false
             R.id.id_answer_true_button -> answer = true
         }
-        mAdapter.setNextPosition()
-        id_quiz_recycler.layoutManager.scrollToPosition(mAdapter.getCurrentPosition())
+        id_quiz_pager.currentItem = id_quiz_pager.currentItem + 1
     }
 
     override fun setQuestions(questions: ArrayList<Quiz>) {
         mAdapter.mQuizzes = questions
         mAdapter.notifyDataSetChanged()
+        id_quiz_pager.adapter = mAdapter
     }
 }
