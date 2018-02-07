@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/question_background"
+    tools:context=".ui.question.QuestionActivity">
+
+    <TextView
+        android:id="@+id/question_description"
+        android:layout_width="266dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="88dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.3"
+        android:textColor="@color/colorQuestionText"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:showIn="@layout/fragment_question">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            android:paddingStart="@dimen/spacing_double"
+            android:paddingEnd="@dimen/spacing_double"
+            app:hintEnabled="false"
+            android:clipToPadding="false"
+            tools:ignore="UnusedAttribute,NewApi">
+            <EditText
+                android:id="@+id/first_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/first_question"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:textSize="@dimen/size_edit_text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            android:paddingStart="@dimen/spacing_double"
+            android:paddingEnd="@dimen/spacing_double"
+            app:hintEnabled="false"
+            android:clipToPadding="false"
+            android:transitionGroup="true"
+            tools:ignore="UnusedAttribute,NewApi">
+            <EditText
+                android:id="@+id/second_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/second_question"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:textSize="@dimen/size_edit_text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            android:paddingStart="@dimen/spacing_double"
+            android:paddingEnd="@dimen/spacing_double"
+            app:hintEnabled="false"
+            android:clipToPadding="false"
+            android:transitionGroup="true"
+            tools:ignore="UnusedAttribute,NewApi">
+            <EditText
+                android:id="@+id/third_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/third_question"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:textSize="@dimen/size_edit_text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            android:paddingStart="@dimen/spacing_double"
+            android:paddingEnd="@dimen/spacing_double"
+            app:hintEnabled="false"
+            android:clipToPadding="false"
+            android:transitionGroup="true"
+            tools:ignore="UnusedAttribute,NewApi">
+            <EditText
+                android:id="@+id/fourth_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fourth_question"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:textSize="@dimen/size_edit_text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
+            android:paddingStart="@dimen/spacing_double"
+            android:paddingEnd="@dimen/spacing_double"
+            app:hintEnabled="false"
+            android:clipToPadding="false"
+            android:transitionGroup="true"
+            tools:ignore="UnusedAttribute,NewApi">
+            <EditText
+                android:id="@+id/fifth_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fifth_question"
+                android:imeOptions="actionDone"
+                android:inputType="textCapWords"
+                android:textSize="@dimen/size_edit_text" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/regiter_question_button"
+        style="@style/ButtonStyle2"
+        android:layout_marginBottom="60dp"
+        android:layout_marginStart="40dp"
+        android:text="@string/regiter_question_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/id_start_button"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</android.support.constraint.ConstraintLayout>
