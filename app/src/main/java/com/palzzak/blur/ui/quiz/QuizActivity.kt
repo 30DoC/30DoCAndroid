@@ -3,6 +3,8 @@ package com.palzzak.blur.ui.quiz
 import android.animation.ObjectAnimator
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentPagerAdapter
 import android.view.View
 import com.palzzak.blur.R
 import com.palzzak.blur.network.response.Quiz
@@ -16,6 +18,7 @@ import javax.inject.Inject
 import java.util.*
 import kotlin.collections.ArrayList
 import android.view.animation.DecelerateInterpolator
+import com.palzzak.blur.util.AlertDialogFactory
 
 
 class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickListener {
@@ -25,13 +28,17 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
     @Inject
     lateinit var mSharedPrefs: SharedPreferences
 
-    private val mAdapter: QuizAdapter = QuizAdapter(supportFragmentManager)
+    private val mAdapter = object: FragmentPagerAdapter(supportFragmentManager) {
+        var mFragments: List<QuizFragment> = arrayListOf()
+        override fun getItem(position: Int): Fragment = mFragments[position]
+        override fun getCount(): Int = mFragments.size
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_desc)
 
-        mQuizPresenter.printInitialText()
+        mQuizPresenter.init(mSharedPrefs.getLong(Constants.PREF_MEMBER_ID_KEY, -1L))
         startQuizAfterSeconds()
     }
 
@@ -53,32 +60,33 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
     private fun transitToQuizScreen() {
         setContentView(R.layout.activity_quiz)
         id_quiz_pager.adapter = mAdapter
+        id_quiz_pager.pageMargin
         id_prev_button.setOnClickListener(this)
         id_answer_false_button.setOnClickListener(this)
         id_answer_true_button.setOnClickListener(this)
 
-        val memberId = mSharedPrefs.getLong(Constants.PREF_MEMBER_ID_KEY, -1L)
-        mQuizPresenter.loadRandomQuizSet(memberId)
+        mQuizPresenter.loadQuiz()
         updatePageProgress(1)
     }
 
     override fun onClick(v: View) {
-        val answer: Boolean
         when (v.id) {
             R.id.id_prev_button -> {
                 if (id_quiz_pager.currentItem == 0) {
-                    onBackPressed()
-                    finish()
+                    AlertDialogFactory.show(fragmentManager, Constants.DIALOG_TAG_QUIT)
                 } else {
                     id_quiz_pager.currentItem = id_quiz_pager.currentItem - 1
                 }
             }
             else -> {
-                answer = v.id == R.id.id_answer_true_button
+                mQuizPresenter.setQuizAnswer(id_quiz_pager.currentItem, v.id == R.id.id_answer_true_button)
                 id_quiz_pager.currentItem = id_quiz_pager.currentItem + 1
             }
         }
         updatePageProgress(id_quiz_pager.currentItem + 1)
+        if (id_quiz_pager.currentItem + 1 == id_quiz_pager.adapter.count) {
+            // TODO("GO TO RESULT SCREEN")
+        }
     }
 
     override fun setQuestions(questions: ArrayList<Quiz>) {

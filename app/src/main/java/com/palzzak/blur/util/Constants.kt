@@ -8,5 +8,7 @@ class Constants {
         const val SHARD_PREF_COMMON_KEY = "PREF_COMMON"
         const val PREF_MOBILE_ID_KEY = "PREF_KEY_MOBILE_ID"
         const val PREF_MEMBER_ID_KEY = "PREF_KEY_SESSION_ID"
+
+        const val DIALOG_TAG_QUIT = "TAG_DIALOG_QUIT"
     }
 }

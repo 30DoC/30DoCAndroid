@@ -12,4 +12,8 @@
     <string name="fourth_question">불현듯 떠나는 여행을 즐긴다.</string>
     <string name="fifth_question">겨울엔 호떡보다 붕어빵이다.</string>
     <string name="regiter_question_button">작성 완료</string>
+    <string name="quit_quiz_title">정말 나가실건가요?</string>
+    <string name="quit_quiz_message">처음부터 새로운 문제를 풀어야해요.</string>
+    <string name="yes">네</string>
+    <string name="no">아니오</string>
 </resources>

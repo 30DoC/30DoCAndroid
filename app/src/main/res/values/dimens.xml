@@ -10,4 +10,5 @@
     <dimen name="size_edit_text">18sp</dimen>
     <dimen name="prev_button_size">25dp</dimen>
     <dimen name="page_progress_height">8dp</dimen>
+    <dimen name="quiz_text_size">24sp</dimen>
 </resources>

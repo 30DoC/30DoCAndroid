@@ -14,34 +14,37 @@ import com.palzzak.blur.network.response.Quiz
  */
 class QuizFragment: Fragment() {
     private lateinit var mQuiz: Quiz
+    private var mIndex = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mQuiz = arguments.getParcelable("quiz")
+        mIndex = arguments.getInt("index")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater!!.inflate(R.layout.item_quiz, container, false)
-        rootView.findViewById<TextView>(R.id.id_quiz_number_text).text = "Q${mQuiz.quizId}."
+        rootView.findViewById<TextView>(R.id.id_quiz_number_text).text = "Q.$mIndex"
         rootView.findViewById<TextView>(R.id.id_quiz_question_text).text = mQuiz.question
         return rootView
     }
 
     companion object {
-        fun create(quiz: Quiz): QuizFragment {
-            val fragment = QuizFragment()
-            val args = Bundle()
-            args.putParcelable("quiz", quiz)
-            fragment.arguments = args
-            return fragment
+        fun create(quiz: Quiz, index: Int): QuizFragment {
+            return QuizFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable("quiz", quiz)
+                    putInt("index", index)
+                }
+            }
         }
 
         fun createFragments(quizzes: List<Quiz>): List<QuizFragment> {
-            val list = ArrayList<QuizFragment>()
-            quizzes.map {
-                list.add(create(it))
+            return ArrayList<QuizFragment>().apply {
+                quizzes.map {
+                    add(create(it, quizzes.indexOf(it) + 1))
+                }
             }
-            return list
         }
     }
 }

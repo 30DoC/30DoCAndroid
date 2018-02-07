@@ -14,7 +14,8 @@ interface QuizContract {
     }
 
     interface Presenter: BasePresenter<View> {
-        fun printInitialText()
-        fun loadRandomQuizSet(memberId: Long)
+        fun init(memberId: Long)
+        fun setQuizAnswer(index: Int, answer: Boolean)
+        fun loadQuiz()
     }
 }
