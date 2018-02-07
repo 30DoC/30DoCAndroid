@@ -1,5 +1,6 @@
 package com.palzzak.blur.ui.quiz
 
+import android.animation.ObjectAnimator
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
@@ -14,9 +15,7 @@ import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 import java.util.*
 import kotlin.collections.ArrayList
-import android.util.DisplayMetrics
-
-
+import android.view.animation.DecelerateInterpolator
 
 
 class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickListener {
@@ -60,7 +59,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
 
         val memberId = mSharedPrefs.getLong(Constants.PREF_MEMBER_ID_KEY, -1L)
         mQuizPresenter.loadRandomQuizSet(memberId)
-        updatePageIndicator(1)
+        updatePageProgress(1)
     }
 
     override fun onClick(v: View) {
@@ -79,7 +78,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
                 id_quiz_pager.currentItem = id_quiz_pager.currentItem + 1
             }
         }
-        updatePageIndicator(id_quiz_pager.currentItem + 1)
+        updatePageProgress(id_quiz_pager.currentItem + 1)
     }
 
     override fun setQuestions(questions: ArrayList<Quiz>) {
@@ -87,16 +86,12 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
         mAdapter.notifyDataSetChanged()
     }
 
-    private fun updatePageIndicator(page: Int) {
+    private fun updatePageProgress(page: Int) {
         id_page_number_text.text = "${page}/${id_quiz_pager.adapter.count}"
-        val layoutParams = id_page_indicator.layoutParams
-
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val newWidth = (displayMetrics.widthPixels / id_quiz_pager.adapter.count) * page
-
-        layoutParams.width = newWidth
-        id_page_indicator.layoutParams = layoutParams
-        id_page_indicator.requestLayout()
+        val progress = (page.toDouble() / mAdapter.count * 100).toInt()
+        ObjectAnimator.ofInt(id_page_progress, "progress", progress).apply {
+            duration = 200
+            interpolator = DecelerateInterpolator()
+        }.start()
     }
 }

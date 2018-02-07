@@ -9,5 +9,5 @@
     <dimen name="spacing_double">16dp</dimen>
     <dimen name="size_edit_text">18sp</dimen>
     <dimen name="prev_button_size">25dp</dimen>
-    <dimen name="page_indicator_height">8dp</dimen>
+    <dimen name="page_progress_height">8dp</dimen>
 </resources>

@@ -71,11 +71,15 @@
         android:textColor="@color/theme_color"
         tools:text="1/10"/>
 
-    <ImageView
-        android:id="@+id/id_page_indicator"
+    <ProgressBar
+        android:id="@+id/id_page_progress"
+        style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/page_indicator_height"
+        android:layout_height="@dimen/page_progress_height"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/theme_color" />
+        android:progressBackgroundTint="@android:color/transparent"
+        android:progressTint="@color/theme_color"
+        android:max="100"
+        tools:progress="50"/>
 
 </android.support.constraint.ConstraintLayout>
