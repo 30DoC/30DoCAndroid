@@ -1,0 +1,109 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:showIn="@layout/fragment_question">
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize"
+        android:paddingStart="@dimen/spacing_double"
+        android:paddingEnd="@dimen/spacing_double"
+        android:clipToPadding="false"
+        android:transitionGroup="true"
+        tools:ignore="UnusedAttribute,NewApi">
+        <EditText
+            android:id="@+id/first_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/first_question"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:textSize="@dimen/size_edit_text" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize"
+        android:paddingStart="@dimen/spacing_double"
+        android:paddingEnd="@dimen/spacing_double"
+        android:clipToPadding="false"
+        android:transitionGroup="true"
+        tools:ignore="UnusedAttribute,NewApi">
+        <EditText
+            android:id="@+id/second_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/second_question"
+            android:imeOptions="actionDone"
+            android:inputType="textNoSuggestions|textCapWords"
+            android:maxLength="1"
+            android:textSize="@dimen/size_edit_text" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize"
+        android:paddingStart="@dimen/spacing_double"
+        android:paddingEnd="@dimen/spacing_double"
+        android:clipToPadding="false"
+        android:transitionGroup="true"
+        tools:ignore="UnusedAttribute,NewApi">
+        <EditText
+            android:id="@+id/third_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/third_question"
+            android:imeOptions="actionDone"
+            android:inputType="textNoSuggestions|textCapWords"
+            android:maxLength="1"
+            android:textSize="@dimen/size_edit_text" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize"
+        android:paddingStart="@dimen/spacing_double"
+        android:paddingEnd="@dimen/spacing_double"
+        android:clipToPadding="false"
+        android:transitionGroup="true"
+        tools:ignore="UnusedAttribute,NewApi">
+        <EditText
+            android:id="@+id/fourth_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fourth_question"
+            android:imeOptions="actionDone"
+            android:inputType="textNoSuggestions|textCapWords"
+            android:maxLength="1"
+            android:textSize="@dimen/size_edit_text" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize"
+        android:paddingStart="@dimen/spacing_double"
+        android:paddingEnd="@dimen/spacing_double"
+        android:clipToPadding="false"
+        android:transitionGroup="true"
+        tools:ignore="UnusedAttribute,NewApi">
+        <EditText
+            android:id="@+id/fifth_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fifth_question"
+            android:imeOptions="actionDone"
+            android:inputType="textNoSuggestions|textCapWords"
+            android:maxLength="1"
+            android:textSize="@dimen/size_edit_text" />
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>
