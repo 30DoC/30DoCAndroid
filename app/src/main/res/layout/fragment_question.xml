@@ -9,7 +9,7 @@
         android:layout_width="@dimen/min_height_touch_target"
         android:layout_height="@dimen/min_height_touch_target"
         android:layout_gravity="center"
-        android:progressTint="@color/colorQuestionAccent"
+        android:progressTint="@color/theme_color"
         tools:ignore="UnusedAttribute" />
 
     <FrameLayout
