@@ -40,4 +40,9 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
     override fun loadQuiz() {
         mQuizView.setQuestions(mQuizzes)
     }
+
+    override fun submitMyAnswers() {
+        val result = 80
+        mQuizView.showResultScreen(result)
+    }
 }

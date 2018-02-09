@@ -29,7 +29,7 @@ interface APIService {
     fun observeChat(memberId: Long, chatId: Long, offset: Long) = 1
     fun sendAudioRecord(memberId: Long, chatId: Long, timestamp: Long) = 1
     fun quit(memberId: Long, chatId: Long) {}
-    fun postAnswers(memberId: Long, questionId: Long) = 100
+    fun submitMyAnswers(memberId: Long, questionId: Long) = 100
     fun chatJoinResponse(memberId: Long, chatId: Long, response: Boolean) {}
     fun updateMyQuestions(memberId: Long, questions: List<Quiz>) {}
 }

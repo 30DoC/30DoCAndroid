@@ -11,11 +11,13 @@ interface QuizContract {
     interface View: BaseView<Presenter> {
         fun printTextWithNumber(num: Int)
         fun setQuestions(questions: ArrayList<Quiz>)
+        fun showResultScreen(result: Int)
     }
 
     interface Presenter: BasePresenter<View> {
         fun init(memberId: Long)
         fun setQuizAnswer(index: Int, answer: Boolean)
         fun loadQuiz()
+        fun submitMyAnswers()
     }
 }

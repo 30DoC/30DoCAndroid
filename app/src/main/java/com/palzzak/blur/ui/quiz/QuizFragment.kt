@@ -30,20 +30,16 @@ class QuizFragment: Fragment() {
     }
 
     companion object {
-        fun create(quiz: Quiz, index: Int): QuizFragment {
-            return QuizFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable("quiz", quiz)
-                    putInt("index", index)
-                }
+        fun create(quiz: Quiz, index: Int) = QuizFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable("quiz", quiz)
+                putInt("index", index)
             }
         }
 
-        fun createFragments(quizzes: List<Quiz>): List<QuizFragment> {
-            return ArrayList<QuizFragment>().apply {
-                quizzes.map {
-                    add(create(it, quizzes.indexOf(it) + 1))
-                }
+        fun createFragments(quizzes: List<Quiz>) = ArrayList<QuizFragment>().apply {
+            quizzes.map {
+                add(create(it, quizzes.indexOf(it) + 1))
             }
         }
     }

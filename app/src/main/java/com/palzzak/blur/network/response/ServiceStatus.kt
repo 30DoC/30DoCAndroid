@@ -6,6 +6,6 @@ package com.palzzak.blur.network.response
 data class ServiceStatus(val status: String) {
     companion object {
         const val WAITING = "WAITING"
-        const val CHATTING = " CHATTING"
+        const val CHATTING = "CHATTING"
     }
 }

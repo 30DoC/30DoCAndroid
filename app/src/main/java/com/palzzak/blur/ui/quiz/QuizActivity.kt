@@ -1,11 +1,15 @@
 package com.palzzak.blur.ui.quiz
 
+import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
+import android.util.AttributeSet
 import android.view.View
+import android.view.animation.Animation
 import com.palzzak.blur.R
 import com.palzzak.blur.network.response.Quiz
 import com.palzzak.blur.util.Constants
@@ -18,7 +22,10 @@ import javax.inject.Inject
 import java.util.*
 import kotlin.collections.ArrayList
 import android.view.animation.DecelerateInterpolator
+import android.widget.ProgressBar
+import android.widget.TextView
 import com.palzzak.blur.util.AlertDialogFactory
+import kotlinx.android.synthetic.main.result_subactivity.*
 
 
 class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickListener {
@@ -29,7 +36,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
     lateinit var mSharedPrefs: SharedPreferences
 
     private val mAdapter = object: FragmentPagerAdapter(supportFragmentManager) {
-        var mFragments: List<QuizFragment> = arrayListOf()
+        var mFragments: List<Fragment> = arrayListOf()
         override fun getItem(position: Int): Fragment = mFragments[position]
         override fun getCount(): Int = mFragments.size
     }
@@ -85,7 +92,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
         }
         updatePageProgress(id_quiz_pager.currentItem + 1)
         if (id_quiz_pager.currentItem + 1 == id_quiz_pager.adapter.count) {
-            // TODO("GO TO RESULT SCREEN")
+            mQuizPresenter.submitMyAnswers()
         }
     }
 
@@ -101,5 +108,37 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
             duration = 200
             interpolator = DecelerateInterpolator()
         }.start()
+    }
+
+    override fun showResultScreen(result: Int) {
+        setContentView(R.layout.result_subactivity)
+        id_result_progress.mTextView = id_result_text
+
+        ObjectAnimator.ofInt(id_result_progress, "progress", result).apply {
+            duration = 2000
+            interpolator = DecelerateInterpolator()
+            addListener(object: Animator.AnimatorListener {
+                override fun onAnimationRepeat(animation: Animator?) {}
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    id_result_desc_text.visibility = View.INVISIBLE
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {}
+
+                override fun onAnimationStart(animation: Animator?) {}
+
+            })
+        }.start()
+
+    }
+}
+
+internal class ResultProgressBar(context: Context, attributeSet: AttributeSet): ProgressBar(context, attributeSet) {
+    var mTextView: TextView? = null
+
+    override fun setProgress(progress: Int) {
+        super.setProgress(progress)
+        mTextView?.text = "$progress%"
     }
 }

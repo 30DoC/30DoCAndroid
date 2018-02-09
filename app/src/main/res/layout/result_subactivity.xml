@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/intro_background">
+
+    <com.palzzak.blur.ui.quiz.ResultProgressBar
+        android:id="@+id/id_result_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:progressDrawable="@drawable/circular_progressbar"
+        android:max="100"
+        android:secondaryProgress="100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/id_result_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/id_result_progress"
+        app:layout_constraintEnd_toEndOf="@id/id_result_progress"
+        app:layout_constraintTop_toTopOf="@id/id_result_progress"
+        app:layout_constraintBottom_toBottomOf="@id/id_result_progress"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:textSize="50sp"
+        android:textColor="@android:color/white"
+        tools:text="100%" />
+
+    <TextView
+        android:id="@+id/id_result_desc_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.89"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
+        android:text="@string/result_desc"/>
+
+</android.support.constraint.ConstraintLayout>
