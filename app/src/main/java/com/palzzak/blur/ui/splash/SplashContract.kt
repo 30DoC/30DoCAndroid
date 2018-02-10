@@ -8,15 +8,13 @@ import com.palzzak.blur.BaseView
  */
 interface SplashContract {
     interface View: BaseView<Presenter> {
-        fun printText(text: String)
-        fun goToNextActivity(status: String)
+        fun setStatus(status: String)
         fun somethingIsWrong()
         fun saveIdPreference(mobileId: String, memberId: Long)
         fun showToast(s: String)
     }
 
     interface Presenter: BasePresenter<View> {
-        fun printInitialText()
         fun logIn(mobileId: String, memberId: Long)
     }
 }

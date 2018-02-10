@@ -22,13 +22,8 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
     @Inject
     lateinit var mAPIService: APIService
 
-    override fun printInitialText() {
-        mSplashView.printText("SPLASH")
-    }
-
     override fun logIn(mobileId: String, memberId: Long) {
         // Request log in to network module
-
         if (mobileId.isEmpty() || memberId == -1L) {
             val generatedMobileId = IdGenerator.createRandomId()
             val body = APIService.createSimpleRequestBody(generatedMobileId)
@@ -45,7 +40,7 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
                     } else {
                         mSplashView.saveIdPreference(generatedMobileId, resMemberId)
                         mSplashView.showToast("Logged in by ID : $resMemberId")
-                        mSplashView.goToNextActivity(ServiceStatus.WAITING)
+                        mSplashView.setStatus(ServiceStatus.WAITING)
                     }
                 }
             })
@@ -57,8 +52,8 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
                 }
 
                 override fun onResponse(call: Call<ServiceStatus>, response: Response<ServiceStatus>) {
-                    val resStatus = response.body()?.status ?: ServiceStatus.WAITING
-                    mSplashView.goToNextActivity(ServiceStatus.WAITING)
+                    val status = response.body()?.status ?: ServiceStatus.WAITING
+                    mSplashView.setStatus(status)
                 }
 
             })

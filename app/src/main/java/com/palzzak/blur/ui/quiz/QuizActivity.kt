@@ -23,6 +23,7 @@ import kotlin.collections.ArrayList
 import android.view.animation.DecelerateInterpolator
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.palzzak.blur.util.AlertDialogFactory
 import kotlinx.android.synthetic.main.result_subactivity.*
 
@@ -121,6 +122,11 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
 
                 override fun onAnimationEnd(animation: Animator?) {
                     id_result_desc_text.visibility = View.INVISIBLE
+                    Glide.with(this@QuizActivity)
+                            .asGif()
+                            .load(R.drawable.congratulation)
+                            .into(id_result_background_img)
+
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {}

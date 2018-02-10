@@ -7,10 +7,11 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 import android.content.Intent
 import android.content.SharedPreferences
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.palzzak.blur.ui.intro.IntroActivity
 import com.palzzak.blur.util.Constants
-import java.util.*
 
 
 /**
@@ -23,38 +24,52 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
     @Inject
     lateinit var mSharedPref: SharedPreferences
 
+    var mStatus = "null"
+
+    override fun setStatus(status: String) {
+        mStatus = status
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        mSplashPresenter.printInitialText()
         val mobileId = mSharedPref.getString(Constants.PREF_MOBILE_ID_KEY, "")
         val memberId = mSharedPref.getLong(Constants.PREF_MEMBER_ID_KEY, -1L)
         mSplashPresenter.logIn(mobileId, memberId)
+
+        val fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in).apply {
+            setAnimationListener(object: Animation.AnimationListener {
+                override fun onAnimationRepeat(animation: Animation?) {}
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    while (mStatus == "null") {
+                        mSplashPresenter.logIn(mobileId, memberId)
+                    }
+                    goToActivity(mStatus)
+                }
+
+                override fun onAnimationStart(animation: Animation?) {}
+
+            })
+        }
+        id_intro_image.startAnimation(fadeInAnimation)
     }
 
-    override fun printText(text: String) {
-        id_textview.text = text
+    private fun goToActivity(status: String) {
+        val intent = Intent().apply {
+            when (status) {
+                //ServiceStatus.CHATTING -> setClass(this@SplashActivity, ChatActivity::class,java)
+                else -> setClass(this@SplashActivity, IntroActivity::class.java)
+            }
+        }
+        startActivity(intent)
+        finish()
+
     }
 
     override fun showToast(s: String) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun goToNextActivity(status: String) {
-        var activity = IntroActivity::class.java
-
-//        if (status == ServiceStatus.CHATTING) {
-//            activity = ChatActivity::class.java
-//        }
-
-        Timer().schedule(object: TimerTask() {
-            override fun run() {
-                val intent = Intent(this@SplashActivity, activity)
-                startActivity(intent)
-                finish()
-            }
-        }, 3000)
     }
 
     override fun somethingIsWrong() {

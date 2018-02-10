@@ -4,8 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/intro_background">
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/id_result_background_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/intro_background"/>
 
     <com.palzzak.blur.ui.quiz.ResultProgressBar
         android:id="@+id/id_result_progress"
