@@ -5,6 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="theme_color">#8252eb</color>
     <color name="colorQuestionText">#8F57E0</color>
-    <color name="colorQuestionBefore">#C3C3C3</color>
+    <color name="colorQuestionBefore">#26333333</color>
     <color name="colorQuestionAfter">#333333</color>
 </resources>

@@ -9,7 +9,8 @@
     <dimen name="spacing_micro">8dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
     <dimen name="spacing_double">32dp</dimen>
-    <dimen name="size_edit_text">18sp</dimen>
+    <dimen name="size_edit_text">16sp</dimen>
+    <dimen name="size_question_description_text">20sp</dimen>
     <dimen name="prev_button_size">25dp</dimen>
     <dimen name="page_progress_height">8dp</dimen>
     <dimen name="quiz_text_size">24sp</dimen>
