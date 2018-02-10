@@ -15,11 +15,27 @@
         android:gravity="center"
         android:textSize="22sp"
         android:textColor="@android:color/white"
-        android:lineSpacingMultiplier="1.3"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/notosanskr_regular"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.49"
         tools:text="@string/quiz_description"/>
+
+    <TextView
+        android:id="@+id/id_desc_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/notosanskr_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.55"
+        android:text="@string/quiz_description_2" />
 
 </android.support.constraint.ConstraintLayout>

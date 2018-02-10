@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.Animation
 import com.palzzak.blur.R
 import com.palzzak.blur.network.response.Quiz
 import com.palzzak.blur.util.Constants
@@ -82,12 +81,12 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
                 if (id_quiz_pager.currentItem == 0) {
                     AlertDialogFactory.show(fragmentManager, Constants.DIALOG_TAG_QUIT)
                 } else {
-                    id_quiz_pager.currentItem = id_quiz_pager.currentItem - 1
+                    id_quiz_pager.setCurrentItem(id_quiz_pager.currentItem - 1, true)
                 }
             }
             else -> {
                 mQuizPresenter.setQuizAnswer(id_quiz_pager.currentItem, v.id == R.id.id_answer_true_button)
-                id_quiz_pager.currentItem = id_quiz_pager.currentItem + 1
+                id_quiz_pager.setCurrentItem(id_quiz_pager.currentItem + 1, true)
             }
         }
         updatePageProgress(id_quiz_pager.currentItem + 1)

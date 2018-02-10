@@ -3,8 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="theme_color">#8252eb</color>
+    <color name="colorTheme">#8252eb</color>
     <color name="colorQuestionText">#8F57E0</color>
     <color name="colorQuestionBefore">#26333333</color>
     <color name="colorQuestionAfter">#333333</color>
+    <color name="colorProgressBackground">#395850f8</color>
+    <color name="colorFont1">#4D11DB</color>
+    <color name="colorWhite70">#B3FFFFFF</color>
+    <color name="colorWhite20">#33FFFFFF</color>
 </resources>

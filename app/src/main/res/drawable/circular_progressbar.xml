@@ -6,13 +6,11 @@
             android:innerRadius="100dp"
             android:shape="ring"
             android:thickness="10dp"
-            android:useLevel="true">
+            android:tint="@color/colorProgressBackground" >
 
-            <gradient
-                android:centerColor="@android:color/transparent"
-                android:endColor="@android:color/transparent"
-                android:startColor="@android:color/transparent"
-                android:type="sweep" />
+            <corners
+                android:radius="5dp" />
+
         </shape>
     </item>
 
@@ -29,17 +27,14 @@
                 android:thickness="10dp"
                 android:useLevel="true">
 
-
-                <rotate
-                    android:fromDegrees="0"
-                    android:pivotX="50%"
-                    android:pivotY="50%"
-                    android:toDegrees="360" />
+                <corners
+                    android:radius="3dp" />
 
                 <gradient
                     android:startColor="#66c8bcf5"
                     android:endColor="@android:color/white"
                     android:type="sweep" />
+
 
             </shape>
         </rotate>
