@@ -1,5 +1,7 @@
 package com.palzzak.blur.di
 
+import com.palzzak.blur.ui.chat.ChatActivity
+import com.palzzak.blur.ui.chat.ChatModule
 import com.palzzak.blur.ui.intro.IntroActivity
 import com.palzzak.blur.ui.intro.IntroModule
 import com.palzzak.blur.ui.question.QuestionActivity
@@ -32,4 +34,8 @@ abstract class ActivityBindingModule {
     @PerActivity
     @ContributesAndroidInjector(modules = [IntroModule::class])
     abstract fun introActivity(): IntroActivity
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = [ChatModule::class])
+    abstract fun chatActivity(): ChatActivity
 }
