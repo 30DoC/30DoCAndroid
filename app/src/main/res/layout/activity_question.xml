@@ -9,7 +9,7 @@
     tools:context=".ui.question.QuestionActivity">
 
     <ImageView
-        android:id="@+id/id_prev_button"
+        android:id="@+id/back_button"
         android:layout_width="@dimen/prev_button_size"
         android:layout_height="@dimen/prev_button_size"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
         android:layout_marginTop="60dp"
         android:lineSpacingMultiplier="1.1"
         android:fontFamily="@font/notosanskr_regular"
-        android:textColor="@color/colorQuestionText"
+        android:textColor="@color/colorQuestionAfter"
         android:textSize="@dimen/size_question_description_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,23 +59,30 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/notosanskr_regular"
-                style="@style/EditTextStyle"
                 android:background="@drawable/edittext_bottom_line"
-                app:theme="@style/EditTextStyle"
                 android:hint="@string/first_question"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:textSize="@dimen/size_edit_text" />
 
             <Button
-                android:id="@+id/first_cancel_button"
+                android:id="@+id/first_o_button"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignEnd="@+id/first_question"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="42dp"
+                android:background="@drawable/o_gray_button" /> /
+
+            <Button
+                android:id="@+id/first_x_button"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignEnd="@+id/first_question"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="11dp"
-                android:background="@drawable/cancel_button" />
+                android:background="@drawable/x_gray_button" />
 
         </RelativeLayout>
 
@@ -95,23 +102,30 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/notosanskr_regular"
-                style="@style/EditTextStyle"
                 android:background="@drawable/edittext_bottom_line"
-                app:theme="@style/EditTextStyle"
                 android:hint="@string/second_question"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:textSize="@dimen/size_edit_text" />
 
             <Button
-                android:id="@+id/second_cancel_button"
+                android:id="@+id/second_o_button"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignEnd="@+id/second_question"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="42dp"
+                android:background="@drawable/o_gray_button" /> /
+
+            <Button
+                android:id="@+id/second_x_button"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignEnd="@+id/second_question"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="11dp"
-                android:background="@drawable/cancel_button" />
+                android:background="@drawable/x_gray_button" />
 
         </RelativeLayout>
 
@@ -131,23 +145,30 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/notosanskr_regular"
-                style="@style/EditTextStyle"
                 android:background="@drawable/edittext_bottom_line"
-                app:theme="@style/EditTextStyle"
                 android:hint="@string/third_question"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:textSize="@dimen/size_edit_text" />
 
             <Button
-                android:id="@+id/third_cancel_button"
+                android:id="@+id/third_o_button"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignEnd="@+id/third_question"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="42dp"
+                android:background="@drawable/o_gray_button" /> /
+
+            <Button
+                android:id="@+id/third_x_button"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignEnd="@+id/third_question"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="11dp"
-                android:background="@drawable/cancel_button" />
+                android:background="@drawable/x_gray_button" />
 
         </RelativeLayout>
 
@@ -167,23 +188,30 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/notosanskr_regular"
-                style="@style/EditTextStyle"
                 android:background="@drawable/edittext_bottom_line"
-                app:theme="@style/EditTextStyle"
                 android:hint="@string/fourth_question"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:textSize="@dimen/size_edit_text" />
 
             <Button
-                android:id="@+id/fourth_cancel_button"
+                android:id="@+id/fourth_o_button"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignEnd="@+id/fourth_question"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="42dp"
+                android:background="@drawable/o_gray_button" /> /
+
+            <Button
+                android:id="@+id/fourth_x_button"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignEnd="@+id/fourth_question"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="11dp"
-                android:background="@drawable/cancel_button" />
+                android:background="@drawable/x_gray_button" />
 
         </RelativeLayout>
 
@@ -203,23 +231,30 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/notosanskr_regular"
-                style="@style/EditTextStyle"
                 android:background="@drawable/edittext_bottom_line"
-                app:theme="@style/EditTextStyle"
                 android:hint="@string/fifth_question"
                 android:imeOptions="actionDone"
                 android:inputType="textCapWords"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:textSize="@dimen/size_edit_text" />
 
             <Button
-                android:id="@+id/fifth_cancel_button"
+                android:id="@+id/fifth_o_button"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignEnd="@+id/fifth_question"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="42dp"
+                android:background="@drawable/o_gray_button" /> /
+
+            <Button
+                android:id="@+id/fifth_x_button"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignEnd="@+id/fifth_question"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="11dp"
-                android:background="@drawable/cancel_button" />
+                android:background="@drawable/x_gray_button" />
 
         </RelativeLayout>
 
