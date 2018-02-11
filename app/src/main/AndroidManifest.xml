@@ -12,16 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.palzzak.blur.ui.splash.SplashActivity">
+        <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.palzzak.blur.ui.quiz.QuizActivity" />
-        <activity android:name="com.palzzak.blur.ui.question.QuestionActivity" />
-        <activity android:name="com.palzzak.blur.ui.intro.IntroActivity" />
+        <activity android:name=".ui.quiz.QuizActivity" />
+        <activity android:name=".ui.question.QuestionActivity" />
+        <activity android:name=".ui.intro.IntroActivity" />
+        <activity android:name=".ui.chat.ChatActivity" android:exported="true"/>
     </application>
 
 </manifest>

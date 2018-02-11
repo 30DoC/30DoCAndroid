@@ -8,12 +8,6 @@
         <item name="colorAccent">@color/colorTheme</item>
     </style>
 
-    <style name="ActionBarTheme" parent="Theme.AppCompat.Light">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorTheme</item>
-    </style>
-
     <style name="ButtonStyle0">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/button1_height</item>
