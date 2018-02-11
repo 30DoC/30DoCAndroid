@@ -9,23 +9,21 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.Animation
+import android.view.animation.DecelerateInterpolator
+import android.widget.ProgressBar
+import android.widget.TextView
 import com.palzzak.blur.R
 import com.palzzak.blur.network.response.Quiz
+import com.palzzak.blur.util.AlertDialogFactory
 import com.palzzak.blur.util.Constants
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_quiz.*
 import kotlinx.android.synthetic.main.activity_quiz_desc.*
+import kotlinx.android.synthetic.main.result_subactivity.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import javax.inject.Inject
 import java.util.*
-import kotlin.collections.ArrayList
-import android.view.animation.DecelerateInterpolator
-import android.widget.ProgressBar
-import android.widget.TextView
-import com.palzzak.blur.util.AlertDialogFactory
-import kotlinx.android.synthetic.main.result_subactivity.*
+import javax.inject.Inject
 
 
 class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickListener {
@@ -80,7 +78,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
         when (v.id) {
             R.id.id_prev_button -> {
                 if (id_quiz_pager.currentItem == 0) {
-                    AlertDialogFactory.show(fragmentManager, Constants.DIALOG_TAG_QUIT)
+                    AlertDialogFactory.show(fragmentManager, Constants.DIALOG_QUIZ_TAG_QUIT)
                 } else {
                     id_quiz_pager.currentItem = id_quiz_pager.currentItem - 1
                 }

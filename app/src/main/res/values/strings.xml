@@ -13,6 +13,8 @@
     <string name="fifth_question">겨울엔 호떡보다 붕어빵이다.</string>
     <string name="quit_quiz_title">정말 나가실건가요?</string>
     <string name="quit_quiz_message">처음부터 새로운 문제를 풀어야해요.</string>
+    <string name="quit_question_title">정말 나가실건가요?</string>
+    <string name="quit_question_message">처음부터 다시 질문을 등록해야해요.</string>
     <string name="yes">네</string>
     <string name="no">아니오</string>
     <string name="result_desc">결과를 분석중입니다...</string>
