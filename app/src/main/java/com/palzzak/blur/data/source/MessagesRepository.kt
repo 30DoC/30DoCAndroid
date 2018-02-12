@@ -10,7 +10,7 @@ class MessagesRepository: MessagesDataSource {
     @Inject
     lateinit var mMessagesLocalDataSource: MessagesDataSource
 
-    private val mCachedMessages: MutableMap<String, Message> = LinkedHashMap()
+    private val mCachedMessages: MutableMap<Long, Message> = LinkedHashMap()
 
     override fun getMessages(callback: MessagesDataSource.LoadMessagesCallback) {
         if (!mCachedMessages.isEmpty()) {
@@ -40,11 +40,11 @@ class MessagesRepository: MessagesDataSource {
     private fun refreshCache(messages: List<Message>){
         mCachedMessages.clear()
         messages.map {
-            mCachedMessages[it.mId] = it
+            mCachedMessages[it.mVoiceId] = it
         }
     }
 
-    override fun getMessage(id: String, callback: MessagesDataSource.GetMessageCallback) {
+    override fun getMessage(id: Long, callback: MessagesDataSource.GetMessageCallback) {
         val cachedMessage = getMessageById(id)
         if (cachedMessage != null) {
             callback.onMessageLoaded(cachedMessage)
@@ -56,13 +56,13 @@ class MessagesRepository: MessagesDataSource {
                 if (message == null) {
                     return
                 }
-                mCachedMessages[message.mId] = message
+                mCachedMessages[message.mVoiceId] = message
                 callback.onMessageLoaded(message)
             }
         })
     }
 
-    private fun getMessageById(id: String): Message? {
+    private fun getMessageById(id: Long): Message? {
         if (mCachedMessages.isEmpty()) {
             return null
         }
@@ -71,7 +71,7 @@ class MessagesRepository: MessagesDataSource {
 
     override fun saveMessage(message: Message) {
         mMessagesLocalDataSource.saveMessage(message)
-        mCachedMessages[message.mId] = message
+        mCachedMessages[message.mVoiceId] = message
     }
 
     override fun deleteAllMessages() {
@@ -79,7 +79,7 @@ class MessagesRepository: MessagesDataSource {
         mCachedMessages.clear()
     }
 
-    override fun deleteMessage(id: String) {
+    override fun deleteMessage(id: Long) {
         mMessagesLocalDataSource.deleteMessage(id)
         mCachedMessages.remove(id)
     }

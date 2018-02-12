@@ -12,8 +12,8 @@ interface MessageDao {
     @Query("SELECT * FROM Messages")
     fun getMessages(): List<Message>
 
-    @Query("SELECT * FROM Messages WHERE entryid = :id")
-    fun getMessageById(id: String): Message?
+    @Query("SELECT * FROM Messages WHERE voiceId = :id")
+    fun getMessageById(id: Long): Message?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMessage(message: Message)
@@ -21,8 +21,8 @@ interface MessageDao {
     @Update
     fun updateMessage(message: Message): Int
 
-    @Query("DELETE FROM Messages WHERE entryid = :id")
-    fun deleteMessageById(id: String): Int
+    @Query("DELETE FROM Messages WHERE voiceId = :id")
+    fun deleteMessageById(id: Long): Int
 
     @Query("DELETE FROM Messages")
     fun deleteMessages()

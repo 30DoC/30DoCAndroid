@@ -26,7 +26,7 @@ class MessagesLocalDataSource: MessagesDataSource {
         }
     }
 
-    override fun getMessage(id: String, callback: MessagesDataSource.GetMessageCallback) {
+    override fun getMessage(id: Long, callback: MessagesDataSource.GetMessageCallback) {
         launch(mCoroutineContexts.diskIO()){
             val message = mMessageDao.getMessageById(id)
             launch(UI) {
@@ -48,7 +48,7 @@ class MessagesLocalDataSource: MessagesDataSource {
         }
     }
 
-    override fun deleteMessage(id: String) {
+    override fun deleteMessage(id: Long) {
         launch(mCoroutineContexts.diskIO()) {
             mMessageDao.deleteMessageById(id)
             TODO("Delete audio file")

@@ -9,19 +9,31 @@ import android.arch.persistence.room.PrimaryKey
  */
 
 @Entity(tableName = "Messages")
-class Message(id: String, type: Int, date: Long, message: String) {
+class Message(
+        voiceId: Long,
+        fileName: String,
+        fileUrl: String,
+        regDate: String,
+        registId: Long,
+        roomId: Long) {
 
     @PrimaryKey
-    @ColumnInfo(name = "entryid")
-    var mId: String = id
+    @ColumnInfo(name = "voiceId")
+    var mVoiceId: Long = voiceId
 
-    @ColumnInfo(name = "type")
-    var mType: Int = type
+    @ColumnInfo(name = "filename")
+    var mFileName: String = fileName
 
-    @ColumnInfo(name = "date")
-    var mDate: Long = date
+    @ColumnInfo(name = "fileurl")
+    var mFileUrl: String = fileUrl
 
-    @ColumnInfo(name = "message")
-    var mMessage: String = message
+    @ColumnInfo(name = "regdate")
+    var mRegDate: String = regDate
+
+    @ColumnInfo(name = "registId")
+    var mRegistId: Long = registId
+
+    @ColumnInfo(name = "roomId")
+    var mRoomId: Long = roomId
 
 }

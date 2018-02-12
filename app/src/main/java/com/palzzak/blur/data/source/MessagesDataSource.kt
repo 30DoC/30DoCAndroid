@@ -16,11 +16,11 @@ interface MessagesDataSource {
 
     fun getMessages(callback: LoadMessagesCallback)
 
-    fun getMessage(id: String, callback: GetMessageCallback)
+    fun getMessage(id: Long, callback: GetMessageCallback)
 
     fun saveMessage(message: Message)
 
     fun deleteAllMessages()
 
-    fun deleteMessage(id: String)
+    fun deleteMessage(id: Long)
 }
