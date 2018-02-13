@@ -10,12 +10,12 @@ import com.palzzak.blur.network.response.Question
 
 interface QuestionContract {
     interface View: BasePresenter<View> {
+        fun printQuestionDescription()
         fun printEditText(num: Int)
         fun setQuestions(questions: ArrayList<Question>)
     }
 
     interface Presenter: BaseView<Presenter> {
-        fun printQuestionDescription()
-        fun loadInitialQuestionSet(memberId: Long)
+        fun init(memberId: Long)
     }
 }

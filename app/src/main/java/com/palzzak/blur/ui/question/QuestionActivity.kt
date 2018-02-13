@@ -1,210 +1,133 @@
 package com.palzzak.blur.ui.question
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
 import android.text.Html
 import android.text.Spanned
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View.OnFocusChangeListener
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ListView
 import com.palzzak.blur.R
 import com.palzzak.blur.network.response.Question
 import com.palzzak.blur.util.AlertDialogFactory
 import com.palzzak.blur.util.Constants
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_question.*
+import java.util.*
 import javax.inject.Inject
-
-
 
 
 /**
  * Created by stevehan on 2018. 2. 1..
  */
 class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.OnClickListener {
+
     @Inject
     lateinit var mQuestionPresenter: QuestionPresenter
 
+    @Inject
+    lateinit var mSharedPrefs: SharedPreferences
 
-    private val mAdapter = object : FragmentPagerAdapter(supportFragmentManager) {
-        var mFragments: List<Fragment> = arrayListOf()
-        override fun getItem(position: Int): Fragment = mFragments[position]
-        override fun getCount(): Int = mFragments.size
-    }
-
-
-    var isBlank1: Boolean = true
-    var isBlank2: Boolean = true
-    var isBlank3: Boolean = true
-    var isBlank4: Boolean = true
-    var isBlank5: Boolean = true
-
-
-    var firstCheck: Boolean = false
-    var secondCheck: Boolean = false
-    var thirdCheck: Boolean = false
-    var fourthCheck: Boolean = false
-    var fifthCheck: Boolean = false
-    var finalCheck: Boolean = false
+    private lateinit var myList: ListView
+    private lateinit var myAdapter: MyAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question)
 
-        var mBox = findViewById<TextView>(R.id.question_description)
-        var first = getResources().getString(R.string.question_description1)
-        var second = getResources().getString(R.string.question_description2)
+        mQuestionPresenter.init(mSharedPrefs.getLong(Constants.PREF_MEMBER_ID_KEY, -1L))
 
-        var text = "<strong>$first</strong>\n$second"
-        mBox.setText(fromHtml(text));
 
-        mQuestionPresenter.printQuestionDescription()
+        myList = findViewById(R.id.listView) as ListView
+        myList.itemsCanFocus = true
+        myAdapter = MyAdapter()
+        myList.adapter = myAdapter
+
+
         back_button.setOnClickListener(this)
-        first_o_button.setOnClickListener(this)
-        first_x_button.setOnClickListener(this)
-        second_o_button.setOnClickListener(this)
-        second_x_button.setOnClickListener(this)
-        third_o_button.setOnClickListener(this)
-        third_x_button.setOnClickListener(this)
-        fourth_o_button.setOnClickListener(this)
-        fourth_x_button.setOnClickListener(this)
-        fifth_o_button.setOnClickListener(this)
-        fifth_x_button.setOnClickListener(this)
         register_question_button.setOnClickListener(this)
     }
 
 
+    inner class MyAdapter : BaseAdapter() {
+        private val mInflater: LayoutInflater
+        var myItems = ArrayList<Question>()
+
+        init {
+            mInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            for (i in 0..9) {
+                val listItem = Question("", true, 0, Date(), Date())
+                myItems.add(listItem)
+            }
+            notifyDataSetChanged()
+        }
+
+        override fun getCount(): Int {
+            return myItems.size
+        }
+
+        override fun getItem(position: Int): Any {
+            return myItems.get(position)
+        }
+
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
+        }
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            var convertView = convertView
+            val holder: ViewHolder
+            if (convertView == null) {
+                holder = ViewHolder()
+                convertView = mInflater.inflate(R.layout.listview_btn_item, null)
+                holder.caption = convertView!!
+                        .findViewById(R.id.item_caption) as EditText
+                convertView.tag = holder
+                val myArray = resources.getStringArray(R.array.question_hints)
+                for (i in 0 until myArray.size) {
+                    holder.caption!!.setHint(myArray[i])
+                }
+            } else {
+                holder = convertView.tag as ViewHolder
+            }
+
+            holder.caption!!.id = position
+
+
+            holder.caption!!.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+                if (!hasFocus) {
+                    val position = v.id
+                    val Question = v as EditText
+                    myItems.get(position).question = Question.getText().toString()
+                }
+            }
+
+            return convertView
+        }
+    }
+
+    internal inner class ViewHolder {
+        var caption: EditText? = null
+        var btnO: Button? = null
+        var btnX: Button? = null
+    }
+
+
+
     override fun onClick(v: View) {
-        var getEditText1 = first_question.getText().toString();
-        var getEditText2 = second_question.getText().toString();
-        var getEditText3 = third_question.getText().toString();
-        var getEditText4 = fourth_question.getText().toString();
-        var getEditText5 = fifth_question.getText().toString();
 
         when (v.getId()) {
 
             R.id.back_button -> {
                 AlertDialogFactory.show(fragmentManager, Constants.DIALOG_QUESTION_TAG_QUIT)
             }
-
-            R.id.first_o_button -> {
-                isBlank1 = false
-                firstCheck = true
-                if (firstCheck) {
-                    first_o_button.setBackground(getDrawable(R.drawable.o_purple_button))
-                    first_x_button.setBackground(getDrawable(R.drawable.x_gray_button))
-                }
-            }
-
-            R.id.first_x_button -> {
-                isBlank1 = false
-                firstCheck = false
-                if (!firstCheck) {
-                    first_o_button.setBackground(getDrawable(R.drawable.o_gray_button))
-                    first_x_button.setBackground(getDrawable(R.drawable.x_purple_button))
-                }
-            }
-
-            R.id.second_o_button -> {
-                isBlank2 = false
-                secondCheck = true
-                if (secondCheck) {
-                    second_o_button.setBackground(getDrawable(R.drawable.o_purple_button))
-                    second_x_button.setBackground(getDrawable(R.drawable.x_gray_button))
-                }
-            }
-
-            R.id.second_x_button -> {
-                isBlank2 = false
-                secondCheck = false
-                if (!secondCheck) {
-                    second_o_button.setBackground(getDrawable(R.drawable.o_gray_button))
-                    second_x_button.setBackground(getDrawable(R.drawable.x_purple_button))
-                }
-            }
-
-            R.id.third_o_button -> {
-                isBlank3 = false
-                thirdCheck = true
-                if (thirdCheck) {
-                    third_o_button.setBackground(getDrawable(R.drawable.o_purple_button))
-                    third_x_button.setBackground(getDrawable(R.drawable.x_gray_button))
-                }
-            }
-
-            R.id.third_x_button -> {
-                isBlank3 = false
-                thirdCheck = false
-                if (!thirdCheck) {
-                    third_o_button.setBackground(getDrawable(R.drawable.o_gray_button))
-                    third_x_button.setBackground(getDrawable(R.drawable.x_purple_button))
-                }
-            }
-
-            R.id.fourth_o_button -> {
-                isBlank4 = false
-                fourthCheck = true
-                if (fourthCheck) {
-                    fourth_o_button.setBackground(getDrawable(R.drawable.o_purple_button))
-                    fourth_x_button.setBackground(getDrawable(R.drawable.x_gray_button))
-                }
-            }
-
-            R.id.fourth_x_button -> {
-                isBlank4 = false
-                fourthCheck = false
-                if (!fourthCheck) {
-                    fourth_o_button.setBackground(getDrawable(R.drawable.o_gray_button))
-                    fourth_x_button.setBackground(getDrawable(R.drawable.x_purple_button))
-                }
-            }
-
-            R.id.fifth_o_button -> {
-                isBlank5 = false
-                fifthCheck = true
-                if (fifthCheck) {
-                    fifth_o_button.setBackground(getDrawable(R.drawable.o_purple_button))
-                    fifth_x_button.setBackground(getDrawable(R.drawable.x_gray_button))
-                }
-            }
-
-            R.id.fifth_x_button -> {
-                isBlank5 = false
-                fifthCheck = false
-                if (!fifthCheck) {
-                    fifth_o_button.setBackground(getDrawable(R.drawable.o_gray_button))
-                    fifth_x_button.setBackground(getDrawable(R.drawable.x_purple_button))
-                }
-            }
-
-            R.id.register_question_button -> {
-                if ((getEditText1.equals("") || getEditText2.equals("") || getEditText3.equals("") || getEditText4.equals("") || getEditText5.equals(""))
-                        ||
-                        (isBlank1 || isBlank2 || isBlank3 || isBlank4 || isBlank5)
-                ) {
-                    Toast.makeText(this, "질문을 모두 등록한 후 제출해주세요.", Toast.LENGTH_SHORT).show()
-                }
-
-                else {
-
-                    if (finalCheck) {
-                        AlertDialogFactory.show(fragmentManager, Constants.DIALOG_QUESTION_TAG_QUIT)
-                    } else {
-                        finalCheck = true
-                        var finishButtonControl = register_question_button.getLayoutParams() as ConstraintLayout.LayoutParams
-                        finishButtonControl.width = 180
-                        finishButtonControl.height = 180
-                        register_question_button.setBackground(getDrawable(R.drawable.finish_register_button))
-                    }
-                }
-
-
-
-            }
-
         }
     }
 
@@ -219,6 +142,13 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
 
     override fun printEditText(num: Int) {
 
+    }
+
+    override fun printQuestionDescription() {
+        var first = getResources().getString(R.string.question_description1)
+        var second = getResources().getString(R.string.question_description2)
+        var text = "<strong>$first</strong>\n$second"
+        question_description.text = fromHtml(text)
     }
 
     override fun setQuestions(questions: ArrayList<Question>) {

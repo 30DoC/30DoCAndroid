@@ -19,4 +19,17 @@
     <string name="yes">네</string>
     <string name="no">아니오</string>
     <string name="result_desc">결과를 분석중입니다...</string>
+
+    <string-array name="question_hints">
+        <item>맥주보다 소주가 좋다.</item>
+        <item>막창 대창을 즐겨먹는다.</item>
+        <item>발라드보다 힙합을 좋아한다.</item>
+        <item>불현듯 떠나는 여행을 즐긴다.</item>
+        <item>겨울엔 호떡보다 붕어빵이다.</item>
+        <item>짜장면보다 짬뽕이 좋다.</item>
+        <item>이성 간에 친구가 될 수 있다.</item>
+        <item>나이 많은게 자랑이다.</item>
+        <item>밖에 안나가면 안씻는다.</item>
+        <item>라라랜드를 재밌게 봤다.</item>
+    </string-array>
 </resources>

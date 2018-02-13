@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,11 +11,11 @@
         android:id="@+id/back_button"
         android:layout_width="@dimen/prev_button_size"
         android:layout_height="@dimen/prev_button_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
-        android:src="@drawable/button_arrow_black"/>
+        android:layout_marginTop="15dp"
+        android:src="@drawable/button_arrow_black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/question_description"
@@ -24,8 +23,8 @@
         android:layout_height="70dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="60dp"
-        android:lineSpacingMultiplier="1.1"
         android:fontFamily="@font/notosanskr_regular"
+        android:lineSpacingMultiplier="1.1"
         android:textColor="@color/colorQuestionAfter"
         android:textSize="@dimen/size_question_description_text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,221 +41,11 @@
         android:orientation="vertical"
         tools:showIn="@layout/fragment_question">
 
-
-        <RelativeLayout
+        <ListView
+            android:id="@+id/listView"
+            android:layout_height="280dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:minHeight="?android:attr/actionBarSize"
-            android:paddingEnd="@dimen/spacing_double"
-            android:paddingStart="@dimen/spacing_double"
-            tools:ignore="UnusedAttribute,NewApi">
-
-            <EditText
-                android:id="@+id/first_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/notosanskr_regular"
-                android:background="@drawable/edittext_bottom_line"
-                android:hint="@string/first_question"
-                android:imeOptions="actionNext"
-                android:inputType="textCapWords"
-                android:paddingBottom="10dp"
-                android:textSize="@dimen/size_edit_text" />
-
-            <Button
-                android:id="@+id/first_o_button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@+id/first_question"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="42dp"
-                android:background="@drawable/o_gray_button" /> /
-
-            <Button
-                android:id="@+id/first_x_button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@+id/first_question"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="11dp"
-                android:background="@drawable/x_gray_button" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:minHeight="?android:attr/actionBarSize"
-            android:paddingEnd="@dimen/spacing_double"
-            android:paddingStart="@dimen/spacing_double"
-            tools:ignore="UnusedAttribute,NewApi">
-
-            <EditText
-                android:id="@+id/second_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/notosanskr_regular"
-                android:background="@drawable/edittext_bottom_line"
-                android:hint="@string/second_question"
-                android:imeOptions="actionNext"
-                android:inputType="textCapWords"
-                android:paddingBottom="10dp"
-                android:textSize="@dimen/size_edit_text" />
-
-            <Button
-                android:id="@+id/second_o_button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@+id/second_question"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="42dp"
-                android:background="@drawable/o_gray_button" /> /
-
-            <Button
-                android:id="@+id/second_x_button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@+id/second_question"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="11dp"
-                android:background="@drawable/x_gray_button" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:minHeight="?android:attr/actionBarSize"
-            android:paddingEnd="@dimen/spacing_double"
-            android:paddingStart="@dimen/spacing_double"
-            tools:ignore="UnusedAttribute,NewApi">
-
-            <EditText
-                android:id="@+id/third_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/notosanskr_regular"
-                android:background="@drawable/edittext_bottom_line"
-                android:hint="@string/third_question"
-                android:imeOptions="actionNext"
-                android:inputType="textCapWords"
-                android:paddingBottom="10dp"
-                android:textSize="@dimen/size_edit_text" />
-
-            <Button
-                android:id="@+id/third_o_button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@+id/third_question"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="42dp"
-                android:background="@drawable/o_gray_button" /> /
-
-            <Button
-                android:id="@+id/third_x_button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@+id/third_question"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="11dp"
-                android:background="@drawable/x_gray_button" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:minHeight="?android:attr/actionBarSize"
-            android:paddingEnd="@dimen/spacing_double"
-            android:paddingStart="@dimen/spacing_double"
-            tools:ignore="UnusedAttribute,NewApi">
-
-            <EditText
-                android:id="@+id/fourth_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/notosanskr_regular"
-                android:background="@drawable/edittext_bottom_line"
-                android:hint="@string/fourth_question"
-                android:imeOptions="actionNext"
-                android:inputType="textCapWords"
-                android:paddingBottom="10dp"
-                android:textSize="@dimen/size_edit_text" />
-
-            <Button
-                android:id="@+id/fourth_o_button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@+id/fourth_question"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="42dp"
-                android:background="@drawable/o_gray_button" /> /
-
-            <Button
-                android:id="@+id/fourth_x_button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@+id/fourth_question"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="11dp"
-                android:background="@drawable/x_gray_button" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:minHeight="?android:attr/actionBarSize"
-            android:paddingEnd="@dimen/spacing_double"
-            android:paddingStart="@dimen/spacing_double"
-            tools:ignore="UnusedAttribute,NewApi">
-
-            <EditText
-                android:id="@+id/fifth_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/notosanskr_regular"
-                android:background="@drawable/edittext_bottom_line"
-                android:hint="@string/fifth_question"
-                android:imeOptions="actionDone"
-                android:inputType="textCapWords"
-                android:paddingBottom="10dp"
-                android:textSize="@dimen/size_edit_text" />
-
-            <Button
-                android:id="@+id/fifth_o_button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@+id/fifth_question"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="42dp"
-                android:background="@drawable/o_gray_button" /> /
-
-            <Button
-                android:id="@+id/fifth_x_button"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignEnd="@+id/fifth_question"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="11dp"
-                android:background="@drawable/x_gray_button" />
-
-        </RelativeLayout>
+            android:descendantFocusability="beforeDescendants" />
 
     </LinearLayout>
 
