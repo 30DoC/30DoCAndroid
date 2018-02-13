@@ -30,7 +30,7 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View{
         mAdapter = ChatAdapter(memberId)
         id_chat_recycler.layoutManager = LinearLayoutManager(this)
         id_chat_recycler.adapter = mAdapter
-        mAdapter.mData = arrayListOf(Message(0, "1", "1", "1", 0, 0))
+        //mAdapter.mData = mChatPresenter.observeRoom(roomId, offset)
         mAdapter.notifyDataSetChanged()
     }
 }

@@ -2,34 +2,58 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
 
-    <android.support.constraint.ConstraintLayout
+    <ImageView
+        android:id="@+id/id_chat_balloon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:src="@drawable/chat_white">
+    </ImageView>
 
-        <ImageView
-            android:id="@+id/id_chat_balloon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/chat_purple">
-        </ImageView>
+    <ImageView
+        android:id="@+id/id_chat_control"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/id_chat_balloon"
+        app:layout_constraintBottom_toBottomOf="@id/id_chat_balloon"
+        app:layout_constraintStart_toStartOf="@id/id_chat_balloon"
+        app:layout_constraintEnd_toStartOf="@id/id_chat_length"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        android:src="@drawable/play_purple"/>
 
-        <ImageView
-            android:id="@+id/id_chat_control"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/id_chat_balloon"
-            app:layout_constraintBottom_toBottomOf="@id/id_chat_balloon"
-            app:layout_constraintStart_toStartOf="@id/id_chat_balloon"
-            app:layout_constraintEnd_toEndOf="@id/id_chat_balloon"
-            app:layout_constraintHorizontal_bias="0.05"
-            android:src="@drawable/play_white"/>
+    <TextView
+        android:id="@+id/id_chat_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/id_chat_balloon"
+        app:layout_constraintBottom_toBottomOf="@id/id_chat_balloon"
+        app:layout_constraintStart_toEndOf="@id/id_chat_control"
+        app:layout_constraintEnd_toStartOf="@id/id_chat_progress"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="2"
+        android:textSize="11sp"
+        android:textColor="@color/theme_text"
+        android:text="00:00" />
 
-
-    </android.support.constraint.ConstraintLayout>
+    <ProgressBar
+        android:id="@+id/id_chat_progress"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:progressTint="@color/theme_text"
+        android:max="100"
+        android:progress="20"
+        app:layout_constraintTop_toTopOf="@id/id_chat_balloon"
+        app:layout_constraintBottom_toBottomOf="@id/id_chat_balloon"
+        app:layout_constraintStart_toEndOf="@id/id_chat_length"
+        app:layout_constraintEnd_toEndOf="@id/id_chat_balloon"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="3"
+        tools:progress="20"/>
 
 
 </android.support.constraint.ConstraintLayout>

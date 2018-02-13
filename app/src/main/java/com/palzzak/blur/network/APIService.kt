@@ -1,11 +1,13 @@
 package com.palzzak.blur.network
 
 import com.palzzak.blur.network.response.Quiz
+import com.palzzak.blur.network.response.QuizSet
 import com.palzzak.blur.network.response.ServiceStatus
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -25,7 +27,9 @@ interface APIService {
     @POST("/api/v1/member/observeStatus")
     fun observeStatus(@Body memberId: RequestBody): Call<ServiceStatus>
 
-    fun getQuestions(memberId: Long): Call<List<Quiz>>
+    @GET("/api/v1/quiz/randomQuiz")
+    fun randomQuiz(): Call<QuizSet>
+
     fun observeChat(memberId: Long, chatId: Long, offset: Long) = 1
     fun sendAudioRecord(memberId: Long, chatId: Long, timestamp: Long) = 1
     fun quit(memberId: Long, chatId: Long) {}

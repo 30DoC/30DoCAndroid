@@ -3,7 +3,10 @@ package com.palzzak.blur.ui.quiz
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.network.response.Quiz
-import java.util.*
+import com.palzzak.blur.network.response.QuizSet
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -17,20 +20,22 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
 
     @Inject
     lateinit var mAPIService: APIService
-    private lateinit var mQuizzes: ArrayList<Quiz>
+    private lateinit var mQuizSet: QuizSet
     private val mAnswers = mutableMapOf<Int, Boolean>()
 
 
     override fun init(memberId: Long) {
-        //mQuizzes = mAPIService.getQuestions(memberId)
-        mQuizzes = arrayListOf(
-                Quiz(true, "너는 사람입니까?", 0, Date(), Date()),
-                Quiz(true, "여자입니까?", 0, Date(), Date()),
-                Quiz(true, "뭘봐요?", 0, Date(), Date()),
-                Quiz(true, "키득키득?", 0, Date(), Date()),
-                Quiz(true, "야 이거 최대로다가 텍스트 길이를 길게 써버리면 퀴즈 뷰에 어떻게 표시될까 넘나 궁금한 부분인 것을 함 테스트로서 재현해보자.", 0, Date(), Date())
-        )
-        mQuizView.printTextWithNumber(mQuizzes.size)
+        val call = mAPIService.randomQuiz()
+        call.enqueue(object: Callback<QuizSet> {
+            override fun onFailure(call: Call<QuizSet>?, t: Throwable?) {
+            }
+
+            override fun onResponse(call: Call<QuizSet>?, response: Response<QuizSet>?) {
+                mQuizSet = response?.body()!!
+                mQuizView.printTextWithNumber(mQuizSet.quizList.size)
+            }
+
+        })
     }
 
     override fun setQuizAnswer(index: Int, answer: Boolean) {
@@ -38,7 +43,7 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
     }
 
     override fun loadQuiz() {
-        mQuizView.setQuestions(mQuizzes)
+        mQuizView.setQuestions(mQuizSet)
     }
 
     override fun submitMyAnswers() {

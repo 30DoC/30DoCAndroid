@@ -15,6 +15,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.palzzak.blur.R
 import com.palzzak.blur.network.response.Quiz
+import com.palzzak.blur.network.response.QuizSet
 import com.palzzak.blur.util.AlertDialogFactory
 import com.palzzak.blur.util.Constants
 import dagger.android.support.DaggerAppCompatActivity
@@ -72,37 +73,44 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
         id_answer_true_button.setOnClickListener(this)
 
         mQuizPresenter.loadQuiz()
-        updatePageProgress(1)
+        updatePageProgress(0)
     }
 
     override fun onClick(v: View) {
+
         when (v.id) {
             R.id.id_prev_button -> {
                 if (id_quiz_pager.currentItem == 0) {
                     AlertDialogFactory.show(fragmentManager, Constants.DIALOG_QUIZ_TAG_QUIT)
                 } else {
-                    id_quiz_pager.setCurrentItem(id_quiz_pager.currentItem - 1, true)
+                    setCurrentItem(id_quiz_pager.currentItem - 1)
                 }
             }
             else -> {
                 mQuizPresenter.setQuizAnswer(id_quiz_pager.currentItem, v.id == R.id.id_answer_true_button)
-                id_quiz_pager.setCurrentItem(id_quiz_pager.currentItem + 1, true)
+                if (id_quiz_pager.currentItem + 1 >= id_quiz_pager.adapter.count) {
+                    mQuizPresenter.submitMyAnswers()
+                } else {
+                    setCurrentItem(id_quiz_pager.currentItem + 1)
+                }
             }
-        }
-        updatePageProgress(id_quiz_pager.currentItem + 1)
-        if (id_quiz_pager.currentItem + 1 == id_quiz_pager.adapter.count) {
-            mQuizPresenter.submitMyAnswers()
         }
     }
 
-    override fun setQuestions(questions: ArrayList<Quiz>) {
-        mAdapter.mFragments = QuizFragment.createFragments(questions)
+    override fun setQuestions(quizSet: QuizSet) {
+        mAdapter.mFragments = QuizFragment.createFragments(quizSet.quizList)
         mAdapter.notifyDataSetChanged()
     }
 
+    private fun setCurrentItem(page: Int) {
+        id_quiz_pager.currentItem = page
+        updatePageProgress(page)
+    }
+
     private fun updatePageProgress(page: Int) {
-        id_page_number_text.text = "${page}/${id_quiz_pager.adapter.count}"
-        val progress = (page.toDouble() / mAdapter.count * 100).toInt()
+        val oneBasedPage = page + 1
+        id_page_number_text.text = "${oneBasedPage}/${id_quiz_pager.adapter.count}"
+        val progress = (oneBasedPage.toDouble() / mAdapter.count * 100).toInt()
         ObjectAnimator.ofInt(id_page_progress, "progress", progress).apply {
             duration = 200
             interpolator = DecelerateInterpolator()

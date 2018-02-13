@@ -11,4 +11,5 @@
     <color name="colorFont1">#4D11DB</color>
     <color name="colorWhite70">#B3FFFFFF</color>
     <color name="colorWhite20">#33FFFFFF</color>
+    <color name="theme_text">#734ff0</color>
 </resources>

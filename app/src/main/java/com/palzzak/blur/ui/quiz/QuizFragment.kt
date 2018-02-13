@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.palzzak.blur.R
-import com.palzzak.blur.network.response.Quiz
+import com.palzzak.blur.network.response.SimpleQuiz
 
 /**
  * Created by jaeyoonyoo on 2018. 2. 6..
  */
 class QuizFragment: Fragment() {
-    private lateinit var mQuiz: Quiz
+    private lateinit var mQuiz: SimpleQuiz
     private var mIndex = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,14 +30,14 @@ class QuizFragment: Fragment() {
     }
 
     companion object {
-        fun create(quiz: Quiz, index: Int) = QuizFragment().apply {
+        fun create(quiz: SimpleQuiz, index: Int) = QuizFragment().apply {
             arguments = Bundle().apply {
                 putParcelable("quiz", quiz)
                 putInt("index", index)
             }
         }
 
-        fun createFragments(quizzes: List<Quiz>) = ArrayList<QuizFragment>().apply {
+        fun createFragments(quizzes: List<SimpleQuiz>) = ArrayList<QuizFragment>().apply {
             quizzes.map {
                 add(create(it, quizzes.indexOf(it) + 1))
             }

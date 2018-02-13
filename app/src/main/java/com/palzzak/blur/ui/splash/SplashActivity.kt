@@ -12,6 +12,8 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.palzzak.blur.ui.intro.IntroActivity
 import com.palzzak.blur.util.Constants
+import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.withTimeout
 
 
 /**
@@ -43,10 +45,19 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
                 override fun onAnimationRepeat(animation: Animation?) {}
 
                 override fun onAnimationEnd(animation: Animation?) {
-                    while (mStatus == "null") {
-                        mSplashPresenter.logIn(mobileId, memberId)
+                    runBlocking {
+                        withTimeout(3000L) {
+                            while (mStatus == "null") {
+                                mSplashPresenter.logIn(mobileId, memberId)
+                            }
+                        }
                     }
-                    goToActivity(mStatus)
+                    if (mStatus == "null") {
+                        Toast.makeText(this@SplashActivity, "Connection failed", Toast.LENGTH_SHORT).show()
+                        finish()
+                    } else {
+                        goToActivity(mStatus)
+                    }
                 }
 
                 override fun onAnimationStart(animation: Animation?) {}
