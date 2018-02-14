@@ -19,7 +19,7 @@ class QuestionPresenter @Inject constructor(): QuestionContract.Presenter {
 
     override fun init(memberId: Long) {
         //mQuestions = mAPIService.getQuestions(memberId)
-        mQuestionView.printQuestionDescription()
+        mQuestionView.printDescription()
     }
 
 
