@@ -37,7 +37,6 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:descendantFocusability="blocksDescendants"
         android:gravity="center"
         android:orientation="vertical"
         tools:showIn="@layout/fragment_question">
@@ -46,7 +45,7 @@
             android:id="@+id/listView"
             android:layout_height="280dp"
             android:layout_width="match_parent"
-            android:descendantFocusability="beforeDescendants" />
+            android:descendantFocusability="blocksDescendants" />
 
     </LinearLayout>
 

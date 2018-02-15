@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.text.Html
 import android.text.Spanned
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,35 +63,35 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
 
 
 
-        myList.onItemClickListener = AdapterView.OnItemClickListener {
-            parent, view, position, id ->
-
-            run {
-                var item = parent.getItemAtPosition(position)
-                Log.e(item.toString(), "fuckckckk")
-                when(view.getId()) {
-                    R.id.o_button -> {
-                        buttonO = true
-                        buttonUnchecked = false
-
-                        if (buttonO) {
-                            o_button.setBackground(getDrawable(R.drawable.o_purple_button))
-                            x_button.setBackground(getDrawable(R.drawable.x_gray_button))
-                        }
-                    }
-
-                    R.id.x_button -> {
-                        buttonO = false
-                        buttonUnchecked = false
-
-                        if (!buttonO) {
-                            o_button.setBackground(getDrawable(R.drawable.o_gray_button))
-                            x_button.setBackground(getDrawable(R.drawable.x_purple_button))
-                        }
-                    }
-                }
-            }
-        }
+//        myList.onItemClickListener = AdapterView.OnItemClickListener {
+//            parent, view, position, id ->
+//
+//            run {
+//                var item = parent.getItemAtPosition(position)
+//                Log.e(item.toString(), "fuckckckk")
+//                when(view.getId()) {
+//                    R.id.o_button -> {
+//                        buttonO = true
+//                        buttonUnchecked = false
+//
+//                        if (buttonO) {
+//                            o_button.setBackground(getDrawable(R.drawable.o_purple_button))
+//                            x_button.setBackground(getDrawable(R.drawable.x_gray_button))
+//                        }
+//                    }
+//
+//                    R.id.x_button -> {
+//                        buttonO = false
+//                        buttonUnchecked = false
+//
+//                        if (!buttonO) {
+//                            o_button.setBackground(getDrawable(R.drawable.o_gray_button))
+//                            x_button.setBackground(getDrawable(R.drawable.x_purple_button))
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
 
@@ -145,9 +144,42 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
             holder.oButton!!.tag = position
             holder.xButton!!.tag = position
 
+            holder.oButton!!.setOnClickListener { view ->
+                run {
+                    when(view.getId()) {
+                        R.id.o_button -> {
+                            buttonO = true
+                            buttonUnchecked = false
 
-            holder.oButton!!.setOnClickListener({ view -> (parent as ListView).performItemClick(view, position, (R.id.o_button).toLong())})
-            holder.xButton!!.setOnClickListener({ view -> (parent as ListView).performItemClick(view, position, (R.id.x_button).toLong())})
+                            if (buttonO) {
+                                o_button.setBackground(getDrawable(R.drawable.o_purple_button))
+                                x_button.setBackground(getDrawable(R.drawable.x_gray_button))
+                            }
+                        }
+                    }
+                }
+            }
+
+            holder.xButton!!.setOnClickListener { view ->
+                run {
+                    when(view.getId()) {
+                        R.id.x_button -> {
+                            buttonO = false
+                            buttonUnchecked = false
+
+                            if (!buttonO) {
+                                o_button.setBackground(getDrawable(R.drawable.o_gray_button))
+                                x_button.setBackground(getDrawable(R.drawable.x_purple_button))
+                            }
+                        }
+                    }
+                }
+            }
+
+
+//            holder.oButton!!.setOnClickListener({ view -> (parent as ListView).performItemClick(view, position, (R.id.o_button).toLong())})
+//            holder.xButton!!.setOnClickListener({ view -> (parent as ListView).performItemClick(view, position, (R.id.x_button).toLong())})
+
 
 
             if (myItems.get(position).question.equals("")) isBlank = true
