@@ -2,7 +2,7 @@ package com.palzzak.blur.ui.question
 
 import com.palzzak.blur.BasePresenter
 import com.palzzak.blur.BaseView
-import com.palzzak.blur.network.response.Question
+import com.palzzak.blur.network.response.SimpleQuiz
 
 /**
  * Created by stevehan on 2018. 2. 1..
@@ -10,12 +10,10 @@ import com.palzzak.blur.network.response.Question
 
 interface QuestionContract {
     interface View: BasePresenter<View> {
-        fun printEditText(num: Int)
-        fun setQuestions(questions: ArrayList<Question>)
+        fun setQuestions(questions: List<SimpleQuiz>)
     }
 
     interface Presenter: BaseView<Presenter> {
-        fun printQuestionDescription()
         fun loadInitialQuestionSet(memberId: Long)
     }
 }

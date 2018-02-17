@@ -3,12 +3,11 @@ package com.palzzak.blur.network
 import com.palzzak.blur.network.response.Quiz
 import com.palzzak.blur.network.response.QuizSet
 import com.palzzak.blur.network.response.ServiceStatus
+import com.palzzak.blur.network.response.SimpleQuiz
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by jaeyoonyoo on 2018. 1. 12..
@@ -29,6 +28,10 @@ interface APIService {
 
     @GET("/api/v1/quiz/randomQuiz")
     fun randomQuiz(): Call<QuizSet>
+
+    @FormUrlEncoded
+    @POST("/api/v1/quiz/inquireQuiz")
+    fun inquireQuiz(@Field("userId") memberId: Long): Call<List<SimpleQuiz>>
 
     fun observeChat(memberId: Long, chatId: Long, offset: Long) = 1
     fun sendAudioRecord(memberId: Long, chatId: Long, timestamp: Long) = 1
