@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
+import android.text.Editable
 import android.text.Html
 import android.text.Spanned
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,20 +63,12 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
                     Date()
             ))
         }
-
+ 
         myAdapter = MyAdapter(this, mCareList)
 
 
         mListView.adapter = myAdapter
 
-        mListView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, position, long ->
-            Toast.makeText(
-                    applicationContext,
-                    "ITEM CLICK = " + position,
-                    Toast.LENGTH_SHORT
-            ).show()
-
-        }
 
 
         back_button.setOnClickListener(this)
@@ -87,11 +81,34 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
         private val mInflater: LayoutInflater
         var myItems = mCareList
 
+        var questionTextMap = HashMap<Int, String>()
+        var buttonCheckedMap = HashMap<Int, Boolean?>()
+
+
 
         init {
             mInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            for (i in 0..9) {
+                questionTextMap[i] = ""
+                buttonCheckedMap[i] = null
+            }
             notifyDataSetChanged()
         }
+
+        fun checkEdittextFull(): Boolean {
+            for (entry in questionTextMap) {
+                if (entry.value.equals("")) return false
+            }
+            return true
+        }
+
+        fun checkOXisFull(): Boolean {
+            for (entry in buttonCheckedMap) {
+                if (entry.value == null) return false
+            }
+            return true
+        }
+
 
         override fun getCount(): Int {
             return myItems.size
@@ -130,18 +147,21 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
             }
 
 
+            holder.caption!!.setText(questionTextMap!!.get(position))
             holder.caption!!.hint = myArray[position]
 
-            holder.oButton!!.tag = position
-            holder.xButton!!.tag = position
+            holder.oButton!!.tag = buttonCheckedMap!!.get(position)
+            holder.xButton!!.tag = buttonCheckedMap!!.get(position)
 
 
             var buttonClickListener = View.OnClickListener { v ->
 
                 when (v.id) {
+
                     R.id.o_button -> {
                         buttonO = true
-                        buttonUnchecked = false
+                        buttonCheckedMap.put(position, buttonO)
+                        checkOXisFull()
 
                         if (buttonO) {
                             holder.oButton!!.setBackground(getDrawable(R.drawable.o_purple_button))
@@ -151,7 +171,8 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
 
                     R.id.x_button -> {
                         buttonO = false
-                        buttonUnchecked = false
+                        buttonCheckedMap.put(position, buttonO)
+                        checkOXisFull()
 
                         if (!buttonO) {
                             holder.oButton!!.setBackground(getDrawable(R.drawable.o_gray_button))
@@ -165,8 +186,22 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
             holder.oButton!!.setOnClickListener(buttonClickListener)
             holder.xButton!!.setOnClickListener(buttonClickListener)
 
+            holder.caption!!.addTextChangedListener(object : TextWatcher {
 
-            if (myItems.get(position).question.equals("")) isBlank = true
+                override fun onTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
+
+                }
+
+                override fun beforeTextChanged(arg0: CharSequence, arg1: Int, arg2: Int,
+                                               arg3: Int) {
+                }
+
+                override fun afterTextChanged(arg0: Editable) {
+                    questionTextMap.put(position, holder.caption!!.getText().toString())
+
+                }
+            })
+
 
             return convertView
         }
@@ -187,16 +222,15 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
 
         when (v.getId()) {
 
+
             R.id.back_button -> {
                 AlertDialogFactory.show(fragmentManager, Constants.DIALOG_QUESTION_TAG_QUIT)
             }
 
 
             R.id.register_question_button -> {
-                if (isBlank || buttonUnchecked) {
-                    Toast.makeText(this, "질문을 모두 등록한 후 제출해주세요.", Toast.LENGTH_SHORT).show()
-                } else {
 
+                if (myAdapter.checkEdittextFull() && myAdapter.checkOXisFull()) {
                     if (buttonRegister) {
                         AlertDialogFactory.show(fragmentManager, Constants.DIALOG_QUESTION_TAG_QUIT)
                     } else {
@@ -207,6 +241,9 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
                         register_question_button.setBackground(getDrawable(R.drawable.finish_register_button))
                     }
 
+                } else {
+
+                    Toast.makeText(this, "질문을 모두 등록한 후 제출해주세요.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
