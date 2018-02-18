@@ -16,13 +16,9 @@ import com.palzzak.blur.util.AlertDialogFactory
 import com.palzzak.blur.util.Constants
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_question.*
-import kotlinx.android.synthetic.main.listview_btn_item.*
 import java.util.*
 import javax.inject.Inject
-
-
-
-
+import kotlin.collections.ArrayList
 
 
 /**
@@ -36,8 +32,11 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
     @Inject
     lateinit var mSharedPrefs: SharedPreferences
 
-    private lateinit var myList: ListView
+    private lateinit var mListView: ListView
     private lateinit var myAdapter: MyAdapter
+
+    private var mCareList: ArrayList<Question> = ArrayList()
+
 
     var isBlank: Boolean = false
     var buttonO: Boolean = false
@@ -51,63 +50,46 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
 
         mQuestionPresenter.init(mSharedPrefs.getLong(Constants.PREF_MEMBER_ID_KEY, -1L))
 
+        mListView = findViewById(R.id.listView)
 
-        myList = findViewById(R.id.listView) as ListView
-//        myList.itemsCanFocus = true
-        myAdapter = MyAdapter()
-        myList.setAdapter(myAdapter)
+        for (i in 0..9) {
+            mCareList.add(Question(
+                    i.toString() + "번째" + " 질문입니다.",
+                    true,
+                    i,
+                    Date(),
+                    Date()
+            ))
+        }
+
+        myAdapter = MyAdapter(this, mCareList)
+
+
+        mListView.adapter = myAdapter
+
+        mListView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, position, long ->
+            Toast.makeText(
+                    applicationContext,
+                    "ITEM CLICK = " + position,
+                    Toast.LENGTH_SHORT
+            ).show()
+
+        }
 
 
         back_button.setOnClickListener(this)
         register_question_button.setOnClickListener(this)
-
-
-
-//        myList.onItemClickListener = AdapterView.OnItemClickListener {
-//            parent, view, position, id ->
-//
-//            run {
-//                var item = parent.getItemAtPosition(position)
-//                Log.e(item.toString(), "fuckckckk")
-//                when(view.getId()) {
-//                    R.id.o_button -> {
-//                        buttonO = true
-//                        buttonUnchecked = false
-//
-//                        if (buttonO) {
-//                            o_button.setBackground(getDrawable(R.drawable.o_purple_button))
-//                            x_button.setBackground(getDrawable(R.drawable.x_gray_button))
-//                        }
-//                    }
-//
-//                    R.id.x_button -> {
-//                        buttonO = false
-//                        buttonUnchecked = false
-//
-//                        if (!buttonO) {
-//                            o_button.setBackground(getDrawable(R.drawable.o_gray_button))
-//                            x_button.setBackground(getDrawable(R.drawable.x_purple_button))
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 
 
-
-
-    inner class MyAdapter : BaseAdapter() {
+    inner class MyAdapter(questionActivity: QuestionActivity, mCareList: ArrayList<Question>) : BaseAdapter() {
 
         private val mInflater: LayoutInflater
-        var myItems = ArrayList<Question>()
+        var myItems = mCareList
+
 
         init {
             mInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            for (i in 0..9) {
-                val listItem = Question("", true, i, Date(), Date())
-                myItems.add(listItem)
-            }
             notifyDataSetChanged()
         }
 
@@ -123,13 +105,22 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
             return position.toLong()
         }
 
+        override fun getViewTypeCount(): Int {
+            return count
+        }
+
+        override fun getItemViewType(position: Int): Int {
+            return position
+        }
+
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             var convertView = convertView
-            val holder: ViewHolder
             val myArray = resources.getStringArray(R.array.question_hints)
+            var holder: ViewHolder
+
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.listview_btn_item, null)
                 holder = ViewHolder()
+                convertView = mInflater.inflate(R.layout.listview_btn_item, null)
                 holder.caption = convertView!!.findViewById(R.id.item_caption) as? EditText
                 holder.oButton = convertView!!.findViewById(R.id.o_button) as? Button
                 holder.xButton = convertView!!.findViewById(R.id.x_button) as? Button
@@ -139,47 +130,40 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
             }
 
 
-            holder.caption!!.id = position
             holder.caption!!.hint = myArray[position]
+
             holder.oButton!!.tag = position
             holder.xButton!!.tag = position
 
-            holder.oButton!!.setOnClickListener { view ->
-                run {
-                    when(view.getId()) {
-                        R.id.o_button -> {
-                            buttonO = true
-                            buttonUnchecked = false
 
-                            if (buttonO) {
-                                o_button.setBackground(getDrawable(R.drawable.o_purple_button))
-                                x_button.setBackground(getDrawable(R.drawable.x_gray_button))
-                            }
+            var buttonClickListener = View.OnClickListener { v ->
+
+                when (v.id) {
+                    R.id.o_button -> {
+                        buttonO = true
+                        buttonUnchecked = false
+
+                        if (buttonO) {
+                            holder.oButton!!.setBackground(getDrawable(R.drawable.o_purple_button))
+                            holder.xButton!!.setBackground(getDrawable(R.drawable.x_gray_button))
                         }
                     }
-                }
-            }
 
-            holder.xButton!!.setOnClickListener { view ->
-                run {
-                    when(view.getId()) {
-                        R.id.x_button -> {
-                            buttonO = false
-                            buttonUnchecked = false
+                    R.id.x_button -> {
+                        buttonO = false
+                        buttonUnchecked = false
 
-                            if (!buttonO) {
-                                o_button.setBackground(getDrawable(R.drawable.o_gray_button))
-                                x_button.setBackground(getDrawable(R.drawable.x_purple_button))
-                            }
+                        if (!buttonO) {
+                            holder.oButton!!.setBackground(getDrawable(R.drawable.o_gray_button))
+                            holder.xButton!!.setBackground(getDrawable(R.drawable.x_purple_button))
                         }
                     }
                 }
             }
 
 
-//            holder.oButton!!.setOnClickListener({ view -> (parent as ListView).performItemClick(view, position, (R.id.o_button).toLong())})
-//            holder.xButton!!.setOnClickListener({ view -> (parent as ListView).performItemClick(view, position, (R.id.x_button).toLong())})
-
+            holder.oButton!!.setOnClickListener(buttonClickListener)
+            holder.xButton!!.setOnClickListener(buttonClickListener)
 
 
             if (myItems.get(position).question.equals("")) isBlank = true
@@ -187,42 +171,15 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
             return convertView
         }
 
-//        override fun onClick(v: View) {
-//
-//            when (v.getId())  {
-//                R.id.o_button -> {
-//                    buttonO = true
-//                    buttonUnchecked = false
-//
-//                    if (buttonO) {
-//                        o_button.setBackground(getDrawable(R.drawable.o_purple_button))
-//                        x_button.setBackground(getDrawable(R.drawable.x_gray_button))
-//                    }
-//                }
-//
-//                R.id.x_button -> {
-//                    buttonO = false
-//                    buttonUnchecked = false
-//
-//                    if (!buttonO) {
-//                        o_button.setBackground(getDrawable(R.drawable.o_gray_button))
-//                        x_button.setBackground(getDrawable(R.drawable.x_purple_button))
-//                    }
-//                }
-//            }
-//        }
+
+        inner class ViewHolder {
+            var caption: EditText? = null
+            var oButton: Button? = null
+            var xButton: Button? = null
+        }
+
 
     }
-
-
-
-
-    internal inner class ViewHolder {
-        var caption: EditText? = null
-        var oButton: Button? = null
-        var xButton: Button? = null
-    }
-
 
 
     override fun onClick(v: View) {
@@ -262,7 +219,6 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
             Html.fromHtml(source)
         } else Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY)
     }
-
 
 
     override fun printDescription() {
