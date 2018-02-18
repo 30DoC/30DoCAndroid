@@ -8,7 +8,7 @@ import java.util.*
  * Created by stevehan on 2018. 2. 6..
  */
 data class Question(
-        val question: String,
+        var question: String,
         val answer: Boolean,
         val questionId: Int,
         val regDate: Date,
