@@ -131,7 +131,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
                     id_result_desc_text.visibility = View.INVISIBLE
                     Glide.with(this@QuizActivity)
                             .asGif()
-                            .load(R.drawable.congratulation)
+                            .load(R.drawable.congratulations)
                             .into(id_result_background_img)
 
                 }

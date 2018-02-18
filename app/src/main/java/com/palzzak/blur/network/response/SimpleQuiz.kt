@@ -7,8 +7,8 @@ import android.os.Parcelable
  * Created by jaeyoonyoo on 2018. 2. 13..
  */
 data class SimpleQuiz(
-        val answer: Boolean,
-        val question: String) : Parcelable {
+        var answer: Boolean,
+        var question: String?) : Parcelable {
     constructor(source: Parcel) : this(
             1 == source.readInt(),
             source.readString()

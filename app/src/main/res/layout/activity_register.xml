@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/question_background"
+    tools:context=".ui.register.RegisterActivity">
+
+    <ImageView
+        android:id="@+id/id_back_button"
+        android:layout_width="@dimen/prev_button_size"
+        android:layout_height="@dimen/prev_button_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/button_arrow_black"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/id_register_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/id_back_button"
+        app:layout_constraintBottom_toTopOf="@id/id_question_recycler">
+
+        <TextView
+            android:id="@+id/id_desc_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:fontFamily="@font/notosanskr_medium"
+            android:textColor="@color/colorQuestionAfter"
+            android:textSize="@dimen/size_question_description_text"
+            android:text="@string/question_description1"/>
+
+        <TextView
+            android:id="@+id/id_desc_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/id_desc_1"
+            android:fontFamily="@font/notosanskr_regular"
+            android:textColor="@color/colorQuestionAfter"
+            android:textSize="@dimen/size_question_description_text"
+            android:text="@string/question_description2"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/id_question_recycler"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginEnd="47dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/id_register_button"
+        app:layout_constraintStart_toStartOf="@id/id_register_description"
+        app:layout_constraintTop_toBottomOf="@+id/id_register_description"
+        tools:listitem="@layout/item_question" />
+
+    <ImageView
+        android:id="@+id/id_register_button"
+        style="@style/ButtonStyle2"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/id_question_recycler"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

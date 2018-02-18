@@ -7,11 +7,6 @@
     <string name="quiz_description_2">O,X로 답해주세요.</string>
     <string name="question_description1">영혼의 친구를 찾아드릴게요.</string>
     <string name="question_description2">전송할 OX질문을 작성하세요.</string>
-    <string name="first_question">맥주보다 소주가 좋다.</string>
-    <string name="second_question">막창 대창을 즐겨먹는다.</string>
-    <string name="third_question">발라드보다 힙합을 좋아한다.</string>
-    <string name="fourth_question">불현듯 떠나는 여행을 즐긴다.</string>
-    <string name="fifth_question">겨울엔 호떡보다 붕어빵이다.</string>
     <string name="quit_quiz_title">정말 나가실건가요?</string>
     <string name="quit_quiz_message">처음부터 새로운 문제를 풀어야해요.</string>
     <string name="quit_question_title">정말 나가실건가요?</string>
@@ -19,4 +14,17 @@
     <string name="yes">네</string>
     <string name="no">아니오</string>
     <string name="result_desc">결과를 분석중입니다...</string>
+
+    <string-array name="questions_hint">
+        <item>맥주보다 소주가 좋다.</item>
+        <item>막창 대창을 즐겨먹는다.</item>
+        <item>발라드보다 힙합을 좋아한다.</item>
+        <item>불현듯 떠나는 여행을 즐긴다.</item>
+        <item>겨울엔 호떡보다 붕어빵이다.</item>
+        <item>여름보다 겨울이 좋다.</item>
+        <item>구두가 운동화보다 좋다.</item>
+        <item>옷은 편하게 입는 걸 선호한다.</item>
+        <item>재미없는 건 싫다.</item>
+        <item>낮보다 밤이 좋다</item>
+    </string-array>
 </resources>

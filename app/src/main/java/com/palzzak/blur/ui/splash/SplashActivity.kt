@@ -57,6 +57,7 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
                         finish()
                     } else {
                         goToActivity(mStatus)
+                        finish()
                     }
                 }
 

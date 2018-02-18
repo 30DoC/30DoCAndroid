@@ -6,6 +6,7 @@ import com.palzzak.blur.network.response.ServiceStatus
 import com.palzzak.blur.network.response.SimpleQuiz
 import okhttp3.MediaType
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -29,9 +30,11 @@ interface APIService {
     @GET("/api/v1/quiz/randomQuiz")
     fun randomQuiz(): Call<QuizSet>
 
-    @FormUrlEncoded
     @POST("/api/v1/quiz/inquireQuiz")
-    fun inquireQuiz(@Field("userId") memberId: Long): Call<List<SimpleQuiz>>
+    fun inquireQuiz(@Query("userId") memberId: Long): Call<List<SimpleQuiz>>
+
+    @POST("/api/v1/quiz/registQuiz")
+    fun registQuiz(@Query("userId") memberId: Long, @Body quizList: List<SimpleQuiz>): Call<ResponseBody>
 
     fun observeChat(memberId: Long, chatId: Long, offset: Long) = 1
     fun sendAudioRecord(memberId: Long, chatId: Long, timestamp: Long) = 1
