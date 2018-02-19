@@ -24,7 +24,6 @@ class QuizFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater!!.inflate(R.layout.item_quiz, container, false)
-        rootView.findViewById<TextView>(R.id.id_quiz_number_text).text = "Q.$mIndex"
         rootView.findViewById<TextView>(R.id.id_quiz_question_text).text = mQuiz.question
         return rootView
     }

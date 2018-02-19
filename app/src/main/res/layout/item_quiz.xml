@@ -14,10 +14,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
-        android:fontFamily="@font/notosanskr_regular"
+        android:fontFamily="@font/notosanskr_medium"
         android:textSize="@dimen/quiz_text_size"
         android:textColor="@android:color/black"
-        tools:text="Q.1"/>
+        tools:text=""/>
 
     <TextView
         android:id="@+id/id_quiz_question_text"

@@ -14,7 +14,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.palzzak.blur.R
-import com.palzzak.blur.network.response.Quiz
 import com.palzzak.blur.network.response.QuizSet
 import com.palzzak.blur.util.AlertDialogFactory
 import com.palzzak.blur.util.Constants
@@ -61,7 +60,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
                 }
             }
 
-        }, 3000)
+        }, 1000)
     }
 
     private fun transitToQuizScreen() {
@@ -122,7 +121,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
         id_result_progress.mTextView = id_result_text
 
         ObjectAnimator.ofInt(id_result_progress, "progress", result).apply {
-            duration = 2000
+            duration = 1000
             interpolator = DecelerateInterpolator()
             addListener(object: Animator.AnimatorListener {
                 override fun onAnimationRepeat(animation: Animator?) {}

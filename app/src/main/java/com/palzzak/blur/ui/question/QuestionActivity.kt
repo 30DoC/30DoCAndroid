@@ -23,6 +23,12 @@ import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 
+
+
+
+
+
+
 /**
  * Created by stevehan on 2018. 2. 1..
  */
@@ -69,10 +75,24 @@ class QuestionActivity : DaggerAppCompatActivity(), QuestionContract.View, View.
 
         mListView.adapter = myAdapter
 
+        mListView.setVerticalScrollBarEnabled(false)
 
 
         back_button.setOnClickListener(this)
         register_question_button.setOnClickListener(this)
+
+        mListView.setOnScrollListener(object : AbsListView.OnScrollListener {
+            override fun onScrollStateChanged(view: AbsListView, scrollState: Int) {
+                mListView.setVerticalScrollBarEnabled(true)
+            }
+
+            override fun onScroll(view: AbsListView, firstVisibleItem: Int,
+                                  visibleItemCount: Int, totalItemCount: Int) {
+
+            }
+        })
+
+
     }
 
 
