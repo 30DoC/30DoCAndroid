@@ -1,8 +1,11 @@
 package com.palzzak.blur.ui.chat
 
+import com.example.yooas.websocketchatter.Recorder
 import com.palzzak.blur.di.PerActivity
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * Created by jaeyoonyoo on 2018. 2. 11..
@@ -15,4 +18,12 @@ abstract class ChatModule {
     @PerActivity
     @Binds
     abstract fun presenter(chatPresenter: ChatPresenter): ChatContract.Presenter
+
+    companion object {
+        @JvmStatic
+        @PerActivity
+        @Provides
+        @Singleton
+        fun provideRecorder() = Recorder()
+    }
 }

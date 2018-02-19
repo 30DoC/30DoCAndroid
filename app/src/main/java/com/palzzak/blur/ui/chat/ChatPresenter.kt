@@ -1,5 +1,6 @@
 package com.palzzak.blur.ui.chat
 
+import com.example.yooas.websocketchatter.Recorder
 import com.palzzak.blur.di.PerActivity
 import javax.inject.Inject
 
@@ -11,4 +12,7 @@ import javax.inject.Inject
 class ChatPresenter @Inject constructor(): ChatContract.Presenter {
     @Inject
     lateinit var mChatView: ChatContract.View
+
+    @Inject
+    lateinit var mRecorder: Recorder
 }

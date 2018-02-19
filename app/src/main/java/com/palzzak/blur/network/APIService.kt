@@ -1,6 +1,5 @@
 package com.palzzak.blur.network
 
-import com.palzzak.blur.network.response.Quiz
 import com.palzzak.blur.network.response.QuizSet
 import com.palzzak.blur.network.response.ServiceStatus
 import com.palzzak.blur.network.response.SimpleQuiz
@@ -41,5 +40,4 @@ interface APIService {
     fun quit(memberId: Long, chatId: Long) {}
     fun submitMyAnswers(memberId: Long, questionId: Long) = 100
     fun chatJoinResponse(memberId: Long, chatId: Long, response: Boolean) {}
-    fun updateMyQuestions(memberId: Long, questions: List<Quiz>) {}
 }

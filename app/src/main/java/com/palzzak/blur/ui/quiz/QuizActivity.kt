@@ -3,6 +3,7 @@ package com.palzzak.blur.ui.quiz
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -15,6 +16,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.palzzak.blur.R
 import com.palzzak.blur.network.response.QuizSet
+import com.palzzak.blur.ui.chat.ChatActivity
 import com.palzzak.blur.util.AlertDialogFactory
 import com.palzzak.blur.util.Constants
 import dagger.android.support.DaggerAppCompatActivity
@@ -127,12 +129,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
                 override fun onAnimationRepeat(animation: Animator?) {}
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    id_result_desc_text.visibility = View.INVISIBLE
-                    Glide.with(this@QuizActivity)
-                            .asGif()
-                            .load(R.drawable.congratulations)
-                            .into(id_result_background_img)
-
+                    checkResultAndProceed(result)
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {}
@@ -142,6 +139,24 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
             })
         }.start()
 
+    }
+
+    private fun checkResultAndProceed(result: Int) {
+        if (result >= Constants.QUIZ_PASSING_SCORE) {
+            id_result_desc_text.visibility = View.INVISIBLE
+            Glide.with(this@QuizActivity)
+                    .asGif()
+                    .load(R.drawable.congratulations)
+                    .into(id_result_background_img)
+
+            val intent = Intent().apply {
+                setClass(this@QuizActivity, ChatActivity::class.java)
+            }
+            startActivity(intent)
+            finish()
+        } else {
+
+        }
     }
 }
 

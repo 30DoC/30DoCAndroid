@@ -2,13 +2,11 @@ package com.palzzak.blur.ui.quiz
 
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
-import com.palzzak.blur.network.response.Quiz
 import com.palzzak.blur.network.response.QuizSet
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 /**
  * Created by yooas on 2018-01-07.
@@ -47,7 +45,11 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
     }
 
     override fun submitMyAnswers() {
-        val result = 80
+        var correct = 0
+        mQuizSet.quizList.map {
+            if (it.answer == mAnswers[mQuizSet.quizList.indexOf(it)]) correct++
+        }
+        val result = (correct.toDouble() / mAnswers.size * 100).toInt()
         mQuizView.showResultScreen(result)
     }
 }
