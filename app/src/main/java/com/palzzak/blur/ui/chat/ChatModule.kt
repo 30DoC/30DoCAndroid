@@ -5,7 +5,6 @@ import com.palzzak.blur.di.PerActivity
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 /**
  * Created by jaeyoonyoo on 2018. 2. 11..
@@ -19,11 +18,11 @@ abstract class ChatModule {
     @Binds
     abstract fun presenter(chatPresenter: ChatPresenter): ChatContract.Presenter
 
+    @Module
     companion object {
         @JvmStatic
         @PerActivity
         @Provides
-        @Singleton
-        fun provideRecorder() = Recorder()
+        fun provideRecorder(): Recorder = Recorder()
     }
 }
