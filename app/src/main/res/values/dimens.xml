@@ -14,4 +14,5 @@
     <dimen name="prev_button_size">25dp</dimen>
     <dimen name="page_progress_height">8dp</dimen>
     <dimen name="quiz_text_size">24sp</dimen>
+    <dimen name="radio_button_length">15dp</dimen>
 </resources>

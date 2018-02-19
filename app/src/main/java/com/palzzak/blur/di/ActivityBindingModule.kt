@@ -4,8 +4,8 @@ import com.palzzak.blur.ui.chat.ChatActivity
 import com.palzzak.blur.ui.chat.ChatModule
 import com.palzzak.blur.ui.intro.IntroActivity
 import com.palzzak.blur.ui.intro.IntroModule
-import com.palzzak.blur.ui.question.QuestionActivity
-import com.palzzak.blur.ui.question.QuestionModule
+import com.palzzak.blur.ui.register.RegisterActivity
+import com.palzzak.blur.ui.register.RegisterModule
 import com.palzzak.blur.ui.quiz.QuizActivity
 import com.palzzak.blur.ui.quiz.QuizModule
 import com.palzzak.blur.ui.splash.SplashActivity
@@ -24,8 +24,8 @@ abstract class ActivityBindingModule {
     abstract fun quizActivity(): QuizActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = [QuestionModule::class])
-    abstract fun questionActivity(): QuestionActivity
+    @ContributesAndroidInjector(modules = [RegisterModule::class])
+    abstract fun registerActivity(): RegisterActivity
 
     @PerActivity
     @ContributesAndroidInjector(modules = [SplashModule::class])

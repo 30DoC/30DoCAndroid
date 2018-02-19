@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.palzzak.blur.R
-import com.palzzak.blur.ui.question.QuestionActivity
+import com.palzzak.blur.ui.register.RegisterActivity
 import com.palzzak.blur.ui.quiz.QuizActivity
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_intro.*
@@ -33,7 +33,7 @@ class IntroActivity: DaggerAppCompatActivity(), IntroContract.View, View.OnClick
                 startActivity(intent)
             }
             R.id.id_create_mine_button -> {
-                val intent = Intent(this@IntroActivity, QuestionActivity::class.java)
+                val intent = Intent(this@IntroActivity, RegisterActivity::class.java)
                 startActivity(intent)
             }
         }
