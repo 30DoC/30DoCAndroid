@@ -2,6 +2,8 @@ package com.palzzak.blur.ui.chat
 
 import com.example.yooas.websocketchatter.Recorder
 import com.palzzak.blur.data.source.MessagesRepository
+import com.palzzak.blur.data.source.local.MessagesLocalDataSource
+import com.palzzak.blur.data.source.remote.MessagesRemoteDataSource
 import com.palzzak.blur.di.PerActivity
 import dagger.Binds
 import dagger.Module
@@ -29,6 +31,16 @@ abstract class ChatModule {
         @JvmStatic
         @PerActivity
         @Provides
-        fun messagesRepository(): MessagesRepository = MessagesRepository()
+        fun provideMessagesRepository(): MessagesRepository = MessagesRepository()
+
+        @JvmStatic
+        @PerActivity
+        @Provides
+        fun provideMessagesLocalDataSource(): MessagesLocalDataSource = MessagesLocalDataSource()
+
+        @JvmStatic
+        @PerActivity
+        @Provides
+        fun provideMessagesRemoteDataSource(): MessagesRemoteDataSource = MessagesRemoteDataSource()
     }
 }

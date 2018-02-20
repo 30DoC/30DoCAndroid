@@ -25,6 +25,6 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
         val fetchedChats: List<ChatVoice>
 
 
-        //mChatView.refreshChat()
+        //mMessagesRepository.getMessages()
     }
 }

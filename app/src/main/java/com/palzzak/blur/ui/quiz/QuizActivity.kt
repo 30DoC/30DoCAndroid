@@ -51,6 +51,11 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
         setContentView(R.layout.activity_quiz_desc)
 
         mMemberId = mSharedPrefs.getLong(Constants.PREF_MEMBER_ID_KEY, -1L)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         mQuizPresenter.init(mMemberId)
         startQuizAfterSeconds()
     }

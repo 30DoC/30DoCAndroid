@@ -10,24 +10,36 @@ class MessagesRepository: MessagesDataSource {
     @Inject
     lateinit var mMessagesLocalDataSource: MessagesDataSource
 
+    @Inject
+    lateinit var mMessagesRemoteDataSource: MessagesDataSource
+
     private val mCachedMessages: MutableMap<Long, Message> = LinkedHashMap()
+    private var mIsCacheDirty = false
 
     override fun getMessages(callback: MessagesDataSource.LoadMessagesCallback) {
-        if (!mCachedMessages.isEmpty()) {
+        if (!mIsCacheDirty && !mCachedMessages.isEmpty()) {
             callback.onMessagesLoaded(ArrayList(mCachedMessages.values))
             return
         }
 
-        mMessagesLocalDataSource.getMessages(object: MessagesDataSource.LoadMessagesCallback{
-            override fun onMessagesLoaded(messages: List<Message>?) {
-                if (messages == null || messages.isEmpty()) {
-                    return
+        if (mIsCacheDirty) {
+            getMessagesFromRemoteDataSource(callback)
+        } else {
+            mMessagesLocalDataSource.getMessages(object : MessagesDataSource.LoadMessagesCallback {
+                override fun onMessagesLoaded(messages: List<Message>?) {
+                    if (messages == null || messages.isEmpty()) {
+                        return
+                    }
+                    refreshCache(messages)
+                    refreshLocalDataSource(messages)
+                    callback.onMessagesLoaded(ArrayList(mCachedMessages.values))
                 }
-                refreshCache(messages)
-                refreshLocalDataSource(messages)
-                callback.onMessagesLoaded(ArrayList(mCachedMessages.values))
-            }
-        })
+            })
+        }
+    }
+
+    private fun getMessagesFromRemoteDataSource(callback: MessagesDataSource.LoadMessagesCallback) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun refreshLocalDataSource(messages: List<Message>) {
@@ -70,6 +82,7 @@ class MessagesRepository: MessagesDataSource {
     }
 
     override fun saveMessage(message: Message) {
+        mMessagesRemoteDataSource.saveMessage(message)
         mMessagesLocalDataSource.saveMessage(message)
         mCachedMessages[message.mVoiceId] = message
     }
