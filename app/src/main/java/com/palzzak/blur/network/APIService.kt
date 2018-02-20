@@ -35,6 +35,12 @@ interface APIService {
     @POST("/api/v1/quiz/registQuiz")
     fun registQuiz(@Query("userId") memberId: Long, @Body quizList: List<SimpleQuiz>): Call<ResponseBody>
 
+    @POST("/api/v1/chatRoom/choice")
+    fun choice(@Query("userId") memberId: Long): Call<ResponseBody>
+
+    @POST("/api/v1/chatRoom/createRoom")
+    fun createRoom(@Query("user1Id") member1Id: Long, @Query("user2Id") member2Id: Long): Call<Long>
+
     fun observeChat(memberId: Long, chatId: Long, offset: Long) = 1
     fun sendAudioRecord(memberId: Long, chatId: Long, timestamp: Long) = 1
     fun quit(memberId: Long, chatId: Long) {}

@@ -12,12 +12,14 @@ interface QuizContract {
         fun printTextWithNumber(num: Int)
         fun setQuestions(questions: QuizSet)
         fun showResultScreen(result: Int)
+        fun congratulations()
+        fun goToChatActivity(opponentId: Long, roomId: Long)
     }
 
     interface Presenter: BasePresenter<View> {
         fun init(memberId: Long)
         fun setQuizAnswer(index: Int, answer: Boolean)
         fun loadQuiz()
-        fun submitMyAnswers()
+        fun submitMyAnswers(memberId: Long)
     }
 }

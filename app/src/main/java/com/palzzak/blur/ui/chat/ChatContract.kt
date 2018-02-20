@@ -9,6 +9,7 @@ import com.palzzak.blur.BaseView
 class ChatContract {
     interface Presenter: BasePresenter<View> {
 
+        fun observeRoom(roomId: Long, offset: Long)
     }
 
     interface View: BaseView<Presenter> {

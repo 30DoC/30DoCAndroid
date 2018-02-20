@@ -3,6 +3,8 @@ package com.palzzak.blur.ui.quiz
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.network.response.QuizSet
+import com.palzzak.blur.util.Constants
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,8 +20,8 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
 
     @Inject
     lateinit var mAPIService: APIService
-    private lateinit var mQuizSet: QuizSet
-    private val mAnswers = mutableMapOf<Int, Boolean>()
+    private lateinit var mReceivedQuizSet: QuizSet
+    private val mMyAnswers = mutableMapOf<Int, Boolean>()
 
 
     override fun init(memberId: Long) {
@@ -29,27 +31,50 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
             }
 
             override fun onResponse(call: Call<QuizSet>?, response: Response<QuizSet>?) {
-                mQuizSet = response?.body()!!
-                mQuizView.printTextWithNumber(mQuizSet.quizList.size)
+                mReceivedQuizSet = response?.body()!!
+                mQuizView.printTextWithNumber(mReceivedQuizSet.quizList.size)
             }
 
         })
     }
 
     override fun setQuizAnswer(index: Int, answer: Boolean) {
-        mAnswers[index] = answer
+        mMyAnswers[index] = answer
     }
 
     override fun loadQuiz() {
-        mQuizView.setQuestions(mQuizSet)
+        mQuizView.setQuestions(mReceivedQuizSet)
     }
 
-    override fun submitMyAnswers() {
+    override fun submitMyAnswers(memberId: Long) {
+        mAPIService.choice(memberId).enqueue(object: Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {}
+
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {}
+
+        })
+
+
         var correct = 0
-        mQuizSet.quizList.map {
-            if (it.answer == mAnswers[mQuizSet.quizList.indexOf(it)]) correct++
+        mReceivedQuizSet.quizList.map {
+            if (it.answer == mMyAnswers[mReceivedQuizSet.quizList.indexOf(it)]) correct++
         }
-        val result = (correct.toDouble() / mAnswers.size * 100).toInt()
+        val result = (correct.toDouble() / mMyAnswers.size * 100).toInt()
+
         mQuizView.showResultScreen(result)
+
+        if (result >= Constants.QUIZ_PASSING_SCORE) {
+            mQuizView.congratulations()
+            mAPIService.createRoom(memberId, mReceivedQuizSet.memberId).enqueue(object: Callback<Long> {
+                override fun onFailure(call: Call<Long>?, t: Throwable?) {}
+
+                override fun onResponse(call: Call<Long>?, response: Response<Long>) {
+                    response.body()?.apply {
+                        mQuizView.goToChatActivity(mReceivedQuizSet.memberId, this)
+                    }
+                }
+
+            })
+        }
     }
 }

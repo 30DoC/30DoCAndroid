@@ -14,15 +14,16 @@ class AlertDialogFactory {
     companion object {
         fun show(fragmentManager: FragmentManager, tag: String) {
             when (tag) {
-                "TAG_DIALOG_QUIZ_QUIT" -> QuitQuizDialog().show(fragmentManager, tag)
-                "TAG_DIALOG_QUESTION_QUIT" -> QuitQuestionDialog().show(fragmentManager, tag)
+                Constants.DIALOG_QUIZ_TAG_QUIT-> QuitQuizDialog().show(fragmentManager, tag)
+                Constants.DIALOG_QUESTION_TAG_QUIT -> QuitQuestionDialog().show(fragmentManager, tag)
+                Constants.DIALOG_CHAT_TAG_QUIT -> QuitChatDialog().show(fragmentManager, tag)
             }
 
         }
     }
 }
 
-internal class QuitQuizDialog : DialogFragment() {
+internal class QuitQuizDialog: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(activity).setTitle(R.string.quit_quiz_title)
                 .setMessage(R.string.quit_quiz_message)
@@ -34,10 +35,22 @@ internal class QuitQuizDialog : DialogFragment() {
     }
 }
 
-internal class QuitQuestionDialog : DialogFragment() {
+internal class QuitQuestionDialog: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(activity).setTitle(R.string.quit_question_title)
                 .setMessage(R.string.quit_question_message)
+                .setPositiveButton(R.string.yes, { dialog, id ->
+                    activity.onBackPressed()
+                    activity.finish() })
+                .setNegativeButton(R.string.no, null)
+                .create()
+    }
+}
+
+internal class QuitChatDialog: DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return AlertDialog.Builder(activity).setTitle(R.string.quit_question_title)
+                .setMessage(R.string.quit_chat_message)
                 .setPositiveButton(R.string.yes, { dialog, id ->
                     activity.onBackPressed()
                     activity.finish() })

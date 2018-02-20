@@ -2,7 +2,6 @@ package com.palzzak.blur.di
 
 import android.app.Application
 import com.palzzak.blur.MainApplication
-import com.palzzak.blur.data.source.MessagesRepositoryModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -14,7 +13,6 @@ import javax.inject.Singleton
  */
 @Singleton
 @Component(modules = [
-    MessagesRepositoryModule::class,
     AppModule::class,
     ActivityBindingModule::class,
     AndroidSupportInjectionModule::class

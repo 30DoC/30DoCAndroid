@@ -1,6 +1,5 @@
 package com.palzzak.blur.ui.quiz
 
-import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
@@ -24,17 +23,22 @@ import kotlinx.android.synthetic.main.activity_quiz.*
 import kotlinx.android.synthetic.main.activity_quiz_desc.*
 import kotlinx.android.synthetic.main.result_subactivity.*
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import java.util.*
 import javax.inject.Inject
 
 
 class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickListener {
+
     @Inject
     lateinit var mQuizPresenter: QuizPresenter
 
     @Inject
     lateinit var mSharedPrefs: SharedPreferences
+
+    private var mMemberId: Long = -1L
 
     private val mAdapter = object: FragmentPagerAdapter(supportFragmentManager) {
         var mFragments: List<Fragment> = arrayListOf()
@@ -46,7 +50,8 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_desc)
 
-        mQuizPresenter.init(mSharedPrefs.getLong(Constants.PREF_MEMBER_ID_KEY, -1L))
+        mMemberId = mSharedPrefs.getLong(Constants.PREF_MEMBER_ID_KEY, -1L)
+        mQuizPresenter.init(mMemberId)
         startQuizAfterSeconds()
     }
 
@@ -78,7 +83,6 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
     }
 
     override fun onClick(v: View) {
-
         when (v.id) {
             R.id.id_prev_button -> {
                 if (id_quiz_pager.currentItem == 0) {
@@ -90,7 +94,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
             else -> {
                 mQuizPresenter.setQuizAnswer(id_quiz_pager.currentItem, v.id == R.id.id_answer_true_button)
                 if (id_quiz_pager.currentItem + 1 >= id_quiz_pager.adapter.count) {
-                    mQuizPresenter.submitMyAnswers()
+                    mQuizPresenter.submitMyAnswers(mMemberId)
                 } else {
                     setCurrentItem(id_quiz_pager.currentItem + 1)
                 }
@@ -124,43 +128,40 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
 
         ObjectAnimator.ofInt(id_result_progress, "progress", result).apply {
             duration = 1000
-            interpolator = DecelerateInterpolator()
-            addListener(object: Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {}
-
-                override fun onAnimationEnd(animation: Animator?) {
-                    checkResultAndProceed(result)
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {}
-
-                override fun onAnimationStart(animation: Animator?) {}
-
-            })
         }.start()
 
     }
+    override fun congratulations() {
+        id_result_desc_text.visibility = View.INVISIBLE
+        Glide.with(this@QuizActivity)
+                .asGif()
+                .load(R.drawable.congratulations)
+                .into(id_result_background_img)
 
-    private fun checkResultAndProceed(result: Int) {
-        if (result >= Constants.QUIZ_PASSING_SCORE) {
-            id_result_desc_text.visibility = View.INVISIBLE
-            Glide.with(this@QuizActivity)
-                    .asGif()
-                    .load(R.drawable.congratulations)
-                    .into(id_result_background_img)
-
-            val intent = Intent().apply {
-                setClass(this@QuizActivity, ChatActivity::class.java)
-            }
-            startActivity(intent)
-            finish()
-        } else {
-
+        runBlocking {
+            delay(2000L)
         }
+    }
+
+    override fun goToChatActivity(opponentId: Long, roomId: Long) {
+        saveChatInfoPref(opponentId, roomId)
+
+        val intent = Intent().apply {
+            setClass(this@QuizActivity, ChatActivity::class.java)
+        }
+        startActivity(intent)
+        finish()
+    }
+
+    private fun saveChatInfoPref(opponentId: Long, roomId: Long) {
+        mSharedPrefs.edit().apply {
+            putLong("opponentId", opponentId)
+            putLong("roomId", roomId)
+        }.apply()
     }
 }
 
-internal class ResultProgressBar(context: Context, attributeSet: AttributeSet): ProgressBar(context, attributeSet) {
+class ResultProgressBar(context: Context, attributeSet: AttributeSet): ProgressBar(context, attributeSet) {
     var mTextView: TextView? = null
 
     override fun setProgress(progress: Int) {
