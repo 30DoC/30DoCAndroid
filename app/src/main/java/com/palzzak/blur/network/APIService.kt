@@ -1,5 +1,6 @@
 package com.palzzak.blur.network
 
+import com.palzzak.blur.data.Message
 import com.palzzak.blur.network.response.QuizSet
 import com.palzzak.blur.network.response.ServiceStatus
 import com.palzzak.blur.network.response.SimpleQuiz
@@ -41,7 +42,9 @@ interface APIService {
     @POST("/api/v1/chatRoom/createRoom")
     fun createRoom(@Query("user1Id") member1Id: Long, @Query("user2Id") member2Id: Long): Call<Long>
 
-    fun observeChat(memberId: Long, chatId: Long, offset: Long) = 1
+    @POST("/api/v1/chatVoice/observeRoom")
+    fun observeChat(@Query("roomId") roomId: Long, @Query("offset") offset: Long): Call<List<Message>>
+
     fun sendAudioRecord(memberId: Long, chatId: Long, timestamp: Long) = 1
     fun quit(memberId: Long, chatId: Long) {}
     fun submitMyAnswers(memberId: Long, questionId: Long) = 100

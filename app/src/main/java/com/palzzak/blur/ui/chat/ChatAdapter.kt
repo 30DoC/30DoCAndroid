@@ -11,7 +11,7 @@ import com.palzzak.blur.data.Message
  * Created by jaeyoonyoo on 2018. 2. 12..
  */
 class ChatAdapter(private val mMemberId: Long): RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
-    var mData: ArrayList<Message>? = null
+    var mData: List<Message>? = null
 
     override fun getItemViewType(position: Int): Int {
         /*val id = mData?.get(position)?.mRegistId ?: return 0

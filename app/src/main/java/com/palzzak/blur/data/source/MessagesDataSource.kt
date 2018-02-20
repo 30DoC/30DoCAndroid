@@ -14,9 +14,7 @@ interface MessagesDataSource {
         fun onMessageLoaded(message: Message?)
     }
 
-    fun getMessages(callback: LoadMessagesCallback)
-
-    fun getMessage(id: Long, callback: GetMessageCallback)
+    fun getMessages(roomId: Long, offset: Long, callback: LoadMessagesCallback)
 
     fun saveMessage(message: Message)
 

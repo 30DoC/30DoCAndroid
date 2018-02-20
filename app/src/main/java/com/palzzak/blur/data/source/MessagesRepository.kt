@@ -16,7 +16,7 @@ class MessagesRepository: MessagesDataSource {
     private val mCachedMessages: MutableMap<Long, Message> = LinkedHashMap()
     private var mIsCacheDirty = false
 
-    override fun getMessages(callback: MessagesDataSource.LoadMessagesCallback) {
+    override fun getMessages(roomId: Long, offset: Long, callback: MessagesDataSource.LoadMessagesCallback) {
         if (!mIsCacheDirty && !mCachedMessages.isEmpty()) {
             callback.onMessagesLoaded(ArrayList(mCachedMessages.values))
             return
@@ -25,7 +25,7 @@ class MessagesRepository: MessagesDataSource {
         if (mIsCacheDirty) {
             getMessagesFromRemoteDataSource(callback)
         } else {
-            mMessagesLocalDataSource.getMessages(object : MessagesDataSource.LoadMessagesCallback {
+            mMessagesLocalDataSource.getMessages(roomId, offset, object : MessagesDataSource.LoadMessagesCallback {
                 override fun onMessagesLoaded(messages: List<Message>?) {
                     if (messages == null || messages.isEmpty()) {
                         return
@@ -56,33 +56,7 @@ class MessagesRepository: MessagesDataSource {
         }
     }
 
-    override fun getMessage(id: Long, callback: MessagesDataSource.GetMessageCallback) {
-        val cachedMessage = getMessageById(id)
-        if (cachedMessage != null) {
-            callback.onMessageLoaded(cachedMessage)
-            return
-        }
-
-        mMessagesLocalDataSource.getMessage(id, object: MessagesDataSource.GetMessageCallback{
-            override fun onMessageLoaded(message: Message?) {
-                if (message == null) {
-                    return
-                }
-                mCachedMessages[message.mVoiceId] = message
-                callback.onMessageLoaded(message)
-            }
-        })
-    }
-
-    private fun getMessageById(id: Long): Message? {
-        if (mCachedMessages.isEmpty()) {
-            return null
-        }
-        return mCachedMessages[id]
-    }
-
     override fun saveMessage(message: Message) {
-        mMessagesRemoteDataSource.saveMessage(message)
         mMessagesLocalDataSource.saveMessage(message)
         mCachedMessages[message.mVoiceId] = message
     }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.palzzak.blur.R
+import com.palzzak.blur.data.Message
 import com.palzzak.blur.util.AlertDialogFactory
 import com.palzzak.blur.util.Constants
 import dagger.android.support.DaggerAppCompatActivity
@@ -15,7 +16,6 @@ import javax.inject.Inject
  * Created by jaeyoonyoo on 2018. 2. 11..
  */
 class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickListener{
-
     @Inject
     lateinit var mChatPresenter: ChatPresenter
 
@@ -32,6 +32,7 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
 
         val memberId = mSharedPref.getLong(Constants.PREF_MEMBER_ID_KEY, -1)
         mAdapter = ChatAdapter(memberId)
+
         id_chat_recycler.layoutManager = LinearLayoutManager(this)
         id_chat_recycler.adapter = mAdapter
     }
@@ -42,5 +43,10 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
                 AlertDialogFactory.show(fragmentManager, Constants.DIALOG_CHAT_TAG_QUIT)
             }
         }
+    }
+
+    override fun showMessages(messages: List<Message>?) {
+        mAdapter.mData = messages
+        mAdapter.notifyDataSetChanged()
     }
 }

@@ -17,20 +17,11 @@ class MessagesLocalDataSource: MessagesDataSource {
     @Inject
     lateinit var mMessageDao: MessageDao
 
-    override fun getMessages(callback: MessagesDataSource.LoadMessagesCallback) {
+    override fun getMessages(roomId: Long, offset: Long, callback: MessagesDataSource.LoadMessagesCallback) {
         launch(mCoroutineContexts.diskIO()) {
             val messages = mMessageDao.getMessages()
             launch(UI) {
                 callback.onMessagesLoaded(messages)
-            }
-        }
-    }
-
-    override fun getMessage(id: Long, callback: MessagesDataSource.GetMessageCallback) {
-        launch(mCoroutineContexts.diskIO()){
-            val message = mMessageDao.getMessageById(id)
-            launch(UI) {
-                callback.onMessageLoaded(message)
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.palzzak.blur.ui.chat
 
 import com.example.yooas.websocketchatter.Recorder
+import com.palzzak.blur.data.Message
+import com.palzzak.blur.data.source.MessagesDataSource
 import com.palzzak.blur.data.source.MessagesRepository
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.network.response.ChatVoice
@@ -22,9 +24,11 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
     lateinit var mMessagesRepository: MessagesRepository
 
     override fun observeRoom(roomId: Long, offset: Long) {
-        val fetchedChats: List<ChatVoice>
+        mMessagesRepository.getMessages(roomId, offset, object: MessagesDataSource.LoadMessagesCallback {
+            override fun onMessagesLoaded(messages: List<Message>?) {
+                mChatView.showMessages(messages)
+            }
 
-
-        //mMessagesRepository.getMessages()
+        })
     }
 }
