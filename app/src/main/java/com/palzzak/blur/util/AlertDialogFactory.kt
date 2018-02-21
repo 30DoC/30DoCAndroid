@@ -12,11 +12,15 @@ import com.palzzak.blur.R
  */
 class AlertDialogFactory {
     companion object {
+        const val DIALOG_QUIZ_TAG_QUIT = "TAG_DIALOG_QUIZ_QUIT"
+        const val DIALOG_QUESTION_TAG_QUIT = "TAG_DIALOG_QUESTION_QUIT"
+        const val DIALOG_CHAT_TAG_QUIT = "TAG_DIALOG_CHAT_QUIT"
+
         fun show(fragmentManager: FragmentManager, tag: String) {
             when (tag) {
-                Constants.DIALOG_QUIZ_TAG_QUIT-> QuitQuizDialog().show(fragmentManager, tag)
-                Constants.DIALOG_QUESTION_TAG_QUIT -> QuitQuestionDialog().show(fragmentManager, tag)
-                Constants.DIALOG_CHAT_TAG_QUIT -> QuitChatDialog().show(fragmentManager, tag)
+                DIALOG_QUIZ_TAG_QUIT-> QuitQuizDialog().show(fragmentManager, tag)
+                DIALOG_QUESTION_TAG_QUIT -> QuitQuestionDialog().show(fragmentManager, tag)
+                DIALOG_CHAT_TAG_QUIT -> QuitChatDialog().show(fragmentManager, tag)
             }
 
         }

@@ -1,6 +1,6 @@
 package com.palzzak.blur.ui.chat
 
-import com.example.yooas.websocketchatter.Recorder
+import com.example.yooas.websocketchatter.AudioRecorder
 import com.palzzak.blur.data.source.MessagesRepository
 import com.palzzak.blur.data.source.local.MessagesLocalDataSource
 import com.palzzak.blur.data.source.remote.MessagesRemoteDataSource
@@ -26,7 +26,7 @@ abstract class ChatModule {
         @JvmStatic
         @PerActivity
         @Provides
-        fun provideRecorder(): Recorder = Recorder()
+        fun provideRecorder(): AudioRecorder = AudioRecorder()
 
         @JvmStatic
         @PerActivity

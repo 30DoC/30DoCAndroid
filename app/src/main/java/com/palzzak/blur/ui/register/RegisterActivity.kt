@@ -42,7 +42,7 @@ class RegisterActivity : DaggerAppCompatActivity(), RegisterContract.View, View.
     override fun onClick(v: View) {
         when (v.id) {
             R.id.id_back_button -> {
-                AlertDialogFactory.show(fragmentManager, Constants.DIALOG_QUESTION_TAG_QUIT)
+                AlertDialogFactory.show(fragmentManager, AlertDialogFactory.DIALOG_QUESTION_TAG_QUIT)
             }
             R.id.id_register_button -> {
                 mRegisterPresenter.registQuiz(mMemberId, mAdapter.mData)

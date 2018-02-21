@@ -11,7 +11,7 @@ import java.io.FileOutputStream
 /**
  * Created by yooas on 2018-01-17.
  */
-class Recorder {
+class AudioRecorder {
     private val mSampleRates = arrayOf(44100, 22050, 11025, 8000)
     private val mAudioFormats = arrayOf(AudioFormat.ENCODING_PCM_16BIT, AudioFormat.ENCODING_PCM_8BIT, AudioFormat.ENCODING_DEFAULT)
     private val mChannelConfigs = arrayOf(AudioFormat.CHANNEL_IN_STEREO, AudioFormat.CHANNEL_IN_MONO, AudioFormat.CHANNEL_IN_DEFAULT)
@@ -66,7 +66,6 @@ class Recorder {
         audioTrack.release()
         dis.close()
         fis.close()
-
     }
 
     fun stopRecording() {
@@ -136,5 +135,9 @@ class Recorder {
             sData[i] = 0
         }
         return bytes
+    }
+
+    fun stopPlaying() {
+        //TODO
     }
 }

@@ -91,7 +91,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
         when (v.id) {
             R.id.id_prev_button -> {
                 if (id_quiz_pager.currentItem == 0) {
-                    AlertDialogFactory.show(fragmentManager, Constants.DIALOG_QUIZ_TAG_QUIT)
+                    AlertDialogFactory.show(fragmentManager, AlertDialogFactory.DIALOG_QUIZ_TAG_QUIT)
                 } else {
                     setCurrentItem(id_quiz_pager.currentItem - 1)
                 }

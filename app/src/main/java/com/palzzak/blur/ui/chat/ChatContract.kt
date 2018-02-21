@@ -1,5 +1,6 @@
 package com.palzzak.blur.ui.chat
 
+import android.os.Handler
 import com.palzzak.blur.BasePresenter
 import com.palzzak.blur.BaseView
 import com.palzzak.blur.data.Message
@@ -9,12 +10,16 @@ import com.palzzak.blur.data.Message
  */
 class ChatContract {
     interface Presenter: BasePresenter<View> {
-
         fun observeRoom(roomId: Long, offset: Long)
+        fun controlRecording(handler: Handler)
+        fun sendRecord()
     }
 
     interface View: BaseView<Presenter> {
         fun showMessages(messages: List<Message>?)
-
+        fun showRecordingView()
+        fun showWaitingView()
+        fun showStoppedView()
+        fun showPlayingView()
     }
 }

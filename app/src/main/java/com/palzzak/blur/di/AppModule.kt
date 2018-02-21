@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.util.Constants
+import com.palzzak.blur.util.CoroutineContexts
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -36,5 +37,10 @@ abstract class AppModule {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build()
                 .create(APIService::class.java)
+
+        @JvmStatic
+        @Singleton
+        @Provides
+        fun provideCoroutineContexts(): CoroutineContexts = CoroutineContexts(CoroutineContexts.getNewSingleThreadContext("diskIo"), CoroutineContexts.getNewFixedThreadPoolContext(CoroutineContexts.THREAD_COUNT, "networkIo"))
     }
 }

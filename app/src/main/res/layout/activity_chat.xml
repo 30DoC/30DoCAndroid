@@ -47,6 +47,7 @@
         android:background="#7e51ec">
 
         <ImageView
+            android:id="@+id/id_chat_record_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +55,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:src="@drawable/button_record" />
+
+        <TextView
+            android:id="@+id/id_chat_send_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            android:visibility="invisible"
+            android:text="@string/chat_send"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"/>
 
     </android.support.constraint.ConstraintLayout>
 
