@@ -7,10 +7,7 @@ import com.palzzak.blur.data.source.MessagesDataSource
 import com.palzzak.blur.data.source.MessagesRepository
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.util.CoroutineContexts
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
 import javax.inject.Inject
 
 /**
@@ -19,10 +16,10 @@ import javax.inject.Inject
 
 @PerActivity
 class ChatPresenter @Inject constructor(): ChatContract.Presenter {
-    private val STATUS_WATING = 0
-    private val STATUS_RECORDING = 1
-    private val STATUS_STOPPED = 2
-    private val STATUS_PLAYING = 3
+    val STATUS_WATING = 0
+    val STATUS_RECORDING = 1
+    val STATUS_STOPPED = 2
+    val STATUS_PLAYING = 3
 
     @Inject
     lateinit var mChatView: ChatContract.View
@@ -51,46 +48,46 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
 
     override fun controlRecording(handler: Handler) {
         when (mRecordingStatus) {
-            STATUS_WATING -> startRecording(handler)
+            STATUS_WATING -> startRecording()
             STATUS_RECORDING -> stopRecording()
-            STATUS_STOPPED -> playRecord()
+            STATUS_STOPPED -> playRecord(handler)
             STATUS_PLAYING -> stopPlaying()
         }
+        handler.sendEmptyMessage(mRecordingStatus)
     }
 
 
-    override fun sendRecord() {
+    override fun sendRecord(handler: Handler) {
         mRecordingStatus = STATUS_WATING
-        mChatView.showWaitingView()
+        handler.sendEmptyMessage(mRecordingStatus)
     }
 
-    private fun startRecording(handler: Handler) {
-        mAudioRecorder.startRecording(mRecordPath, handler)
+    private fun startRecording() {
         mRecordingStatus = STATUS_RECORDING
-        mChatView.showRecordingView()
+        launch(mCoroutineContexts.diskIO()) {
+            mAudioRecorder.startRecording(mRecordPath)
+        }
     }
 
     private fun stopRecording() {
         mAudioRecorder.stopRecording()
         mRecordingStatus = STATUS_STOPPED
-        mChatView.showStoppedView()
     }
 
 
-    private fun playRecord() = runBlocking {
+    private fun playRecord(handler: Handler) {
         mRecordingStatus = STATUS_PLAYING
-        mChatView.showPlayingView()
         launch(mCoroutineContexts.diskIO()) {
             mAudioRecorder.playWavFile(mRecordPath)
-        }.join()
-        stopPlaying()
+            mRecordingStatus = STATUS_STOPPED
+            handler.sendEmptyMessage(mRecordingStatus)
+        }
     }
 
     private fun stopPlaying() {
-        mRecordingStatus = STATUS_STOPPED
         launch(mCoroutineContexts.diskIO()) {
             mAudioRecorder.stopPlaying()
         }
-        mChatView.showStoppedView()
+        mRecordingStatus = STATUS_STOPPED
     }
 }

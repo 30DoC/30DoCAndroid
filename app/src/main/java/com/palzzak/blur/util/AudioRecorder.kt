@@ -2,11 +2,15 @@ package com.example.yooas.websocketchatter
 
 import android.media.*
 import android.os.Handler
+import android.os.Message
 import android.util.Base64
+import com.palzzak.blur.util.CoroutineContexts
+import kotlinx.coroutines.experimental.launch
 import java.io.ByteArrayOutputStream
 import java.io.DataInputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import javax.inject.Inject
 
 /**
  * Created by yooas on 2018-01-17.
@@ -75,17 +79,15 @@ class AudioRecorder {
         mIsRecording = false
     }
 
-    fun startRecording(recordedAudioPath: String, handler: Handler) {
+    fun startRecording(recordedAudioPath: String) {
         mRecorder = findAudioRecord()
         mRecorder!!.startRecording()
         val data = ShortArray(mBufferSize)
-        Thread({
-            writeAudioDataToFile(data, recordedAudioPath)
-        }).start()
-        Thread({
-            sendVolumeToHandler(data, handler)
-        }).start()
         mIsRecording = true
+        writeAudioDataToFile(data, recordedAudioPath)
+//        Thread({
+//            sendVolumeToHandler(data, handler)
+//        }).start()
     }
 
     private fun writeAudioDataToFile(data: ShortArray, recordedAudioPath: String) {

@@ -12,6 +12,9 @@ import com.palzzak.blur.util.AppLogger
 import com.palzzak.blur.util.Constants
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import javax.inject.Inject
 
 /**
@@ -57,7 +60,7 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
                 mChatPresenter.controlRecording(mRecordingHandler)
             }
             R.id.id_chat_send_text -> {
-                mChatPresenter.sendRecord()
+                mChatPresenter.sendRecord(mRecordingHandler)
             }
         }
     }
@@ -75,7 +78,7 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
     }
 
     override fun showStoppedView() {
-        AppLogger.d("recording stopped")
+        AppLogger.d("recording or playing stopped")
         id_chat_record_button.setImageResource(R.drawable.button_play)
     }
 
@@ -88,10 +91,15 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
         mAdapter.mData = messages
         mAdapter.notifyDataSetChanged()
     }
-}
 
-internal class RecordingHandler: Handler() {
-    override fun handleMessage(msg: android.os.Message?) {
-
+    inner class RecordingHandler: Handler() {
+        override fun handleMessage(msg: android.os.Message?) {
+            when (msg?.what) {
+                mChatPresenter.STATUS_STOPPED -> showStoppedView()
+                mChatPresenter.STATUS_PLAYING -> showPlayingView()
+                mChatPresenter.STATUS_WATING -> showWaitingView()
+                mChatPresenter.STATUS_RECORDING -> showRecordingView()
+            }
+        }
     }
 }

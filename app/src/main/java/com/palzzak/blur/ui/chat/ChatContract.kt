@@ -12,7 +12,7 @@ class ChatContract {
     interface Presenter: BasePresenter<View> {
         fun observeRoom(roomId: Long, offset: Long)
         fun controlRecording(handler: Handler)
-        fun sendRecord()
+        fun sendRecord(handler: Handler)
     }
 
     interface View: BaseView<Presenter> {
