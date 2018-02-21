@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.quiz.QuizActivity" />
-        <activity android:name=".ui.register.RegisterActivity" />
+        <activity
+            android:name=".ui.register.RegisterActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.intro.IntroActivity" />
         <activity android:name=".ui.chat.ChatActivity" android:exported="true"/>
     </application>
