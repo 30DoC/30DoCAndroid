@@ -3,8 +3,8 @@ package com.palzzak.blur.ui.register
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.network.data.QuizSet
+import com.palzzak.blur.network.data.ServiceStatus
 import com.palzzak.blur.network.data.SimpleQuiz
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,8 +22,7 @@ class RegisterPresenter @Inject constructor(): RegisterContract.Presenter {
     lateinit var mAPIService: APIService
 
     override fun loadInitialQuestionSet(memberId: Long) {
-        val call = mAPIService.inquireQuiz(memberId)
-        call.enqueue(object: Callback<List<SimpleQuiz>> {
+        mAPIService.inquireQuiz(memberId).enqueue(object: Callback<List<SimpleQuiz>> {
             override fun onFailure(call: Call<List<SimpleQuiz>>?, t: Throwable?) {}
 
             override fun onResponse(call: Call<List<SimpleQuiz>>?, response: Response<List<SimpleQuiz>>?) {
@@ -35,12 +34,11 @@ class RegisterPresenter @Inject constructor(): RegisterContract.Presenter {
 
     override fun registQuiz(memberId: Long, quizList: List<SimpleQuiz>) {
         val call = mAPIService.registQuiz(QuizSet(memberId, quizList))
-        call.enqueue(object: Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {}
+        call.enqueue(object: Callback<ServiceStatus> {
+            override fun onFailure(call: Call<ServiceStatus>?, t: Throwable?) {}
 
-            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
-                response
-                if(response.code() == 200) {
+            override fun onResponse(call: Call<ServiceStatus>?, response: Response<ServiceStatus>) {
+                if(response.body()?.status == ServiceStatus.WAITING) {
                     mRegisterView.finishActivity()
                 }
             }

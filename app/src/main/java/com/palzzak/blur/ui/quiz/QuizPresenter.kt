@@ -3,6 +3,7 @@ package com.palzzak.blur.ui.quiz
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.network.data.QuizSet
+import com.palzzak.blur.network.data.SimpleLong
 import com.palzzak.blur.util.Constants
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -47,10 +48,10 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
     }
 
     override fun submitMyAnswers(memberId: Long) {
-        mAPIService.choice(memberId).enqueue(object: Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {}
+        mAPIService.choice(memberId).enqueue(object: Callback<SimpleLong> {
+            override fun onFailure(call: Call<SimpleLong>?, t: Throwable?) {}
 
-            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {}
+            override fun onResponse(call: Call<SimpleLong>?, response: Response<SimpleLong>?) {}
 
         })
 
@@ -65,12 +66,12 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
 
         if (result >= Constants.QUIZ_PASSING_SCORE) {
             mQuizView.congratulations()
-            mAPIService.createRoom(memberId, mReceivedQuizSet.memberId).enqueue(object: Callback<Long> {
-                override fun onFailure(call: Call<Long>?, t: Throwable?) {}
+            mAPIService.createRoom(memberId, mReceivedQuizSet.memberId).enqueue(object: Callback<SimpleLong> {
+                override fun onFailure(call: Call<SimpleLong>?, t: Throwable?) {}
 
-                override fun onResponse(call: Call<Long>?, response: Response<Long>) {
+                override fun onResponse(call: Call<SimpleLong>?, response: Response<SimpleLong>) {
                     response.body()?.apply {
-                        mQuizView.goToChatActivity(mReceivedQuizSet.memberId, this)
+                        mQuizView.goToChatActivity(mReceivedQuizSet.memberId, this.value)
                     }
                 }
 

@@ -1,10 +1,7 @@
 package com.palzzak.blur.network
 
 import com.palzzak.blur.data.Message
-import com.palzzak.blur.network.data.MemberId
-import com.palzzak.blur.network.data.QuizSet
-import com.palzzak.blur.network.data.ServiceStatus
-import com.palzzak.blur.network.data.SimpleQuiz
+import com.palzzak.blur.network.data.*
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -23,7 +20,7 @@ interface APIService {
     }
 
     @POST("/api/v1/member/login")
-    fun logIn(@Query("uniqueKey") mobileId: String): Call<MemberId>
+    fun logIn(@Query("uniqueKey") mobileId: String): Call<SimpleLong>
 
     @POST("/api/v1/member/observeStatus")
     fun observeStatus(@Query("userId") memberId: Long): Call<ServiceStatus>
@@ -35,13 +32,13 @@ interface APIService {
     fun inquireQuiz(@Query("userId") memberId: Long): Call<List<SimpleQuiz>>
 
     @POST("/api/v1/quiz/registQuiz")
-    fun registQuiz(@Body quizSet: QuizSet): Call<ResponseBody>
+    fun registQuiz(@Body quizSet: QuizSet): Call<ServiceStatus>
 
     @POST("/api/v1/chatRoom/choice")
-    fun choice(@Query("userId") memberId: Long): Call<ResponseBody>
+    fun choice(@Query("userId") memberId: Long): Call<SimpleLong>
 
     @POST("/api/v1/chatRoom/createRoom")
-    fun createRoom(@Query("user1Id") member1Id: Long, @Query("user2Id") member2Id: Long): Call<Long>
+    fun createRoom(@Query("user1Id") member1Id: Long, @Query("user2Id") member2Id: Long): Call<SimpleLong>
 
     @POST("/api/v1/chatVoice/observeRoom")
     fun observeChat(@Query("roomId") roomId: Long, @Query("offset") offset: Long): Call<List<Message>>
