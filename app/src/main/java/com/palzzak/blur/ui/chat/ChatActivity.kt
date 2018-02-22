@@ -29,7 +29,6 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
     lateinit var mSharedPref: SharedPreferences
 
     private lateinit var mAdapter: ChatAdapter
-    private val mRecordingHandler = RecordingHandler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,32 +56,32 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
                 AlertDialogFactory.show(fragmentManager, AlertDialogFactory.DIALOG_CHAT_TAG_QUIT)
             }
             R.id.id_chat_record_button -> {
-                mChatPresenter.controlRecording(mRecordingHandler)
+                mChatPresenter.controlRecording()
             }
             R.id.id_chat_send_text -> {
-                mChatPresenter.sendRecord(mRecordingHandler)
+                mChatPresenter.sendRecord()
             }
         }
     }
 
-    override fun showRecordingView() {
+    private fun showRecordingView() {
         AppLogger.d("start recording")
         id_chat_record_button.setImageResource(R.drawable.button_stop)
         id_chat_send_text.visibility = View.VISIBLE
     }
 
-    override fun showWaitingView() {
+    private fun showWaitingView() {
         AppLogger.d("waiting for record")
         id_chat_record_button.setImageResource(R.drawable.button_record)
         id_chat_send_text.visibility = View.INVISIBLE
     }
 
-    override fun showStoppedView() {
+    private fun showStoppedView() {
         AppLogger.d("recording or playing stopped")
         id_chat_record_button.setImageResource(R.drawable.button_play)
     }
 
-    override fun showPlayingView() {
+    private fun showPlayingView() {
         AppLogger.d("playing record")
         id_chat_record_button.setImageResource(R.drawable.button_stop)
     }
@@ -92,9 +91,9 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
         mAdapter.notifyDataSetChanged()
     }
 
-    inner class RecordingHandler: Handler() {
-        override fun handleMessage(msg: android.os.Message?) {
-            when (msg?.what) {
+    override fun updateRecordingButton(status: Int) {
+        launch(UI) {
+            when (status) {
                 mChatPresenter.STATUS_STOPPED -> showStoppedView()
                 mChatPresenter.STATUS_PLAYING -> showPlayingView()
                 mChatPresenter.STATUS_WATING -> showWaitingView()

@@ -1,6 +1,5 @@
 package com.palzzak.blur.ui.chat
 
-import android.os.Handler
 import com.example.yooas.websocketchatter.AudioRecorder
 import com.palzzak.blur.data.Message
 import com.palzzak.blur.data.source.MessagesDataSource
@@ -46,20 +45,20 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
         })
     }
 
-    override fun controlRecording(handler: Handler) {
+    override fun controlRecording() {
         when (mRecordingStatus) {
             STATUS_WATING -> startRecording()
             STATUS_RECORDING -> stopRecording()
-            STATUS_STOPPED -> playRecord(handler)
+            STATUS_STOPPED -> playRecord()
             STATUS_PLAYING -> stopPlaying()
         }
-        handler.sendEmptyMessage(mRecordingStatus)
+        mChatView.updateRecordingButton(mRecordingStatus)
     }
 
 
-    override fun sendRecord(handler: Handler) {
+    override fun sendRecord() {
         mRecordingStatus = STATUS_WATING
-        handler.sendEmptyMessage(mRecordingStatus)
+        mChatView.updateRecordingButton(mRecordingStatus)
     }
 
     private fun startRecording() {
@@ -75,12 +74,12 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
     }
 
 
-    private fun playRecord(handler: Handler) {
+    private fun playRecord() {
         mRecordingStatus = STATUS_PLAYING
         launch(mCoroutineContexts.diskIO()) {
             mAudioRecorder.playWavFile(mRecordPath)
             mRecordingStatus = STATUS_STOPPED
-            handler.sendEmptyMessage(mRecordingStatus)
+            mChatView.updateRecordingButton(mRecordingStatus)
         }
     }
 

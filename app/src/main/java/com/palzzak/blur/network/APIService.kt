@@ -16,16 +16,16 @@ import retrofit2.http.*
 
 interface APIService {
     companion object {
-        const val MIME_TYPE_JSON = "application/json; charset=utf-8"
+        private const val MIME_TYPE_JSON = "application/json; charset=utf-8"
 
         fun createSimpleRequestBody(body: String): RequestBody = RequestBody.create(MediaType.parse(MIME_TYPE_JSON), body)
     }
 
     @POST("/api/v1/member/login")
-    fun signIn(@Body mobileId: RequestBody): Call<String>
+    fun logIn(@Query("uniqueKey") mobileId: String): Call<Long>
 
     @POST("/api/v1/member/observeStatus")
-    fun observeStatus(@Body memberId: RequestBody): Call<ServiceStatus>
+    fun observeStatus(@Query("userId") memberId: Long): Call<ServiceStatus>
 
     @GET("/api/v1/quiz/randomQuiz")
     fun randomQuiz(): Call<QuizSet>

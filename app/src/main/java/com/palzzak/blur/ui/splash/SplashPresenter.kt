@@ -26,27 +26,25 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
         // Request log in to network module
         if (mobileId.isEmpty() || memberId == -1L) {
             val generatedMobileId = IdGenerator.createRandomId()
-            val body = APIService.createSimpleRequestBody(generatedMobileId)
-            mAPIService.signIn(body).enqueue(object : Callback<String> {
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            mAPIService.logIn(generatedMobileId).enqueue(object : Callback<Long> {
+                override fun onFailure(call: Call<Long>, t: Throwable) {
+                    AppLogger.e(t.toString())
                 }
 
-                override fun onResponse(call: Call<String>?, response: Response<String>) {
-                    val resMemberId = response.body()?.toLong() ?: -1L
+                override fun onResponse(call: Call<Long>?, response: Response<Long>) {
+                    val resMemberId = response.body() ?: -1L
 
                     if (resMemberId == -1L) {
                         logIn(IdGenerator.createRandomId(), resMemberId)
                     } else {
                         mSplashView.saveIdPreference(generatedMobileId, resMemberId)
                         mSplashView.showToast("Logged in by ID : $resMemberId")
-                        mSplashView.setStatus(ServiceStatus.WAITING)
+                        mSplashView.setStatus(ServiceStatus.NONE)
                     }
                 }
             })
         } else {
-            val body = APIService.createSimpleRequestBody(memberId.toString())
-            mAPIService.observeStatus(body).enqueue(object: Callback<ServiceStatus> {
+            mAPIService.observeStatus(memberId).enqueue(object: Callback<ServiceStatus> {
                 override fun onFailure(call: Call<ServiceStatus>, t: Throwable) {
                     AppLogger.e("Failed")
                 }

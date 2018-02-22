@@ -10,6 +10,8 @@ import android.content.SharedPreferences
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import com.palzzak.blur.network.response.ServiceStatus
+import com.palzzak.blur.ui.chat.ChatActivity
 import com.palzzak.blur.ui.intro.IntroActivity
 import com.palzzak.blur.util.Constants
 import kotlinx.coroutines.experimental.runBlocking
@@ -71,7 +73,7 @@ class SplashActivity: DaggerAppCompatActivity(), SplashContract.View {
     private fun goToActivity(status: String) {
         val intent = Intent().apply {
             when (status) {
-                //ServiceStatus.CHATTING -> setClass(this@SplashActivity, ChatActivity::class,java)
+                ServiceStatus.CHATTING -> setClass(this@SplashActivity, ChatActivity::class.java)
                 else -> setClass(this@SplashActivity, IntroActivity::class.java)
             }
         }
