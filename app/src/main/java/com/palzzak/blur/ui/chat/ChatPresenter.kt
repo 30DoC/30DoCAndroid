@@ -1,12 +1,21 @@
 package com.palzzak.blur.ui.chat
 
-import com.example.yooas.websocketchatter.AudioRecorder
 import com.palzzak.blur.data.Message
 import com.palzzak.blur.data.source.MessagesDataSource
 import com.palzzak.blur.data.source.MessagesRepository
 import com.palzzak.blur.di.PerActivity
+import com.palzzak.blur.network.APIService
+import com.palzzak.blur.util.AudioRecorder
 import com.palzzak.blur.util.CoroutineContexts
 import kotlinx.coroutines.experimental.launch
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -22,6 +31,9 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
 
     @Inject
     lateinit var mChatView: ChatContract.View
+
+    @Inject
+    lateinit var mAPIService: APIService
 
     @Inject
     lateinit var mAudioRecorder: AudioRecorder
@@ -56,9 +68,18 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
     }
 
 
-    override fun sendRecord() {
+    override fun sendRecord(roomId: Long, memberId: Long, mediaType: MediaType) {
         mRecordingStatus = STATUS_WATING
         mChatView.updateRecordingButton(mRecordingStatus)
+        /*val file = File(mRecordPath)
+        val fileBody = RequestBody.create(mediaType, file)
+        val multipartBody = MultipartBody.Part.createFormData("files", file.name, fileBody)
+        mAPIService.sendVoice(roomId, memberId, multipartBody).enqueue(object: Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {}
+
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {}
+
+        })*/
     }
 
     private fun startRecording() {

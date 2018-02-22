@@ -1,16 +1,10 @@
-package com.example.yooas.websocketchatter
+package com.palzzak.blur.util
 
 import android.media.*
 import android.os.Handler
-import android.os.Message
-import android.util.Base64
-import com.palzzak.blur.util.CoroutineContexts
-import kotlinx.coroutines.experimental.launch
-import java.io.ByteArrayOutputStream
 import java.io.DataInputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import javax.inject.Inject
 
 /**
  * Created by yooas on 2018-01-17.
@@ -26,31 +20,6 @@ class AudioRecorder {
     private var mAudioFormat: Int = -1
     private var mChannelConfig: Int = -1
     private var mIsRecording = false
-
-    fun encodeFileToString(path: String): String {
-        val fis = FileInputStream(path)
-        val out = ByteArrayOutputStream()
-
-        val buffer = ByteArray(1024)
-        while (true) {
-            val len = fis.read(buffer)
-            if (len <= 0) {
-                break
-            }
-            out.write(buffer, 0, len)
-        }
-        val ret = String(Base64.encode(out.toByteArray(), 0))
-
-        fis.close()
-        out.close()
-        return ret
-    }
-
-    fun decodeStringToFile(data: String, receivedAudioPath: String) {
-        val out = FileOutputStream(receivedAudioPath)
-        out.write(Base64.decode(data, 0))
-        out.close()
-    }
 
     fun playWavFile(path: String) {
         val minBufferSize = AudioTrack.getMinBufferSize(mSampleRate, mChannelConfig, mAudioFormat)

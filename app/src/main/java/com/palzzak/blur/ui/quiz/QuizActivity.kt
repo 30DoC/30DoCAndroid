@@ -160,8 +160,8 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
 
     private fun saveChatInfoPref(opponentId: Long, roomId: Long) {
         mSharedPrefs.edit().apply {
-            putLong("opponentId", opponentId)
-            putLong("roomId", roomId)
+            putLong(Constants.PREF_OPPONENT_ID_KEY, opponentId)
+            putLong(Constants.PREF_ROOM_ID_KEY, roomId)
         }.apply()
     }
 }

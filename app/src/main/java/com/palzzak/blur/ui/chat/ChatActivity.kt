@@ -2,9 +2,9 @@ package com.palzzak.blur.ui.chat
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.webkit.MimeTypeMap
 import com.palzzak.blur.R
 import com.palzzak.blur.data.Message
 import com.palzzak.blur.util.AlertDialogFactory
@@ -14,7 +14,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import okhttp3.MediaType
 import javax.inject.Inject
 
 /**
@@ -29,19 +29,25 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
     lateinit var mSharedPref: SharedPreferences
 
     private lateinit var mAdapter: ChatAdapter
+    private var mMemberId: Long = -1L
+    private var mOpponentId: Long = -1L
+    private var mRoomId: Long = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        mChatPresenter.mRecordPath = filesDir.absolutePath + "/recorded_audio.pcm"
+        mChatPresenter.mRecordPath = filesDir.absolutePath + "/recorded_audio.wav"
 
         id_prev_button.setOnClickListener(this)
         id_chat_record_button.setOnClickListener(this)
         id_chat_send_text.setOnClickListener(this)
 
-        val memberId = mSharedPref.getLong(Constants.PREF_MEMBER_ID_KEY, -1)
-        mAdapter = ChatAdapter(memberId)
+        mMemberId = mSharedPref.getLong(Constants.PREF_MEMBER_ID_KEY, -1L)
+        mOpponentId = mSharedPref.getLong(Constants.PREF_OPPONENT_ID_KEY, -1L)
+        mRoomId = mSharedPref.getLong(Constants.PREF_ROOM_ID_KEY, -1L)
+
+        mAdapter = ChatAdapter(mMemberId)
 
         id_chat_recycler.layoutManager = LinearLayoutManager(this)
         id_chat_recycler.adapter = mAdapter
@@ -59,7 +65,7 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
                 mChatPresenter.controlRecording()
             }
             R.id.id_chat_send_text -> {
-                mChatPresenter.sendRecord()
+                mChatPresenter.sendRecord(mRoomId, mMemberId, getMediaTypeFromPath(mChatPresenter.mRecordPath))
             }
         }
     }
@@ -100,5 +106,11 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
                 mChatPresenter.STATUS_RECORDING -> showRecordingView()
             }
         }
+    }
+
+    private fun getMediaTypeFromPath(path: String): MediaType {
+        val extension = MimeTypeMap.getFileExtensionFromUrl(path)
+        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+        return MediaType.parse(mimeType)!!
     }
 }

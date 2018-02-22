@@ -3,6 +3,7 @@ package com.palzzak.blur.network
 import com.palzzak.blur.data.Message
 import com.palzzak.blur.network.data.*
 import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -43,7 +44,9 @@ interface APIService {
     @POST("/api/v1/chatVoice/observeRoom")
     fun observeChat(@Query("roomId") roomId: Long, @Query("offset") offset: Long): Call<List<Message>>
 
-    fun sendAudioRecord(memberId: Long, chatId: Long, timestamp: Long) = 1
+    @POST("/api/v1/chatVoice/sendVoice")
+    fun sendVoice(@Query("roomId") roomId: Long, @Query("registId") memberId: Long, @Part file: MultipartBody.Part): Call<ResponseBody>
+
     fun quit(memberId: Long, chatId: Long) {}
     fun submitMyAnswers(memberId: Long, questionId: Long) = 100
     fun chatJoinResponse(memberId: Long, chatId: Long, response: Boolean) {}

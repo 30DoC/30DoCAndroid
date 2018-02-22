@@ -1,10 +1,10 @@
 package com.palzzak.blur.ui.chat
 
-import com.example.yooas.websocketchatter.AudioRecorder
 import com.palzzak.blur.data.source.MessagesRepository
 import com.palzzak.blur.data.source.local.MessagesLocalDataSource
 import com.palzzak.blur.data.source.remote.MessagesRemoteDataSource
 import com.palzzak.blur.di.PerActivity
+import com.palzzak.blur.util.AudioRecorder
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
