@@ -2,7 +2,7 @@ package com.palzzak.blur.ui.register
 
 import com.palzzak.blur.BasePresenter
 import com.palzzak.blur.BaseView
-import com.palzzak.blur.network.response.SimpleQuiz
+import com.palzzak.blur.network.data.SimpleQuiz
 
 /**
  * Created by stevehan on 2018. 2. 1..

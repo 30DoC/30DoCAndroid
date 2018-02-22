@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.palzzak.blur.R
-import com.palzzak.blur.network.response.SimpleQuiz
+import com.palzzak.blur.network.data.SimpleQuiz
 import com.palzzak.blur.util.AlertDialogFactory
 import com.palzzak.blur.util.Constants
 import dagger.android.support.DaggerAppCompatActivity

@@ -1,4 +1,4 @@
-package com.palzzak.blur.network.response
+package com.palzzak.blur.network.data
 
 import android.os.Parcel
 import android.os.Parcelable

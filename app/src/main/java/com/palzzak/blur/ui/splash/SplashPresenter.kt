@@ -1,8 +1,11 @@
 package com.palzzak.blur.ui.splash
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
-import com.palzzak.blur.network.response.ServiceStatus
+import com.palzzak.blur.network.data.MemberId
+import com.palzzak.blur.network.data.ServiceStatus
 import com.palzzak.blur.util.AppLogger
 import com.palzzak.blur.util.IdGenerator
 import retrofit2.Call
@@ -26,13 +29,13 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
         // Request log in to network module
         if (mobileId.isEmpty() || memberId == -1L) {
             val generatedMobileId = IdGenerator.createRandomId()
-            mAPIService.logIn(generatedMobileId).enqueue(object : Callback<Long> {
-                override fun onFailure(call: Call<Long>, t: Throwable) {
+            mAPIService.logIn(generatedMobileId).enqueue(object : Callback<MemberId> {
+                override fun onFailure(call: Call<MemberId>, t: Throwable) {
                     AppLogger.e(t.toString())
                 }
 
-                override fun onResponse(call: Call<Long>?, response: Response<Long>) {
-                    val resMemberId = response.body() ?: -1L
+                override fun onResponse(call: Call<MemberId>?, response: Response<MemberId>) {
+                    val resMemberId = response.body()?.userId ?: -1L
 
                     if (resMemberId == -1L) {
                         logIn(IdGenerator.createRandomId(), resMemberId)
@@ -50,7 +53,7 @@ class SplashPresenter @Inject constructor(): SplashContract.Presenter {
                 }
 
                 override fun onResponse(call: Call<ServiceStatus>, response: Response<ServiceStatus>) {
-                    val status = response.body()?.status ?: ServiceStatus.WAITING
+                    val status = response.body()?.status ?: ServiceStatus.NONE
                     mSplashView.setStatus(status)
                 }
 

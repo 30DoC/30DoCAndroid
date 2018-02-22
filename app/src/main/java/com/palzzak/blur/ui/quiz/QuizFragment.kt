@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.palzzak.blur.R
-import com.palzzak.blur.network.response.SimpleQuiz
+import com.palzzak.blur.network.data.SimpleQuiz
 
 /**
  * Created by jaeyoonyoo on 2018. 2. 6..

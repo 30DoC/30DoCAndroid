@@ -2,7 +2,8 @@ package com.palzzak.blur.ui.register
 
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.network.APIService
-import com.palzzak.blur.network.response.SimpleQuiz
+import com.palzzak.blur.network.data.QuizSet
+import com.palzzak.blur.network.data.SimpleQuiz
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,11 +34,12 @@ class RegisterPresenter @Inject constructor(): RegisterContract.Presenter {
     }
 
     override fun registQuiz(memberId: Long, quizList: List<SimpleQuiz>) {
-        val call = mAPIService.registQuiz(memberId, quizList)
+        val call = mAPIService.registQuiz(QuizSet(memberId, quizList))
         call.enqueue(object: Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {}
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>) {
+                response
                 if(response.code() == 200) {
                     mRegisterView.finishActivity()
                 }

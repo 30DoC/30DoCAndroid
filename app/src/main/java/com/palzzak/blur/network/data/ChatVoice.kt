@@ -1,4 +1,4 @@
-package com.palzzak.blur.network.response
+package com.palzzak.blur.network.data
 
 /**
  * Created by jaeyoonyoo on 2018. 2. 20..

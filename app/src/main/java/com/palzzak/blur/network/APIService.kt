@@ -1,9 +1,10 @@
 package com.palzzak.blur.network
 
 import com.palzzak.blur.data.Message
-import com.palzzak.blur.network.response.QuizSet
-import com.palzzak.blur.network.response.ServiceStatus
-import com.palzzak.blur.network.response.SimpleQuiz
+import com.palzzak.blur.network.data.MemberId
+import com.palzzak.blur.network.data.QuizSet
+import com.palzzak.blur.network.data.ServiceStatus
+import com.palzzak.blur.network.data.SimpleQuiz
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -22,7 +23,7 @@ interface APIService {
     }
 
     @POST("/api/v1/member/login")
-    fun logIn(@Query("uniqueKey") mobileId: String): Call<Long>
+    fun logIn(@Query("uniqueKey") mobileId: String): Call<MemberId>
 
     @POST("/api/v1/member/observeStatus")
     fun observeStatus(@Query("userId") memberId: Long): Call<ServiceStatus>
@@ -34,7 +35,7 @@ interface APIService {
     fun inquireQuiz(@Query("userId") memberId: Long): Call<List<SimpleQuiz>>
 
     @POST("/api/v1/quiz/registQuiz")
-    fun registQuiz(@Query("userId") memberId: Long, @Body quizList: List<SimpleQuiz>): Call<ResponseBody>
+    fun registQuiz(@Body quizSet: QuizSet): Call<ResponseBody>
 
     @POST("/api/v1/chatRoom/choice")
     fun choice(@Query("userId") memberId: Long): Call<ResponseBody>

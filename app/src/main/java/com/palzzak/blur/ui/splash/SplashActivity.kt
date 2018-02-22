@@ -10,7 +10,7 @@ import android.content.SharedPreferences
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
-import com.palzzak.blur.network.response.ServiceStatus
+import com.palzzak.blur.network.data.ServiceStatus
 import com.palzzak.blur.ui.chat.ChatActivity
 import com.palzzak.blur.ui.intro.IntroActivity
 import com.palzzak.blur.util.Constants

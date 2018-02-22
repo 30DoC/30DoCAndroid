@@ -14,7 +14,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.palzzak.blur.R
-import com.palzzak.blur.network.response.QuizSet
+import com.palzzak.blur.network.data.QuizSet
 import com.palzzak.blur.ui.chat.ChatActivity
 import com.palzzak.blur.util.AlertDialogFactory
 import com.palzzak.blur.util.Constants

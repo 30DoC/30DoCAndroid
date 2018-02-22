@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
 import com.palzzak.blur.R
-import com.palzzak.blur.network.response.SimpleQuiz
+import com.palzzak.blur.network.data.SimpleQuiz
 
 /**
  * Created by yooas on 2018-02-18.
