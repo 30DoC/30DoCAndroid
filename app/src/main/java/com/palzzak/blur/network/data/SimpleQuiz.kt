@@ -7,7 +7,7 @@ import android.os.Parcelable
  * Created by jaeyoonyoo on 2018. 2. 13..
  */
 data class SimpleQuiz(
-        var answer: Boolean,
+        var answer: Boolean?,
         var question: String?) : Parcelable {
     constructor(source: Parcel) : this(
             1 == source.readInt(),
@@ -17,7 +17,7 @@ data class SimpleQuiz(
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeInt((if (answer) 1 else 0))
+        writeInt((if (answer!!) 1 else 0))
         writeString(question)
     }
 

@@ -25,8 +25,27 @@ class RegisterAdapter : RecyclerView.Adapter<RegisterAdapter.ViewHolder>(), View
         itemView.findViewById<EditText>(R.id.id_question_edit).apply {
             addTextChangedListener(MultipleEditTextWatcher(this, mData))
         }
+        for (i in 0..9) {
+            mData[i].question = ""
+            mData[i].answer = null
+        }
         return ViewHolder(itemView)
     }
+
+    fun checkEdittextFull(): Boolean {
+        for (entry in mData) {
+            if (entry.question.equals("")) return false
+        }
+        return true
+    }
+
+    fun checkOXisFull(): Boolean {
+        for (entry in mData) {
+            if (entry.answer == null) return false
+        }
+        return true
+    }
+
 
     override fun getItemCount() = mData.size
 
@@ -46,7 +65,7 @@ class RegisterAdapter : RecyclerView.Adapter<RegisterAdapter.ViewHolder>(), View
 
         fun setPreference(quiz: SimpleQuiz) {
             mQuestionEdit.setText(quiz.question)
-            mAnswerRadioGroup.check(if (quiz.answer) R.id.id_o_button else R.id.id_x_button)
+            mAnswerRadioGroup.check(if (quiz.answer!!) R.id.id_o_button else R.id.id_x_button)
         }
         fun setHint(hint: String) {
             mQuestionEdit.hint = hint

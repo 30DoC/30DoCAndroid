@@ -2,8 +2,10 @@ package com.palzzak.blur.ui.register
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.Toast
 import com.palzzak.blur.R
 import com.palzzak.blur.network.data.SimpleQuiz
 import com.palzzak.blur.util.AlertDialogFactory
@@ -26,6 +28,8 @@ class RegisterActivity : DaggerAppCompatActivity(), RegisterContract.View, View.
     private val mAdapter = RegisterAdapter()
 
     private var mMemberId = -1L
+    private var registerButtonChecked = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -45,7 +49,18 @@ class RegisterActivity : DaggerAppCompatActivity(), RegisterContract.View, View.
                 AlertDialogFactory.show(fragmentManager, AlertDialogFactory.DIALOG_QUESTION_TAG_QUIT)
             }
             R.id.id_register_button -> {
-                mRegisterPresenter.registQuiz(mMemberId, mAdapter.mData)
+                if (mAdapter.checkEdittextFull() && mAdapter.checkOXisFull())  {
+                    if (registerButtonChecked) mRegisterPresenter.registQuiz(mMemberId, mAdapter.mData)
+                    else {
+                        registerButtonChecked = true
+                        var finishButtonControl = id_register_button.getLayoutParams() as ConstraintLayout.LayoutParams
+                        finishButtonControl.width = 180
+                        finishButtonControl.height = 180
+                        id_register_button.setBackground(getDrawable(R.drawable.finish_register_button))
+                    }
+                } else {
+                    Toast.makeText(this, "질문을 모두 등록한 후 제출해주세요.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -58,4 +73,6 @@ class RegisterActivity : DaggerAppCompatActivity(), RegisterContract.View, View.
     override fun finishActivity() {
         finish()
     }
+
 }
+
