@@ -108,7 +108,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
     }
 
     override fun setQuestions(quizSet: QuizSet) {
-        mAdapter.mFragments = QuizFragment.createFragments(quizSet.quizList)
+        mAdapter.mFragments = QuizFragment.createFragments(quizSet.quizList!!)
         mAdapter.notifyDataSetChanged()
     }
 

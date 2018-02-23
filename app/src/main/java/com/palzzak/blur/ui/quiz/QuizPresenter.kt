@@ -3,7 +3,8 @@ package com.palzzak.blur.ui.quiz
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.network.data.QuizSet
-import com.palzzak.blur.network.data.SimpleLong
+import com.palzzak.blur.network.data.MemberId
+import com.palzzak.blur.network.data.RoomId
 import com.palzzak.blur.util.Constants
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,7 +33,9 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
 
             override fun onResponse(call: Call<QuizSet>?, response: Response<QuizSet>?) {
                 mReceivedQuizSet = response?.body()!!
-                mQuizView.printTextWithNumber(mReceivedQuizSet.quizList.size)
+                var list = mReceivedQuizSet.quizList
+                if (list == null) list = mReceivedQuizSet.quizFormList
+                mQuizView.printTextWithNumber(list!!.size)
             }
 
         })
@@ -47,17 +50,17 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
     }
 
     override fun submitMyAnswers(memberId: Long) {
-        mAPIService.choice(memberId).enqueue(object: Callback<SimpleLong> {
-            override fun onFailure(call: Call<SimpleLong>?, t: Throwable?) {}
+        mAPIService.choice(memberId).enqueue(object: Callback<MemberId> {
+            override fun onFailure(call: Call<MemberId>?, t: Throwable?) {}
 
-            override fun onResponse(call: Call<SimpleLong>?, response: Response<SimpleLong>?) {}
+            override fun onResponse(call: Call<MemberId>?, response: Response<MemberId>?) {}
 
         })
 
 
         var correct = 0
-        mReceivedQuizSet.quizList.map {
-            if (it.answer == mMyAnswers[mReceivedQuizSet.quizList.indexOf(it)]) correct++
+        mReceivedQuizSet.quizList!!.map {
+            if (it.answer == mMyAnswers[mReceivedQuizSet.quizList!!.indexOf(it)]) correct++
         }
         val result = (correct.toDouble() / mMyAnswers.size * 100).toInt()
 
@@ -65,12 +68,12 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
 
         if (result >= Constants.QUIZ_PASSING_SCORE) {
             mQuizView.congratulations()
-            mAPIService.createRoom(memberId, mReceivedQuizSet.memberId).enqueue(object: Callback<SimpleLong> {
-                override fun onFailure(call: Call<SimpleLong>?, t: Throwable?) {}
+            mAPIService.createRoom(memberId, mReceivedQuizSet.userId).enqueue(object: Callback<RoomId> {
+                override fun onFailure(call: Call<RoomId>?, t: Throwable?) {}
 
-                override fun onResponse(call: Call<SimpleLong>?, response: Response<SimpleLong>) {
+                override fun onResponse(call: Call<RoomId>?, response: Response<RoomId>) {
                     response.body()?.apply {
-                        mQuizView.goToChatActivity(mReceivedQuizSet.memberId, this.value)
+                        mQuizView.goToChatActivity(mReceivedQuizSet.userId, this.roomId)
                     }
                 }
 

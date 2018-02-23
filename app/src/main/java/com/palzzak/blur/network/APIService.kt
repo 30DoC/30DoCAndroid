@@ -21,7 +21,7 @@ interface APIService {
     }
 
     @POST("/api/v1/member/login")
-    fun logIn(@Query("uniqueKey") mobileId: String): Call<SimpleLong>
+    fun logIn(@Query("uniqueKey") mobileId: String): Call<MemberId>
 
     @POST("/api/v1/member/observeStatus")
     fun observeStatus(@Query("userId") memberId: Long): Call<ServiceStatus>
@@ -36,10 +36,10 @@ interface APIService {
     fun registQuiz(@Body quizSet: QuizSet): Call<ServiceStatus>
 
     @POST("/api/v1/chatRoom/choice")
-    fun choice(@Query("userId") memberId: Long): Call<SimpleLong>
+    fun choice(@Query("userId") memberId: Long): Call<MemberId>
 
     @POST("/api/v1/chatRoom/createRoom")
-    fun createRoom(@Query("user1Id") member1Id: Long, @Query("user2Id") member2Id: Long): Call<SimpleLong>
+    fun createRoom(@Query("user1Id") member1Id: Long, @Query("user2Id") member2Id: Long): Call<RoomId>
 
     @POST("/api/v1/chatVoice/observeRoom")
     fun observeChat(@Query("roomId") roomId: Long, @Query("offset") offset: Long): Call<List<Message>>

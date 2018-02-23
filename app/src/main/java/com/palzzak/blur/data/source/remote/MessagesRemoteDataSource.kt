@@ -29,7 +29,7 @@ class MessagesRemoteDataSource: MessagesDataSource {
     }
 
     override fun saveMessage(message: Message) {
-        //mAPIService.sendVoice(roomId, memberId, message)
+        //mAPIService.sendVoice(roomId, userId, message)
     }
 
     override fun deleteAllMessages() {

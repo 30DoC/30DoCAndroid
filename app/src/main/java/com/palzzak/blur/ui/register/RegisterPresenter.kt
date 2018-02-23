@@ -33,7 +33,7 @@ class RegisterPresenter @Inject constructor(): RegisterContract.Presenter {
     }
 
     override fun registQuiz(memberId: Long, quizList: List<SimpleQuiz>) {
-        val call = mAPIService.registQuiz(QuizSet(memberId, quizList))
+        val call = mAPIService.registQuiz(QuizSet(memberId, quizFormList = quizList))
         call.enqueue(object: Callback<ServiceStatus> {
             override fun onFailure(call: Call<ServiceStatus>?, t: Throwable?) {}
 
