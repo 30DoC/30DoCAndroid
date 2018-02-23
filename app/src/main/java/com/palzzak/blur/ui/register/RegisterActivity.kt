@@ -41,6 +41,7 @@ class RegisterActivity : DaggerAppCompatActivity(), RegisterContract.View, View.
         id_register_button.setOnClickListener(this)
         id_question_recycler.layoutManager = LinearLayoutManager(this)
         id_question_recycler.adapter = mAdapter
+        id_question_recycler.setItemViewCacheSize(10)
     }
 
     override fun onClick(v: View) {
