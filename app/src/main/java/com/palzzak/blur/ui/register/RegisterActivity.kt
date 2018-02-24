@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_register.*
 import javax.inject.Inject
 
 
+
+
 /**
  * Created by stevehan on 2018. 2. 1..
  */
@@ -29,6 +31,7 @@ class RegisterActivity : DaggerAppCompatActivity(), RegisterContract.View, View.
 
     private var mMemberId = -1L
     private var registerButtonChecked = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +53,7 @@ class RegisterActivity : DaggerAppCompatActivity(), RegisterContract.View, View.
                 AlertDialogFactory.show(fragmentManager, AlertDialogFactory.DIALOG_QUESTION_TAG_QUIT)
             }
             R.id.id_register_button -> {
-                if (mAdapter.checkEdittextFull() && mAdapter.checkOXisFull())  {
+                if (validateFields(mAdapter.mData))  {
                     if (registerButtonChecked) mRegisterPresenter.registQuiz(mMemberId, mAdapter.mData)
                     else {
                         registerButtonChecked = true
@@ -74,6 +77,17 @@ class RegisterActivity : DaggerAppCompatActivity(), RegisterContract.View, View.
     override fun finishActivity() {
         finish()
     }
+
+    private fun validateFields(fields: List<SimpleQuiz>): Boolean {
+        for (item in fields) {
+            val currentField = item
+            if (currentField.question.toString().isEmpty() || currentField.answer == null) {
+                return false
+            }
+        }
+        return true
+    }
+
 
 }
 

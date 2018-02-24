@@ -32,16 +32,18 @@ class RegisterAdapter : RecyclerView.Adapter<RegisterAdapter.ViewHolder>(), View
         return ViewHolder(itemView)
     }
 
-    fun checkEdittextFull(): Boolean {
-        for (entry in mData) {
-            if (entry.question == null) return false
+    fun checkEdittextFull(mData: List<SimpleQuiz>): Boolean {
+        for (item in mData) {
+            val currentItem = item
+            if (currentItem.question == null) return false
         }
         return true
     }
 
-    fun checkOXisFull(): Boolean {
-        for (entry in mData) {
-            if (entry.answer == null) return false
+    fun checkOXisFull(mData: List<SimpleQuiz>): Boolean {
+        for (item in mData) {
+            val currentItem = item
+            if (currentItem.answer == null) return false
         }
         return true
     }
