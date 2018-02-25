@@ -21,6 +21,8 @@ interface QuizContract {
         fun setQuizAnswer(index: Int, answer: Boolean)
         fun loadQuiz()
         fun calculateResult(memberId: Long)
-        fun refreshViewIfPassed()
+        fun refreshViewIfPassed(memberId: Long)
+        fun choiceCancel(memberId: Long)
+        fun createRoom(memberId: Long)
     }
 }

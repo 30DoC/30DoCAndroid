@@ -25,6 +25,7 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
     private var mResult: Int = -1
 
     private lateinit var mReceivedQuizSet: QuizSet
+
     private val mMyAnswers = mutableMapOf<Int, Boolean>()
     override fun init(memberId: Long) {
         val call = mAPIService.randomQuiz()
@@ -33,32 +34,25 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
             }
 
             override fun onResponse(call: Call<QuizSet>?, response: Response<QuizSet>?) {
-                mReceivedQuizSet = response?.body()!!
-                var list = mReceivedQuizSet.quizList
-                if (list == null) list = mReceivedQuizSet.quizFormList
-                mQuizView.printTextWithNumber(list!!.size)
+                response?.body()?.run {
+                    mReceivedQuizSet = this
+                    mQuizView.printTextWithNumber(this.quizList.size)
+                }
             }
 
         })
     }
 
-
     override fun setQuizAnswer(index: Int, answer: Boolean) {
         mMyAnswers[index] = answer
     }
+
 
     override fun loadQuiz() {
         mQuizView.setQuestions(mReceivedQuizSet)
     }
 
     override fun calculateResult(memberId: Long) {
-        mAPIService.choice(memberId).enqueue(object: Callback<MemberId> {
-            override fun onFailure(call: Call<MemberId>?, t: Throwable?) {}
-
-            override fun onResponse(call: Call<MemberId>?, response: Response<MemberId>?) {}
-
-        })
-
         var correct = 0
         mReceivedQuizSet.quizList!!.map {
             if (it.answer == mMyAnswers[mReceivedQuizSet.quizList!!.indexOf(it)]) correct++
@@ -68,9 +62,36 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
         mQuizView.showResultScreen(mResult)
     }
 
-    override fun refreshViewIfPassed() {
+    override fun refreshViewIfPassed(memberId: Long) {
         if (mResult >= Constants.QUIZ_PASSING_SCORE) {
             mQuizView.congratulations(mResult)
+            mAPIService.choice(memberId).enqueue(object: Callback<MemberId> {
+                override fun onFailure(call: Call<MemberId>?, t: Throwable?) {}
+
+                override fun onResponse(call: Call<MemberId>?, response: Response<MemberId>?) {}
+
+            })
         }
+    }
+
+    override fun createRoom(memberId: Long) {
+        mAPIService.createRoom(memberId, mReceivedQuizSet.memberId).enqueue(object: Callback<RoomId> {
+            override fun onFailure(call: Call<RoomId>?, t: Throwable?) {}
+
+            override fun onResponse(call: Call<RoomId>?, response: Response<RoomId>?) {
+                val roomId = response?.body()?.roomId ?: -1L
+                mQuizView.goToChatActivity(mReceivedQuizSet.memberId, roomId)
+            }
+
+        })
+    }
+
+    override fun choiceCancel(memberId: Long) {
+        mAPIService.choiceCancel(memberId).enqueue(object: Callback<MemberId> {
+            override fun onFailure(call: Call<MemberId>?, t: Throwable?) {}
+
+            override fun onResponse(call: Call<MemberId>?, response: Response<MemberId>?) {}
+
+        })
     }
 }

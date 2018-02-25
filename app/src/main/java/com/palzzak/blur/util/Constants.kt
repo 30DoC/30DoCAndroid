@@ -10,6 +10,7 @@ class Constants {
         const val PREF_MEMBER_ID_KEY = "PREF_KEY_SESSION_ID"
         const val PREF_OPPONENT_ID_KEY = "PREF_KEY_OPPONENT_ID"
         const val PREF_ROOM_ID_KEY = "PREF_KEY_ROOM_ID_KEY"
+        const val PREF_OFFSET_KEY = "PREF_OFFSET_KEY"
 
         const val QUIZ_PASSING_SCORE = 80
     }

@@ -11,13 +11,11 @@ import com.palzzak.blur.data.Message
  * Created by jaeyoonyoo on 2018. 2. 12..
  */
 class ChatAdapter(private val mMemberId: Long): RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
-    var mData: List<Message>? = null
+    var mData: List<Message> = arrayListOf()
 
     override fun getItemViewType(position: Int): Int {
-        /*val id = mData?.get(position)?.mRegistId ?: return 0
-        if (id == mMemberId) return 0
-        return 1*/
-        return 0
+        if (mData[position].registId == mMemberId) return 0
+        return 1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,11 +24,10 @@ class ChatAdapter(private val mMemberId: Long): RecyclerView.Adapter<ChatAdapter
         return ViewHolder(itemView)
     }
 
-    override fun getItemCount() = mData?.size ?: 0
+    override fun getItemCount() = mData.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val message = mData?.get(position) ?: return
-        holder.setMessage(message)
+        holder.setMessage(mData[position])
     }
 
     class ViewHolder(private val itemView: View): RecyclerView.ViewHolder(itemView) {

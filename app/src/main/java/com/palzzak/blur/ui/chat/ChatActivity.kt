@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.webkit.MimeTypeMap
 import com.palzzak.blur.R
-import com.palzzak.blur.data.Message
+import com.palzzak.blur.network.data.MessageSet
 import com.palzzak.blur.util.AlertDialogFactory
 import com.palzzak.blur.util.AppLogger
 import com.palzzak.blur.util.Constants
@@ -21,7 +21,6 @@ import javax.inject.Inject
  * Created by jaeyoonyoo on 2018. 2. 11..
  */
 class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickListener{
-
     @Inject
     lateinit var mChatPresenter: ChatPresenter
 
@@ -32,6 +31,7 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
     private var mMemberId: Long = -1L
     private var mOpponentId: Long = -1L
     private var mRoomId: Long = -1L
+    private var mOffset: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +55,16 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
         showWaitingView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        mOffset = mSharedPref.getLong(Constants.PREF_OFFSET_KEY, 0L)
+        mChatPresenter.startObservingChat(mRoomId)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mChatPresenter.stopObservingChat()
+    }
 
     override fun onClick(v: View) {
         when (v.id) {
@@ -69,6 +79,8 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
             }
         }
     }
+
+    override fun getOffset(): Long = mOffset
 
     private fun showRecordingView() {
         AppLogger.d("start recording")
@@ -92,11 +104,6 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
         id_chat_record_button.setImageResource(R.drawable.button_stop)
     }
 
-    override fun showMessages(messages: List<Message>?) {
-        mAdapter.mData = messages
-        mAdapter.notifyDataSetChanged()
-    }
-
     override fun updateRecordingButton(status: Int) {
         launch(UI) {
             when (status) {
@@ -106,6 +113,14 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
                 mChatPresenter.STATUS_RECORDING -> showRecordingView()
             }
         }
+    }
+
+    override fun updateChat(messageSet: MessageSet) {
+        (mAdapter.mData as ArrayList).addAll(messageSet.chatVoiceList)
+        mAdapter.notifyDataSetChanged()
+
+        mOffset = messageSet.offset
+        mSharedPref.edit().putLong(Constants.PREF_OFFSET_KEY, mOffset).apply()
     }
 
     private fun getMediaTypeFromPath(path: String): MediaType {

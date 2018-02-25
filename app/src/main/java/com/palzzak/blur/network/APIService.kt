@@ -33,17 +33,21 @@ interface APIService {
     fun inquireQuiz(@Query("userId") memberId: Long): Call<List<SimpleQuiz>>
 
     @POST("/api/v1/quiz/registQuiz")
-    fun registQuiz(@Body quizSet: QuizSet): Call<ServiceStatus>
+    fun registQuiz(@Body quizSet: QuizFormSet): Call<ServiceStatus>
 
     @POST("/api/v1/chatRoom/choice")
     fun choice(@Query("userId") memberId: Long): Call<MemberId>
+
+    @POST("/api/v1/chatRoom/choiceCancel")
+    fun choiceCancel(@Query("userId") memberId: Long): Call<MemberId>
 
     @POST("/api/v1/chatRoom/createRoom")
     fun createRoom(@Query("user1Id") member1Id: Long, @Query("user2Id") member2Id: Long): Call<RoomId>
 
     @POST("/api/v1/chatVoice/observeRoom")
-    fun observeChat(@Query("roomId") roomId: Long, @Query("offset") offset: Long): Call<List<Message>>
+    fun observeRoom(@Query("roomId") roomId: Long, @Query("offset") offset: Long): Call<MessageSet>
 
+    @Multipart
     @POST("/api/v1/chatVoice/sendVoice")
     fun sendVoice(@Query("roomId") roomId: Long, @Query("registId") memberId: Long, @Part file: MultipartBody.Part): Call<ResponseBody>
 

@@ -2,6 +2,7 @@ package com.palzzak.blur.ui.register
 
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.network.APIService
+import com.palzzak.blur.network.data.QuizFormSet
 import com.palzzak.blur.network.data.QuizSet
 import com.palzzak.blur.network.data.ServiceStatus
 import com.palzzak.blur.network.data.SimpleQuiz
@@ -33,8 +34,7 @@ class RegisterPresenter @Inject constructor(): RegisterContract.Presenter {
     }
 
     override fun registQuiz(memberId: Long, quizList: List<SimpleQuiz>) {
-        val call = mAPIService.registQuiz(QuizSet(memberId, quizFormList = quizList))
-        call.enqueue(object: Callback<ServiceStatus> {
+        mAPIService.registQuiz(QuizFormSet(memberId, quizList)).enqueue(object: Callback<ServiceStatus> {
             override fun onFailure(call: Call<ServiceStatus>?, t: Throwable?) {}
 
             override fun onResponse(call: Call<ServiceStatus>?, response: Response<ServiceStatus>) {

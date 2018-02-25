@@ -1,10 +1,9 @@
 package com.palzzak.blur.ui.chat
 
-import com.palzzak.blur.data.Message
-import com.palzzak.blur.data.source.MessagesDataSource
 import com.palzzak.blur.data.source.MessagesRepository
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.network.APIService
+import com.palzzak.blur.network.data.MessageSet
 import com.palzzak.blur.util.AudioRecorder
 import com.palzzak.blur.util.CoroutineContexts
 import kotlinx.coroutines.experimental.launch
@@ -16,6 +15,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 /**
@@ -24,6 +25,7 @@ import javax.inject.Inject
 
 @PerActivity
 class ChatPresenter @Inject constructor(): ChatContract.Presenter {
+
     val STATUS_WATING = 0
     val STATUS_RECORDING = 1
     val STATUS_STOPPED = 2
@@ -45,17 +47,8 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
     lateinit var mCoroutineContexts: CoroutineContexts
 
     private var mRecordingStatus = STATUS_WATING
-
     lateinit var mRecordPath: String
-
-    override fun observeRoom(roomId: Long, offset: Long) {
-        mMessagesRepository.getMessages(roomId, offset, object: MessagesDataSource.LoadMessagesCallback {
-            override fun onMessagesLoaded(messages: List<Message>?) {
-                mChatView.showMessages(messages)
-            }
-
-        })
-    }
+    private val mChatExecutor: ExecutorService = Executors.newSingleThreadExecutor()
 
     override fun controlRecording() {
         when (mRecordingStatus) {
@@ -71,7 +64,7 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
     override fun sendRecord(roomId: Long, memberId: Long, mediaType: MediaType) {
         mRecordingStatus = STATUS_WATING
         mChatView.updateRecordingButton(mRecordingStatus)
-        /*val file = File(mRecordPath)
+        val file = File(mRecordPath)
         val fileBody = RequestBody.create(mediaType, file)
         val multipartBody = MultipartBody.Part.createFormData("files", file.name, fileBody)
         mAPIService.sendVoice(roomId, memberId, multipartBody).enqueue(object: Callback<ResponseBody> {
@@ -79,7 +72,7 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
 
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {}
 
-        })*/
+        })
     }
 
     private fun startRecording() {
@@ -109,5 +102,25 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
             mAudioRecorder.stopPlaying()
         }
         mRecordingStatus = STATUS_STOPPED
+    }
+
+    override fun startObservingChat(roomId: Long) {
+        mChatExecutor.execute{
+            while (true) {
+                mAPIService.observeRoom(roomId, mChatView.getOffset()).enqueue(object: Callback<MessageSet>{
+                    override fun onFailure(call: Call<MessageSet>?, t: Throwable?) {}
+
+                    override fun onResponse(call: Call<MessageSet>?, response: Response<MessageSet>?) {
+                        if (response?.body()?.chatVoiceList?.isEmpty() == false) mChatView.updateChat(response.body()!!)
+                    }
+
+                })
+                Thread.sleep(1000L)
+            }
+        }
+    }
+
+    override fun stopObservingChat() {
+        mChatExecutor.shutdown()
     }
 }

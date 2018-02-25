@@ -24,7 +24,9 @@ import kotlinx.android.synthetic.main.activity_quiz.*
 import kotlinx.android.synthetic.main.activity_quiz_desc.*
 import kotlinx.android.synthetic.main.result_subactivity.*
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import java.util.*
 import javax.inject.Inject
 
@@ -57,6 +59,11 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
 
         mQuizPresenter.init(mMemberId)
         startQuizAfterSeconds()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        mQuizPresenter.choiceCancel(mMemberId)
     }
 
     override fun printTextWithNumber(num: Int) {
@@ -95,6 +102,9 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
                     setCurrentItem(id_quiz_pager.currentItem - 1)
                 }
             }
+            R.id.id_chat_start_button -> {
+                mQuizPresenter.createRoom(mMemberId)
+            }
             else -> {
                 mQuizPresenter.setQuizAnswer(id_quiz_pager.currentItem, v.id == R.id.id_answer_true_button)
                 if (id_quiz_pager.currentItem + 1 >= id_quiz_pager.adapter.count) {
@@ -129,6 +139,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
     override fun showResultScreen(result: Int) {
         setContentView(R.layout.result_subactivity)
         id_result_progress.mTextView = id_result_text
+        id_chat_start_button.setOnClickListener(this)
 
         ObjectAnimator.ofInt(id_result_progress, "progress", result).apply {
             duration = 1000
@@ -136,7 +147,10 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
                 override fun onAnimationRepeat(animation: Animator?) {}
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    mQuizPresenter.refreshViewIfPassed()
+                    runBlocking {
+                        delay(1000L)
+                        mQuizPresenter.refreshViewIfPassed(mMemberId)
+                    }
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {}

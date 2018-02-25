@@ -20,9 +20,9 @@ class MessagesLocalDataSource: MessagesDataSource {
     override fun getMessages(roomId: Long, offset: Long, callback: MessagesDataSource.LoadMessagesCallback) {
         launch(mCoroutineContexts.diskIO()) {
             val messages = mMessageDao.getMessages()
-            launch(UI) {
+            /*launch(UI) {
                 callback.onMessagesLoaded(messages)
-            }
+            }*/
         }
     }
 

@@ -46,7 +46,7 @@ class RegisterAdapter : RecyclerView.Adapter<RegisterAdapter.ViewHolder>(), View
 
         fun setPreference(quiz: SimpleQuiz) {
             mQuestionEdit.setText(quiz.question)
-            mAnswerRadioGroup.check(if (quiz.answer != null) R.id.id_o_button else R.id.id_x_button)
+            mAnswerRadioGroup.check(if (quiz.answer == true) R.id.id_o_button else R.id.id_x_button)
         }
         fun setHint(hint: String) {
             mQuestionEdit.hint = hint

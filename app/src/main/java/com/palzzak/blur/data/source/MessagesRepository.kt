@@ -18,14 +18,14 @@ class MessagesRepository: MessagesDataSource {
 
     override fun getMessages(roomId: Long, offset: Long, callback: MessagesDataSource.LoadMessagesCallback) {
         if (!mIsCacheDirty && !mCachedMessages.isEmpty()) {
-            callback.onMessagesLoaded(ArrayList(mCachedMessages.values))
+            //callback.onMessagesLoaded(ArrayList(mCachedMessages.values))
             return
         }
 
         if (mIsCacheDirty) {
             getMessagesFromRemoteDataSource(callback)
         } else {
-            mMessagesLocalDataSource.getMessages(roomId, offset, object : MessagesDataSource.LoadMessagesCallback {
+            /*mMessagesLocalDataSource.getMessages(roomId, offset, object : MessagesDataSource.LoadMessagesCallback {
                 override fun onMessagesLoaded(messages: List<Message>?) {
                     if (messages == null || messages.isEmpty()) {
                         return
@@ -34,7 +34,7 @@ class MessagesRepository: MessagesDataSource {
                     refreshLocalDataSource(messages)
                     callback.onMessagesLoaded(ArrayList(mCachedMessages.values))
                 }
-            })
+            })*/
         }
     }
 
@@ -52,13 +52,13 @@ class MessagesRepository: MessagesDataSource {
     private fun refreshCache(messages: List<Message>){
         mCachedMessages.clear()
         messages.map {
-            mCachedMessages[it.mVoiceId] = it
+            mCachedMessages[it.voiceId] = it
         }
     }
 
     override fun saveMessage(message: Message) {
         mMessagesLocalDataSource.saveMessage(message)
-        mCachedMessages[message.mVoiceId] = message
+        mCachedMessages[message.voiceId] = message
     }
 
     override fun deleteAllMessages() {
