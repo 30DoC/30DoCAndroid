@@ -12,7 +12,7 @@ interface QuizContract {
         fun printTextWithNumber(num: Int)
         fun setQuestions(questions: QuizSet)
         fun showResultScreen(result: Int)
-        fun congratulations()
+        fun congratulations(result: Int)
         fun goToChatActivity(opponentId: Long, roomId: Long)
     }
 
@@ -20,6 +20,7 @@ interface QuizContract {
         fun init(memberId: Long)
         fun setQuizAnswer(index: Int, answer: Boolean)
         fun loadQuiz()
-        fun submitMyAnswers(memberId: Long)
+        fun calculateResult(memberId: Long)
+        fun refreshViewIfPassed()
     }
 }

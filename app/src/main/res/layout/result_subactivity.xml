@@ -37,6 +37,7 @@
         app:layout_constraintBottom_toBottomOf="@id/id_result_progress"
         app:layout_constraintVertical_bias="0.5"
         app:layout_constraintHorizontal_bias="0.5"
+        android:gravity="center"
         android:textSize="50sp"
         android:textColor="@android:color/white"
         tools:text="100%" />
@@ -53,5 +54,19 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:text="@string/result_desc"/>
+
+    <Button
+        android:id="@+id/id_chat_start_button"
+        style="@style/ButtonStyle0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:visibility="invisible"
+        android:text="@string/intro_start"
+        android:src="@drawable/chat_start_button"/>
 
 </android.support.constraint.ConstraintLayout>

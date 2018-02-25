@@ -21,10 +21,11 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
 
     @Inject
     lateinit var mAPIService: APIService
+
+    private var mResult: Int = -1
+
     private lateinit var mReceivedQuizSet: QuizSet
     private val mMyAnswers = mutableMapOf<Int, Boolean>()
-
-
     override fun init(memberId: Long) {
         val call = mAPIService.randomQuiz()
         call.enqueue(object: Callback<QuizSet> {
@@ -41,6 +42,7 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
         })
     }
 
+
     override fun setQuizAnswer(index: Int, answer: Boolean) {
         mMyAnswers[index] = answer
     }
@@ -49,7 +51,7 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
         mQuizView.setQuestions(mReceivedQuizSet)
     }
 
-    override fun submitMyAnswers(memberId: Long) {
+    override fun calculateResult(memberId: Long) {
         mAPIService.choice(memberId).enqueue(object: Callback<MemberId> {
             override fun onFailure(call: Call<MemberId>?, t: Throwable?) {}
 
@@ -57,27 +59,18 @@ class QuizPresenter @Inject constructor(): QuizContract.Presenter {
 
         })
 
-
         var correct = 0
         mReceivedQuizSet.quizList!!.map {
             if (it.answer == mMyAnswers[mReceivedQuizSet.quizList!!.indexOf(it)]) correct++
         }
-        val result = (correct.toDouble() / mMyAnswers.size * 100).toInt()
+        mResult = (correct.toDouble() / mMyAnswers.size * 100).toInt()
 
-        mQuizView.showResultScreen(result)
+        mQuizView.showResultScreen(mResult)
+    }
 
-        if (result >= Constants.QUIZ_PASSING_SCORE) {
-            mQuizView.congratulations()
-            mAPIService.createRoom(memberId, mReceivedQuizSet.userId).enqueue(object: Callback<RoomId> {
-                override fun onFailure(call: Call<RoomId>?, t: Throwable?) {}
-
-                override fun onResponse(call: Call<RoomId>?, response: Response<RoomId>) {
-                    response.body()?.apply {
-                        mQuizView.goToChatActivity(mReceivedQuizSet.userId, this.roomId)
-                    }
-                }
-
-            })
+    override fun refreshViewIfPassed() {
+        if (mResult >= Constants.QUIZ_PASSING_SCORE) {
+            mQuizView.congratulations(mResult)
         }
     }
 }

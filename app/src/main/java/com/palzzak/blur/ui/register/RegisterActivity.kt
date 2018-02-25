@@ -15,8 +15,6 @@ import kotlinx.android.synthetic.main.activity_register.*
 import javax.inject.Inject
 
 
-
-
 /**
  * Created by stevehan on 2018. 2. 1..
  */
@@ -79,15 +77,13 @@ class RegisterActivity : DaggerAppCompatActivity(), RegisterContract.View, View.
     }
 
     private fun validateFields(fields: List<SimpleQuiz>): Boolean {
-        for (item in fields) {
-            val currentField = item
-            if (currentField.question.toString().isEmpty() || currentField.answer == null) {
+        fields.map{
+            if (it.question.toString().isEmpty() || it.answer == null) {
                 return false
             }
         }
         return true
     }
-
 
 }
 

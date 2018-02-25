@@ -1,5 +1,6 @@
 package com.palzzak.blur.ui.quiz
 
+import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
@@ -23,9 +24,7 @@ import kotlinx.android.synthetic.main.activity_quiz.*
 import kotlinx.android.synthetic.main.activity_quiz_desc.*
 import kotlinx.android.synthetic.main.result_subactivity.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
 import java.util.*
 import javax.inject.Inject
 
@@ -99,7 +98,7 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
             else -> {
                 mQuizPresenter.setQuizAnswer(id_quiz_pager.currentItem, v.id == R.id.id_answer_true_button)
                 if (id_quiz_pager.currentItem + 1 >= id_quiz_pager.adapter.count) {
-                    mQuizPresenter.submitMyAnswers(mMemberId)
+                    mQuizPresenter.calculateResult(mMemberId)
                 } else {
                     setCurrentItem(id_quiz_pager.currentItem + 1)
                 }
@@ -133,19 +132,30 @@ class QuizActivity : DaggerAppCompatActivity(), QuizContract.View, View.OnClickL
 
         ObjectAnimator.ofInt(id_result_progress, "progress", result).apply {
             duration = 1000
-        }.start()
+            addListener(object: Animator.AnimatorListener {
+                override fun onAnimationRepeat(animation: Animator?) {}
 
+                override fun onAnimationEnd(animation: Animator?) {
+                    mQuizPresenter.refreshViewIfPassed()
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {}
+
+                override fun onAnimationStart(animation: Animator?) {}
+            })
+            start()
+        }
     }
-    override fun congratulations() {
+    override fun congratulations(result: Int) {
         id_result_desc_text.visibility = View.INVISIBLE
+        id_chat_start_button.visibility = View.VISIBLE
+        id_result_progress.visibility = View.INVISIBLE
+        id_result_text.text = String.format(resources.getString(R.string.result_passed), result)
+        id_result_text.textSize = 22F
         Glide.with(this@QuizActivity)
                 .asGif()
                 .load(R.drawable.congratulations)
                 .into(id_result_background_img)
-
-        runBlocking {
-            delay(2000L)
-        }
     }
 
     override fun goToChatActivity(opponentId: Long, roomId: Long) {

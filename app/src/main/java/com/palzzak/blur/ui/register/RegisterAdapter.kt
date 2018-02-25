@@ -25,29 +25,8 @@ class RegisterAdapter : RecyclerView.Adapter<RegisterAdapter.ViewHolder>(), View
         itemView.findViewById<EditText>(R.id.id_question_edit).apply {
             addTextChangedListener(MultipleEditTextWatcher(this, mData))
         }
-        for (i in 0..9) {
-            mData[i].question = null
-            mData[i].answer = null
-        }
         return ViewHolder(itemView)
     }
-
-    fun checkEdittextFull(mData: List<SimpleQuiz>): Boolean {
-        for (item in mData) {
-            val currentItem = item
-            if (currentItem.question == null) return false
-        }
-        return true
-    }
-
-    fun checkOXisFull(mData: List<SimpleQuiz>): Boolean {
-        for (item in mData) {
-            val currentItem = item
-            if (currentItem.answer == null) return false
-        }
-        return true
-    }
-
 
     override fun getItemCount() = mData.size
 
