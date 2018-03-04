@@ -1,6 +1,9 @@
 package com.palzzak.blur.data.source
 
 import com.palzzak.blur.data.Message
+import com.palzzak.blur.data.source.local.MessagesLocalDataSource
+import com.palzzak.blur.data.source.remote.MessagesRemoteDataSource
+import com.palzzak.blur.network.data.MessageSet
 import javax.inject.Inject
 
 /**
@@ -8,38 +11,45 @@ import javax.inject.Inject
  */
 class MessagesRepository: MessagesDataSource {
     @Inject
-    lateinit var mMessagesLocalDataSource: MessagesDataSource
+    lateinit var mMessagesLocalDataSource: MessagesLocalDataSource
 
     @Inject
-    lateinit var mMessagesRemoteDataSource: MessagesDataSource
+    lateinit var mMessagesRemoteDataSource: MessagesRemoteDataSource
 
     private val mCachedMessages: MutableMap<Long, Message> = LinkedHashMap()
     private var mIsCacheDirty = false
+    private var mOffset = -1L
 
     override fun getMessages(roomId: Long, offset: Long, callback: MessagesDataSource.LoadMessagesCallback) {
         if (!mIsCacheDirty && !mCachedMessages.isEmpty()) {
-            //callback.onMessagesLoaded(ArrayList(mCachedMessages.values))
+            callback.onMessagesLoaded(MessageSet(ArrayList(mCachedMessages.values), mOffset))
             return
         }
 
-        if (mIsCacheDirty) {
-            getMessagesFromRemoteDataSource(callback)
-        } else {
-            /*mMessagesLocalDataSource.getMessages(roomId, offset, object : MessagesDataSource.LoadMessagesCallback {
-                override fun onMessagesLoaded(messages: List<Message>?) {
-                    if (messages == null || messages.isEmpty()) {
-                        return
+        if (mCachedMessages.isEmpty()) {
+            mMessagesLocalDataSource.getMessages(roomId, offset, object: MessagesDataSource.LoadMessagesCallback {
+                override fun onMessagesLoaded(messages: MessageSet) {
+                    messages.chatVoiceList.map {
+                        saveMessageIntoCache(it)
                     }
-                    refreshCache(messages)
-                    refreshLocalDataSource(messages)
-                    callback.onMessagesLoaded(ArrayList(mCachedMessages.values))
                 }
-            })*/
+            })
         }
+
+        mMessagesRemoteDataSource.getMessages(roomId, offset, object: MessagesDataSource.LoadMessagesCallback {
+            override fun onMessagesLoaded(messages: MessageSet) {
+                mOffset = messages.offset
+                messages.chatVoiceList.map {
+                    saveMessage(it)
+                }
+            }
+        })
+
+        callback.onMessagesLoaded(MessageSet(ArrayList(mCachedMessages.values), mOffset))
     }
 
-    private fun getMessagesFromRemoteDataSource(callback: MessagesDataSource.LoadMessagesCallback) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun saveMessageIntoCache(message: Message) {
+        mCachedMessages[message.voiceId] = message
     }
 
     private fun refreshLocalDataSource(messages: List<Message>) {

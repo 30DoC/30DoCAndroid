@@ -8,11 +8,11 @@ import com.palzzak.blur.network.data.MessageSet
  */
 interface MessagesDataSource {
     interface LoadMessagesCallback {
-        fun onMessagesLoaded(messages: MessageSet?)
+        fun onMessagesLoaded(messages: MessageSet)
     }
 
     interface GetMessageCallback {
-        fun onMessageLoaded(message: MessageSet?)
+        fun onMessageLoaded(message: MessageSet)
     }
 
     fun getMessages(roomId: Long, offset: Long, callback: LoadMessagesCallback)

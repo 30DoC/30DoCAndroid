@@ -1,5 +1,6 @@
 package com.palzzak.blur.ui.chat
 
+import com.palzzak.blur.data.source.MessagesDataSource
 import com.palzzak.blur.data.source.MessagesRepository
 import com.palzzak.blur.di.PerActivity
 import com.palzzak.blur.network.APIService
@@ -112,6 +113,12 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
 
                     override fun onResponse(call: Call<MessageSet>?, response: Response<MessageSet>?) {
                         if (response?.body()?.chatVoiceList?.isEmpty() == false) mChatView.updateChat(response.body()!!)
+                    }
+
+                })
+                mMessagesRepository.getMessages(roomId, mChatView.getOffset(), object: MessagesDataSource.LoadMessagesCallback {
+                    override fun onMessagesLoaded(messages: MessageSet) {
+                        mChatView.updateChat(messages)
                     }
 
                 })

@@ -2,6 +2,7 @@ package com.palzzak.blur.data.source.local
 
 import com.palzzak.blur.data.Message
 import com.palzzak.blur.data.source.MessagesDataSource
+import com.palzzak.blur.network.data.MessageSet
 import com.palzzak.blur.util.CoroutineContexts
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -20,9 +21,7 @@ class MessagesLocalDataSource: MessagesDataSource {
     override fun getMessages(roomId: Long, offset: Long, callback: MessagesDataSource.LoadMessagesCallback) {
         launch(mCoroutineContexts.diskIO()) {
             val messages = mMessageDao.getMessages()
-            /*launch(UI) {
-                callback.onMessagesLoaded(messages)
-            }*/
+            callback.onMessagesLoaded(MessageSet(messages, -1L))
         }
     }
 

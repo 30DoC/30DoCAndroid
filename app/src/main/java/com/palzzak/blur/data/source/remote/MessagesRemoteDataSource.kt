@@ -22,23 +22,17 @@ class MessagesRemoteDataSource: MessagesDataSource {
             override fun onFailure(call: Call<MessageSet>?, t: Throwable?) {}
 
             override fun onResponse(call: Call<MessageSet>?, response: Response<MessageSet>?) {
-                val messages = response?.body()
-                callback.onMessagesLoaded(messages)
+                response?.body()?.run {
+                    callback.onMessagesLoaded(this)
+                }
             }
 
         })
     }
 
-    override fun saveMessage(message: Message) {
-        //mAPIService.sendVoice(roomId, userId, message)
-    }
+    override fun saveMessage(message: Message) {}
 
-    override fun deleteAllMessages() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun deleteAllMessages() {}
 
-    override fun deleteMessage(id: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+    override fun deleteMessage(id: Long) {}
 }
