@@ -1,7 +1,11 @@
 package com.palzzak.blur.ui.intro
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.view.View
 import com.palzzak.blur.R
 import com.palzzak.blur.ui.register.RegisterActivity
@@ -24,6 +28,12 @@ class IntroActivity: DaggerAppCompatActivity(), IntroContract.View, View.OnClick
 
         id_start_button.setOnClickListener(this)
         id_create_mine_button.setOnClickListener(this)
+
+        arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE).map {
+            if (ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(it), 0);
+            }
+        }
     }
 
     override fun onClick(p0: View) {
