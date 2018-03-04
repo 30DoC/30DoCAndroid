@@ -3,6 +3,9 @@ package com.palzzak.blur.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.palzzak.blur.data.source.MessagesRepository
+import com.palzzak.blur.data.source.local.MessagesLocalDataSource
+import com.palzzak.blur.data.source.remote.MessagesRemoteDataSource
 import com.palzzak.blur.network.APIService
 import com.palzzak.blur.util.Constants
 import com.palzzak.blur.util.CoroutineContexts
@@ -12,6 +15,7 @@ import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import javax.inject.Inject
 import javax.inject.Singleton
 
 /**

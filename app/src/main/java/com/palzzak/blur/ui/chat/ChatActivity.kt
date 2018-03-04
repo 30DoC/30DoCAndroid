@@ -116,11 +116,14 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
     }
 
     override fun updateChat(messageSet: MessageSet) {
-        (mAdapter.mData as ArrayList).addAll(messageSet.chatVoiceList)
-        mAdapter.notifyDataSetChanged()
-
-        mOffset = messageSet.offset
-        mSharedPref.edit().putLong(Constants.PREF_OFFSET_KEY, mOffset).apply()
+        launch(UI) {
+            (mAdapter.mData as ArrayList).addAll(messageSet.chatVoiceList)
+            mAdapter.notifyDataSetChanged()
+        }
+        if (mOffset < messageSet.offset) {
+            mOffset = messageSet.offset
+            mSharedPref.edit().putLong(Constants.PREF_OFFSET_KEY, mOffset).apply()
+        }
     }
 
     private fun getMediaTypeFromPath(path: String): MediaType {

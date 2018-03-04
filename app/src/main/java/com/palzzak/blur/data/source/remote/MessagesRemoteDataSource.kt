@@ -8,14 +8,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by jaeyoonyoo on 2018. 2. 20..
  */
 
-class MessagesRemoteDataSource: MessagesDataSource {
-    @Inject
-    lateinit var mAPIService: APIService
+@Singleton
+class MessagesRemoteDataSource @Inject constructor(val mAPIService: APIService): MessagesDataSource {
 
     override fun getMessages(roomId: Long, offset: Long, callback: MessagesDataSource.LoadMessagesCallback) {
         mAPIService.observeRoom(roomId, offset).enqueue(object: Callback<MessageSet> {

@@ -4,19 +4,15 @@ import com.palzzak.blur.data.Message
 import com.palzzak.blur.data.source.MessagesDataSource
 import com.palzzak.blur.network.data.MessageSet
 import com.palzzak.blur.util.CoroutineContexts
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by yooas on 2018-01-19.
  */
-class MessagesLocalDataSource: MessagesDataSource {
-    @Inject
-    lateinit var mCoroutineContexts: CoroutineContexts
-
-    @Inject
-    lateinit var mMessageDao: MessageDao
+@Singleton
+class MessagesLocalDataSource @Inject constructor(val mCoroutineContexts: CoroutineContexts, val mMessageDao: MessageDao): MessagesDataSource {
 
     override fun getMessages(roomId: Long, offset: Long, callback: MessagesDataSource.LoadMessagesCallback) {
         launch(mCoroutineContexts.diskIO()) {

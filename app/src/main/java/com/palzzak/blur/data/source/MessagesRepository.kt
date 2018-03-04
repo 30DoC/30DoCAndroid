@@ -5,17 +5,13 @@ import com.palzzak.blur.data.source.local.MessagesLocalDataSource
 import com.palzzak.blur.data.source.remote.MessagesRemoteDataSource
 import com.palzzak.blur.network.data.MessageSet
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by yooas on 2018-01-19.
  */
-class MessagesRepository: MessagesDataSource {
-    @Inject
-    lateinit var mMessagesLocalDataSource: MessagesLocalDataSource
-
-    @Inject
-    lateinit var mMessagesRemoteDataSource: MessagesRemoteDataSource
-
+@Singleton
+class MessagesRepository @Inject constructor(val mMessagesLocalDataSource: MessagesLocalDataSource, val mMessagesRemoteDataSource: MessagesRemoteDataSource): MessagesDataSource {
     private val mCachedMessages: MutableMap<Long, Message> = LinkedHashMap()
     private var mIsCacheDirty = false
     private var mOffset = -1L
