@@ -117,7 +117,7 @@ class ChatActivity: DaggerAppCompatActivity(), ChatContract.View, View.OnClickLi
 
     override fun updateChat(messageSet: MessageSet) {
         launch(UI) {
-            (mAdapter.mData as ArrayList).addAll(messageSet.chatVoiceList)
+            mAdapter.mData = messageSet.chatVoiceList
             mAdapter.notifyDataSetChanged()
         }
         if (mOffset < messageSet.offset) {

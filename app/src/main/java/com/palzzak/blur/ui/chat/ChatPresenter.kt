@@ -49,7 +49,7 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
 
     private var mRecordingStatus = STATUS_WATING
     lateinit var mRecordPath: String
-    private val mChatExecutor: ExecutorService = Executors.newSingleThreadExecutor()
+    private var mChatExecutor: ExecutorService? = null
 
     override fun controlRecording() {
         when (mRecordingStatus) {
@@ -106,17 +106,10 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
     }
 
     override fun startObservingChat(roomId: Long) {
-        mChatExecutor.execute{
+        if (mChatExecutor == null) mChatExecutor = Executors.newSingleThreadExecutor()
+        mChatExecutor?.takeIf { mChatExecutor?.isShutdown == false }?.execute {
             while (true) {
-                mAPIService.observeRoom(roomId, mChatView.getOffset()).enqueue(object: Callback<MessageSet>{
-                    override fun onFailure(call: Call<MessageSet>?, t: Throwable?) {}
-
-                    override fun onResponse(call: Call<MessageSet>?, response: Response<MessageSet>?) {
-                        if (response?.body()?.chatVoiceList?.isEmpty() == false) mChatView.updateChat(response.body()!!)
-                    }
-
-                })
-                mMessagesRepository.getMessages(roomId, mChatView.getOffset(), object: MessagesDataSource.LoadMessagesCallback {
+                mMessagesRepository.getMessages(roomId, mChatView.getOffset(), object : MessagesDataSource.LoadMessagesCallback {
                     override fun onMessagesLoaded(messages: MessageSet) {
                         mChatView.updateChat(messages)
                     }
@@ -128,6 +121,6 @@ class ChatPresenter @Inject constructor(): ChatContract.Presenter {
     }
 
     override fun stopObservingChat() {
-        mChatExecutor.shutdown()
+        mChatExecutor?.shutdown()
     }
 }

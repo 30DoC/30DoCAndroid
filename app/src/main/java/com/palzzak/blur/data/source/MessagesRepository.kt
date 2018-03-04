@@ -13,21 +13,17 @@ import javax.inject.Singleton
 @Singleton
 class MessagesRepository @Inject constructor(val mMessagesLocalDataSource: MessagesLocalDataSource, val mMessagesRemoteDataSource: MessagesRemoteDataSource): MessagesDataSource {
     private val mCachedMessages: MutableMap<Long, Message> = LinkedHashMap()
-    private var mIsCacheDirty = false
+    private var mIsLocalMessagesLoaded = false
     private var mOffset = -1L
 
     override fun getMessages(roomId: Long, offset: Long, callback: MessagesDataSource.LoadMessagesCallback) {
-        if (!mIsCacheDirty && !mCachedMessages.isEmpty()) {
-            callback.onMessagesLoaded(MessageSet(ArrayList(mCachedMessages.values), mOffset))
-            return
-        }
-
-        if (mCachedMessages.isEmpty()) {
+        if (!mIsLocalMessagesLoaded) {
             mMessagesLocalDataSource.getMessages(roomId, offset, object: MessagesDataSource.LoadMessagesCallback {
                 override fun onMessagesLoaded(messages: MessageSet) {
                     messages.chatVoiceList.map {
                         saveMessageIntoCache(it)
                     }
+                    mIsLocalMessagesLoaded = true
                 }
             })
         }
